@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/start_padding_16"
+        android:paddingTop="@dimen/top_padding_16"
+        android:paddingEnd="@dimen/end_padding_16"
+        android:paddingBottom="@dimen/margin_top_16">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivProfilePicture"
+            android:layout_width="@dimen/size_86"
+            android:layout_height="@dimen/size_86"
+            android:layout_marginTop="@dimen/margin_16"
+            android:contentDescription="@string/profile_img_description"
+            android:src="@drawable/profile_image"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvNameProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_16"
+            android:contentDescription="@string/user_name_tv_description"
+            android:text="@string/tv_name_profile"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_size_24"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivProfilePicture" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvNickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/user_nickname_desc"
+            android:text="@string/user_nickname_value_txt"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="italic"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNameProfile" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvNamePronounSeparator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_16"
+            android:contentDescription="@string/user_name_tv_description"
+            android:text="@string/blank_space_txt"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_size_24"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/tvPronoun"
+            app:layout_constraintStart_toEndOf="@id/tvNameProfile"
+            app:layout_constraintTop_toBottomOf="@+id/ivProfilePicture" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPronoun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:contentDescription="@string/pronoun_txt"
+            android:text="@string/ele_ela_elu_txt"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tvNameProfile"
+            app:layout_constraintStart_toEndOf="@+id/tvNameProfile"
+            app:layout_constraintTop_toTopOf="@+id/tvNameProfile" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivEditText"
+            android:layout_width="@dimen/width_26"
+            android:layout_height="@dimen/height_26"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_16"
+            android:contentDescription="@string/description_ic_edit"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="@id/tvPronoun"
+            app:layout_constraintLeft_toRightOf="@id/tvPronoun"
+            app:layout_constraintTop_toTopOf="@id/tvPronoun" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_16"
+            android:contentDescription="@string/email_txt"
+            android:text="@string/email_txt"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNickname" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserEmailValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_16"
+            android:layout_marginStart="@dimen/margin_16"
+            android:contentDescription="@string/email_txt"
+            android:text="@string/email_value_txt"
+            android:textSize="@dimen/text_size_16"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvUserEmail"
+            app:layout_constraintTop_toBottomOf="@id/tvNickname" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_16"
+            android:contentDescription="@string/user_nickname_desc"
+            android:text="@string/user_description_txt"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_16"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUserEmailValue" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            android:contentDescription="@string/home_state_user_profile_txt"
+            android:text="@string/state_txt"
+            android:textColor="@color/gray_zup"
+            android:textSize="@dimen/text_size_16"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUserDescription" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSeparator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_16"
+            android:contentDescription="@string/home_state_user_profile_txt"
+            android:text="@string/separator_txt"
+            android:textColor="@color/gray_zup"
+            android:textSize="@dimen/text_size_16"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/tvUserState"
+            app:layout_constraintStart_toEndOf="@id/tvUserState" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:contentDescription="@string/country_user_home_profile_txt"
+            android:text="@string/country_txt"
+            android:textColor="@color/gray_zup"
+            android:textSize="@dimen/text_size_16"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/tvUserState"
+            app:layout_constraintStart_toEndOf="@id/tvSeparator" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_16"
+            android:contentDescription="@string/birthdate_txt"
+            android:text="@string/birthdate_txt"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUserState" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserAgeValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_16"
+            android:layout_marginStart="@dimen/margin_16"
+            android:contentDescription="@string/user_age_desc_txt"
+            android:text="@string/age_value_txt"
+            android:textSize="@dimen/text_size_16"
+            android:visibility="visible"
+            app:layout_constraintStart_toEndOf="@id/tvUserAge"
+            app:layout_constraintTop_toBottomOf="@id/tvUserState" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_16"
+            android:contentDescription="@string/city_txt"
+            android:text="@string/city_txt"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUserAge" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserCityValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_16"
+            android:layout_marginStart="@dimen/margin_16"
+            android:contentDescription="@string/user_city_desc_txt"
+            android:text="@string/user_city_value_txt"
+            android:textSize="@dimen/text_size_16"
+            android:visibility="visible"
+            app:layout_constraintStart_toEndOf="@id/tvUserCity"
+            app:layout_constraintTop_toBottomOf="@id/tvUserAge" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserAdress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_16"
+            android:contentDescription="@string/address_txt"
+            android:text="@string/address_txt"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUserCity" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserRoadNameValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_16"
+            android:layout_marginStart="@dimen/margin_16"
+            android:contentDescription="@string/road_name_desc_text"
+            android:text="@string/road_value_txt"
+            android:textSize="@dimen/text_size_16"
+            android:visibility="visible"
+            app:layout_constraintStart_toEndOf="@id/tvUserAdress"
+            app:layout_constraintTop_toBottomOf="@id/tvUserCity" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAdressComma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            android:contentDescription="@string/comma_desc"
+            android:text="@string/comma_value_txt"
+            android:textSize="@dimen/text_size_16"
+            android:visibility="visible"
+            app:layout_constraintStart_toEndOf="@id/tvUserRoadNameValue"
+            app:layout_constraintTop_toBottomOf="@id/tvUserCity" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserRoadNumberValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/user_road_number_desc_txt"
+            android:text="@string/user_road_number_value_txt"
+            android:textSize="@dimen/text_size_16"
+            android:visibility="visible"
+            app:layout_constraintStart_toEndOf="@id/tvAdressComma"
+            app:layout_constraintTop_toTopOf="@id/tvAdressComma" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserAddressComplement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/user_adress_complement_desc_text"
+            android:text="@string/complementText"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUserAdress" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserAdressComplementValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:contentDescription="@string/user_adress_complement_desc_text"
+            android:text="@string/complement_txt"
+            android:textSize="@dimen/text_size_16"
+            android:visibility="visible"
+            app:layout_constraintStart_toEndOf="@id/tvUserAddressComplement"
+            app:layout_constraintTop_toTopOf="@id/tvUserAddressComplement" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserGender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_16"
+            android:contentDescription="@string/gender_txt"
+            android:text="@string/gender_txt"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUserAddressComplement" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserGenderValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:contentDescription="@string/user_gender_value_desc"
+            android:text="@string/user_gender_value_txt"
+            android:textSize="@dimen/text_size_16"
+            android:visibility="visible"
+            app:layout_constraintStart_toEndOf="@id/tvUserGender"
+            app:layout_constraintTop_toTopOf="@id/tvUserGender" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserSexualOrientation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_16"
+            android:contentDescription="@string/sexual_orientation_txt"
+            android:text="@string/sexual_orientation_txt"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUserGender" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserSexualOrientationValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:contentDescription="@string/user_sexual_orientation_desc"
+            android:text="@string/user_sexual_orientation_value_txt"
+            android:textSize="@dimen/text_size_16"
+            android:visibility="visible"
+            app:layout_constraintStart_toEndOf="@id/tvUserSexualOrientation"
+            app:layout_constraintTop_toTopOf="@id/tvUserSexualOrientation" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbShowAditionalInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_top_16"
+            android:layout_marginEnd="@dimen/margin_top_16"
+            android:checked="true"
+            android:contentDescription="@string/descriptionCheckBox"
+            android:text="@string/optionalButtonFind"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUserSexualOrientation" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

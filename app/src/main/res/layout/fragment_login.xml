@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/start_padding_16"
+    android:paddingTop="@dimen/top_padding_16"
+    android:paddingEnd="@dimen/end_padding_16"
+    tools:context=".ui.login.view.LoginFragment">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivLogoLogin"
+        android:layout_width="@dimen/width_241"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginTop_26"
+        android:contentDescription="@string/descriptionLogo"
+        android:src="@drawable/logo_ezuppers"
+        app:layout_constraintBottom_toTopOf="@id/tlEmail"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tlEmail"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginTop_36"
+        android:hint="@string/email"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivLogoLogin">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/descriptionEmail"
+            android:textSize="@dimen/size_14" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tlPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_16"
+        android:hint="@string/password"
+        app:endIconMode="password_toggle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tlEmail"
+        app:layout_goneMarginTop="@dimen/margin_top_16">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/descriptionPassword"
+            android:inputType="textPassword"
+            android:textSize="@dimen/size_14" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvNewRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_16"
+        android:contentDescription="@string/descriptionNewRegister"
+        android:text="@string/new_registration"
+        android:textAlignment="viewEnd"
+        android:textSize="@dimen/size_14"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="@id/tlPassword"
+        app:layout_constraintRight_toRightOf="@id/tlPassword"
+        app:layout_constraintTop_toBottomOf="@id/tlPassword" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginTop_108"
+        android:background="@drawable/button_circle"
+        android:contentDescription="@string/descriptionButton"
+        android:text="@string/login"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size_14"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tlPassword" />
+</androidx.constraintlayout.widget.ConstraintLayout>

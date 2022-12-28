@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/start_padding_16"
+    android:paddingTop="@dimen/top_padding_16"
+    android:paddingEnd="@dimen/end_padding_16"
+    android:paddingBottom="@dimen/margin_top_16"
+    tools:context=".ui.zuppers.view.ZuppersFragment">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/menuState"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/state_dropdown_label"
+        app:helperText="@string/state_dropdown_helper"
+        app:helperTextEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <AutoCompleteTextView
+            android:id="@+id/actvState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/menuCity"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:hint="@string/city_dropdown_label"
+        android:visibility="gone"
+        app:helperText="@string/city_dropdown_helper"
+        app:helperTextEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/menuState">
+
+        <AutoCompleteTextView
+            android:id="@+id/actvCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvZuppersIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:text="@string/zuppers_in"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/menuCity" />
+
+    <TextView
+        android:id="@+id/tvCityTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_4"
+        android:text=" "
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintStart_toEndOf="@id/tvZuppersIn"
+        app:layout_constraintTop_toTopOf="@id/tvZuppersIn" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/two_dot"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintStart_toEndOf="@id/tvCityTitle"
+        app:layout_constraintTop_toTopOf="@id/tvCityTitle" />
+
+    <TextView
+        android:id="@+id/tvQuantityTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/quantity_example"
+        android:layout_marginTop="@dimen/margin_4"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvZuppersIn" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_4"
+        android:text="@string/found_zuppers"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@id/tvQuantityTitle"
+        app:layout_constraintTop_toTopOf="@id/tvQuantityTitle" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvListZuppers"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_0"
+        android:layout_marginTop="@dimen/marginTop_20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvQuantityTitle"
+        tools:itemCount="6"
+        tools:listitem="@layout/zupper_list_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

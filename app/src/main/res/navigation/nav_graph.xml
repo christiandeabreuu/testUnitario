@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="br.com.zup.ezuppers.ui.login.view.LoginFragment"
+        android:label="@string/login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_feedFragment2"
+            app:destination="@id/feedFragment2" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerLoginFragment"
+            app:destination="@id/registerLoginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedFragment2"
+        android:name="br.com.zup.ezuppers.ui.feed.view.FeedFragment"
+        android:label="@string/feed"
+        tools:layout="@layout/fragment_feed" >
+        <action
+            android:id="@+id/action_feedFragment2_to_zupperProfileFragment"
+            app:destination="@id/zupperProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileFragment2"
+        android:name="br.com.zup.ezuppers.ui.userprofile.view.UserProfileFragment"
+        android:label="@string/userProfile"
+        tools:layout="@layout/fragment_user_profile" >
+        <argument
+            android:name="User"
+            app:argType="br.com.zup.ezuppers.domain.model.User" />
+        <action
+            android:id="@+id/action_userProfileFragment2_to_editRegisterFragment"
+            app:destination="@id/editRegisterFragment" />
+    </fragment>
+        <action
+            android:id="@+id/action_userProfileFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    <fragment
+        android:id="@+id/zuppersFragment"
+        android:name="br.com.zup.ezuppers.ui.zuppers.view.ZuppersFragment"
+        android:label="@string/Zuppers"
+        tools:layout="@layout/fragment_zuppers" >
+        <action
+            android:id="@+id/action_zuppersFragment_to_zupperProfileFragment"
+            app:destination="@id/zupperProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/zupperProfileFragment"
+        android:name="br.com.zup.ezuppers.ui.zupperprofile.view.ZupperProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_zupper_profile" >
+        <action
+            android:id="@+id/action_zupperProfileFragment_to_feedFragment2"
+            app:destination="@id/feedFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerLoginFragment"
+        android:name="br.com.zup.ezuppers.ui.register.view.RegisterLoginFragment"
+        android:label="@string/register"
+        tools:layout="@layout/fragment_register_login" >
+        <action
+            android:id="@+id/action_registerLoginFragment_to_registerOptionalFragment"
+            app:destination="@id/registerOptionalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerOptionalFragment"
+        android:name="br.com.zup.ezuppers.ui.register.view.RegisterOptionalFragment"
+        android:label="@string/register">
+        <action
+            android:id="@+id/action_registerOptionalFragment_to_feedFragment2"
+            app:destination="@id/feedFragment2" />
+        <action
+            android:id="@+id/action_registerOptionalFragment_to_userProfileFragment2"
+            app:destination="@id/userProfileFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/editRegisterFragment"
+        android:name="br.com.zup.ezuppers.ui.editregister.view.EditRegisterFragment"
+        android:label="@string/editInformation"
+        tools:layout="@layout/fragment_edit_register" >
+        <action
+            android:id="@+id/action_editRegisterFragment_to_userProfileFragment2"
+            app:destination="@id/userProfileFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="br.com.zup.ezuppers.ui.favorite.view.FavoriteFragment"
+        android:label="@string/favorites_txt"
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_zupperProfileFragment"
+            app:destination="@id/zupperProfileFragment" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_mockFavoriteProfileFragment"
+            app:destination="@id/mockFavoriteProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mockFavoriteProfileFragment"
+        android:name="br.com.zup.ezuppers.ui.mockfavoriteprofile.view.MockFavoriteProfileFragment"
+        android:label="@string/amanda_txt"
+        tools:layout="@layout/fragment_mock_favorite_profile" />
+</navigation>

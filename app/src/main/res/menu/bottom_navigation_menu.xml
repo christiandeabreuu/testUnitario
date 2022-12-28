@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/feedFragment2"
+        android:enabled="true"
+        android:icon="@drawable/ic_list_white"
+        android:title="@string/feed_txt"/>
+    <item
+        android:id="@+id/zuppersFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_place_white"
+        android:title="@string/zuppers_txt"/>
+    <item
+        android:id="@+id/favoriteFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_favorite_white"
+        android:title="@string/favorites_txt"/>
+    <item
+        android:id="@+id/userProfileFragment2"
+        android:enabled="true"
+        android:icon="@drawable/ic_person_white"
+        android:title="@string/profile_txt"/>
+</menu>

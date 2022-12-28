@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_8">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:padding="8dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivProfilePicture"
+            android:layout_width="40dp"
+            android:layout_height="@dimen/size_40"
+            android:layout_margin="@dimen/margin_16"
+            android:background="@drawable/person_circle"
+            android:contentDescription="@string/profile_img_description"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_person_"
+            app:layout_constraintBottom_toBottomOf="@id/tvTextPerson"
+            app:layout_constraintRight_toLeftOf="@id/tvTextPerson"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvNameFeed"
+            android:layout_width="@dimen/width_0"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_8"
+            android:contentDescription="@string/descriptionNameFeed"
+            android:text="@string/nameFeed"
+            android:textSize="@dimen/size_14"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/ivProfilePicture"
+            app:layout_constraintLeft_toRightOf="@id/ivProfilePicture"
+            app:layout_constraintRight_toLeftOf="@id/tvDate"
+            app:layout_constraintTop_toTopOf="@id/ivProfilePicture" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDate"
+            android:layout_width="@dimen/width_0"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:contentDescription="@string/descriptionDateFeed"
+            android:text="@string/date"
+            android:textAlignment="viewEnd"
+            android:textSize="@dimen/size_12"
+            app:layout_constraintBottom_toBottomOf="@id/tvNameFeed"
+            app:layout_constraintLeft_toRightOf="@id/tvNameFeed"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvNameFeed" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTextPerson"
+            android:layout_width="@dimen/width_0"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_8"
+            android:contentDescription="@string/descriptionTextFeedPerson"
+            android:text="@string/textPersonFeed"
+            android:textSize="@dimen/size_12"
+            app:layout_constraintLeft_toLeftOf="@id/tvNameFeed"
+            app:layout_constraintRight_toRightOf="@id/tvDate"
+            app:layout_constraintTop_toBottomOf="@id/tvNameFeed" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivFavorite"
+            android:layout_width="@dimen/width_24"
+            android:layout_height="@dimen/height_24"
+            android:layout_marginTop="@dimen/margin_8"
+            android:contentDescription="@string/favorite_btn_description"
+            android:src="@drawable/ic_favorite_grey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/tvTextPerson"
+            app:layout_constraintTop_toBottomOf="@id/tvTextPerson" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLike"
+            android:layout_width="@dimen/width_0"
+            android:layout_height="match_parent"
+            android:layout_marginStart="6dp"
+            android:contentDescription="@string/descriptionLike"
+            android:text="@string/like"
+            android:textSize="@dimen/size_12"
+            app:layout_constraintBottom_toBottomOf="@id/ivFavorite"
+            app:layout_constraintLeft_toRightOf="@id/ivFavorite"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivFavorite" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "109628423502",
+    "project_id": "ezuppers-26b69",
+    "storage_bucket": "ezuppers-26b69.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109628423502:android:4b1fa8bd61af3927b7f21f",
+        "android_client_info": {
+          "package_name": "br.com.zup.ezuppers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "109628423502-l9v0vdvjtl1q1mdthd6nidl8uiossnm1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCV5LHbtKzhkuwamocbbd5RV4b0zq3El8w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109628423502-l9v0vdvjtl1q1mdthd6nidl8uiossnm1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

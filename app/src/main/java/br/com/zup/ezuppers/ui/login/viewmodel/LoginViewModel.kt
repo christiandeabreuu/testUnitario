@@ -77,7 +77,7 @@ class LoginViewModel(
                 }
             }
         } catch (ex: Exception) {
-            _errorState.value = "Error flow"//ex.message
+            _errorState.value = "Error login"//ex.message
         }
     }
 

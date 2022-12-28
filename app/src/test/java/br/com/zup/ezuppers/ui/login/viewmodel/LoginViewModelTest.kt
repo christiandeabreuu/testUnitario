@@ -174,7 +174,7 @@ internal class LoginViewModelTest{
 
         viewModel.loginUser(expectedUser)
 
-        assertEquals("Error flow", viewModel.errorState.value)
+        assertEquals("Error login", viewModel.errorState.value)
     }
 
 }

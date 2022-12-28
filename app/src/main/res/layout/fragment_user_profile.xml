@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.userprofile.view.UserProfileFragment">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/descriptionButtonExit"
+        android:gravity="center|end"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/margin_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvLogoutTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/marginEnd_5"
+            android:text="@string/exit_txt"
+            android:textSize="@dimen/size_20" />
+
+        <ImageView
+            android:id="@+id/tvLogoutIcon"
+            android:layout_width="@dimen/size_24"
+            android:layout_height="wrap_content"
+            android:alpha="0.5"
+            android:contentDescription="@string/logout_icon_description"
+            android:src="@drawable/logout_ico" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvUserProfile"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_0"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnLogout"
+        tools:listitem="@layout/user_profile_item" />
+</androidx.constraintlayout.widget.ConstraintLayout>

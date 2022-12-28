@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/start_padding_16"
+    android:paddingTop="@dimen/top_padding_16"
+    android:paddingEnd="@dimen/end_padding_16"
+    android:paddingBottom="@dimen/margin_top_16"
+    tools:context=".ui.favorite.view.FavoriteFragment">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="@dimen/width_89"
+        android:layout_height="@dimen/height_23"
+        android:contentDescription="@string/descriptionLogo"
+        android:src="@drawable/logo_ezuppers"
+        app:layout_constraintBottom_toTopOf="@id/ivLogo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvListFavorite"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_0"
+        android:layout_marginTop="@dimen/marginTop_20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivLogo"
+        app:layout_constraintVertical_bias="1.0"
+        tools:itemCount="7"
+        tools:listitem="@layout/favorite_list_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

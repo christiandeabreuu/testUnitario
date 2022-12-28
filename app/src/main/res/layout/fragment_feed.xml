@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/start_padding_16"
+    android:paddingTop="@dimen/top_padding_16"
+    android:paddingEnd="@dimen/end_padding_16"
+    android:paddingBottom="@dimen/margin_top_16"
+    tools:context=".ui.feed.view.FeedFragment">
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="@dimen/width_89"
+        android:layout_height="@dimen/height_23"
+        android:contentDescription="@string/descriptionLogo"
+        android:src="@drawable/logo_ezuppers"
+        app:layout_constraintBottom_toTopOf="@id/ivLogo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivPersonFeed"
+        android:layout_width="@dimen/size_40"
+        android:layout_height="@dimen/size_40"
+        android:background="@drawable/person_circle"
+        android:contentDescription="@string/profile_img_description"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_person_"
+        app:layout_constraintBottom_toBottomOf="@id/tlTextFeed"
+        app:layout_constraintLeft_toLeftOf="@id/tlTextFeed"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tlTextFeed" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tlTextFeed"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="@dimen/marginTop_45"
+        android:layout_marginEnd="@dimen/margin_60"
+        android:hint="@string/publicationFeed"
+        app:layout_constraintLeft_toRightOf="@id/ivPersonFeed"
+        app:layout_constraintRight_toLeftOf="@id/ivSendPost"
+        app:layout_constraintTop_toTopOf="@id/ivLogo">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/descriptionFeedPost"
+            android:inputType="text"
+            android:textSize="@dimen/size_14" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivSendPost"
+        android:layout_width="@dimen/size_40"
+        android:layout_height="@dimen/size_40"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:alpha="0.8"
+        android:background="@color/blue_zup"
+        android:src="@drawable/ic_post"
+        android:tintMode="screen"
+        app:layout_constraintBottom_toBottomOf="@id/tlTextFeed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/tlTextFeed"
+        app:layout_constraintTop_toTopOf="@id/tlTextFeed" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvListFeed"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_0"
+        android:layout_marginTop="@dimen/marginTop_20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tlTextFeed"
+        tools:itemCount="6"
+        android:layout_marginBottom="@dimen/margin_60"
+        tools:listitem="@layout/feed_item" />
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

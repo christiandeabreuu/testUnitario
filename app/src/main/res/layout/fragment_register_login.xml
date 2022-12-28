@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.register.view.RegisterLoginFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/start_padding_16"
+        android:paddingTop="@dimen/top_padding_16"
+        android:paddingEnd="@dimen/end_padding_16"
+        android:paddingBottom="@dimen/margin_top_16">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivLogoRegister"
+            android:layout_width="@dimen/width_241"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_16"
+            android:contentDescription="@string/descriptionLogo"
+            android:src="@drawable/logo_ezuppers"
+            app:layout_constraintBottom_toTopOf="@+id/tlName"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:hint="@string/name"
+            app:layout_constraintLeft_toLeftOf="@id/ivLogoRegister"
+            app:layout_constraintRight_toRightOf="@id/ivLogoRegister"
+            app:layout_constraintTop_toBottomOf="@id/ivLogoRegister">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/descriptionName"
+                android:inputType="textAutoComplete"
+                android:textSize="@dimen/size_14" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlEmailRegister"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_16"
+            android:hint="@string/email"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tlName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/descriptionEmail"
+                android:inputType="textEmailAddress"
+                android:textSize="@dimen/size_14" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlPasswordRegister"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_16"
+            android:hint="@string/password"
+            app:endIconMode="password_toggle"
+            app:helperText="@string/helperTextPassword"
+            app:helperTextEnabled="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tlEmailRegister">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/descriptionPassword"
+                android:inputType="textPassword"
+                android:textSize="@dimen/size_14" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginTop_50"
+            android:background="@drawable/button_circle"
+            android:contentDescription="@string/descriptionButton"
+            android:text="@string/register"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tlPasswordRegister" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
