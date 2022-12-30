@@ -44,7 +44,7 @@ class RegisterOptionalViewModel(
         return false
     }
 
-    private fun haveErrorsDateUserRegister(user: User): Boolean { //funcao privada
+     fun haveErrorsDateUserRegister(user: User): Boolean {
         val cepPattern: Pattern =
             Pattern.compile(
                 "[0-9]{5}-[0-9]{3}"
@@ -105,7 +105,8 @@ class RegisterOptionalViewModel(
                     getCepUseCase.execute(cep)
                 _cepResult.value = response
             } catch (ex: Exception) {
-                Log.i("Error", "${ex.message}")
+                _messageState.value = "Error"
+                //Log.i("Error", "${ex.message}")
             }
         }
     }

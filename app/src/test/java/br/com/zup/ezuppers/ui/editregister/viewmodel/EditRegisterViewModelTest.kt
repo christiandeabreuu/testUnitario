@@ -8,6 +8,8 @@ import br.com.zup.ezuppers.domain.model.User
 import br.com.zup.ezuppers.domain.usecase.GetCepUseCase
 import br.com.zup.ezuppers.domain.usecase.UserUseCase
 import br.com.zup.ezuppers.utilities.*
+import br.com.zup.ezuppers.viewstate.ViewState
+import com.google.firebase.auth.FirebaseUser
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
 import junit.framework.Assert
@@ -56,47 +58,30 @@ internal class EditRegisterViewModelTest {
     @Test
     fun `when the call the fun getCEP should be success`() = runTest{
         val expectedCep = "11040020"
+        val expectedMockkCepResult = mockk<CepResult>()
 
-        coEvery { getCepUseCase.execute(expectedCep) } returns CepResult(
-            1, "11040020", "a",
-            "SP", "sp", "ap 23", "Santos")
-        val value = viewModel.getCep(expectedCep)
+        coEvery { getCepUseCase.execute(expectedCep) } returns CepResult(1, "11040020", "a", "SP", "sp", "ap 23", "Santos") //expectedMockkCepResult//
 
-//        assertEquals(viewModel.cepResult.value, expectedCep)  //testar essa funcao chegando nulo
+            viewModel.getCep(expectedCep)
+        val response = viewModel.cepResult.value
+
+        assertEquals(viewModel.cepResult.value is ViewState.Success, true)
+        assertTrue(response is ViewState.Success)
+        assertEquals("11040020",(response as ViewState.Success).data.cep)
         coVerify (exactly = 1){ getCepUseCase.execute("11040020") }
     }
 
     @Test
-    fun `when the call the fun getCEP should be Error`() = runTest{
-        val expectedCep = "000"
-
-        coEvery { getCepUseCase.execute(expectedCep) } throws NullPointerException()
-
-        val value = viewModel.getCep(expectedCep)
-
-        assertTrue("Error", true)
-    }
-
-    @Test
-    fun `when the call the fun getCEP should be Error 2 `() = runTest {
+    fun `when the call the fun getCEP should be Error`() = runTest {
         val expectedCep = "000"
 
         coEvery { getCepUseCase.execute(expectedCep) } throws NullPointerException()
         viewModel.getCep(expectedCep)
+        val response = viewModel.cepResult.value
 
-        assertEquals(viewModel.cepResult.value, null)
-        coVerify(exactly = 0) { getCepUseCase.execute("12345678") }
+        assertEquals(response is ViewState.Error, true)
+        assertTrue(response is ViewState.Error)
     }
-
-    @Test
-    fun `When call fun getCurrentUserRegister() should to call the same fun in useCase`() =
-        runTest {
-
-            coEvery { editUserUseCase.getCurrentUser()} returns mockk(relaxed = true)
-            viewModel.getCurrentUserRegister()
-
-            coVerify{ editUserUseCase.getCurrentUser() }
-        }
 
     @Test
     fun `when the call the fun haveErrorsDateUserRegister without NICKNAME and should be to return msg NICKNAME error `() {
@@ -111,8 +96,6 @@ internal class EditRegisterViewModelTest {
 
         assertEquals(NICKNAME_ERROR_MESSAGE, viewModel.messageState.value)
 
-//
-
     }
 
     @Test
@@ -126,9 +109,7 @@ internal class EditRegisterViewModelTest {
 
         viewModel.validateDateUserRegister(expectedUser)
 
-
         assertEquals(CEP_ERROR_MESSAGE, viewModel.messageState.value)
-
     }
 
     @Test
@@ -143,8 +124,6 @@ internal class EditRegisterViewModelTest {
         viewModel.validateDateUserRegister(expectedUser)
 
         assertEquals(COMPLEMENT_ERROR_MESSAGE, viewModel.messageState.value)
-
-
     }
 
     @Test
@@ -159,7 +138,6 @@ internal class EditRegisterViewModelTest {
         viewModel.validateDateUserRegister(expectedUser)
 
         assertEquals(NUMBER_ERROR_MESSAGE, viewModel.messageState.value)
-
     }
 
     @Test
@@ -174,7 +152,6 @@ internal class EditRegisterViewModelTest {
         viewModel.validateDateUserRegister(expectedUser)
 
         assertEquals(STATE_ERROR_MESSAGE, viewModel.messageState.value)
-
     }
 
     @Test
@@ -189,7 +166,6 @@ internal class EditRegisterViewModelTest {
         viewModel.validateDateUserRegister(expectedUser)
 
         assertEquals(ROAD_ERROR_MESSAGE, viewModel.messageState.value)
-
     }
 
     @Test
@@ -204,7 +180,6 @@ internal class EditRegisterViewModelTest {
         viewModel.validateDateUserRegister(expectedUser)
 
         assertEquals(AGE_ERROR_MESSAGE, viewModel.messageState.value)
-
     }
 
     @Test
@@ -219,7 +194,6 @@ internal class EditRegisterViewModelTest {
         viewModel.validateDateUserRegister(expectedUser)
 
         assertEquals(CITY_ERROR_MESSAGE, viewModel.messageState.value)
-
     }
 
     @Test
@@ -234,7 +208,6 @@ internal class EditRegisterViewModelTest {
         viewModel.validateDateUserRegister(expectedUser)
 
         assertEquals(COUNTRY_ERROR_MESSAGE, viewModel.messageState.value)
-
     }
 
     @Test
@@ -263,8 +236,29 @@ internal class EditRegisterViewModelTest {
         viewModel.validateDateUserRegister(expectedUser)
 
         assertEquals(INTEREST_ERROR_MESSAGE, viewModel.messageState.value)
-
     }
+
+    @Test
+    fun `When call fun getCurrentUserRegister() should to call the same fun in useCase`() =
+        runTest {
+            coEvery { editUserUseCase.getCurrentUser()} returns mockk(relaxed = true)
+
+            viewModel.getCurrentUserRegister()
+
+            coVerify{ editUserUseCase.getCurrentUser() }
+        }
+
+    @Test
+    fun `When call fun getCurrentUserRegister() should to call the same fun in useCase 2`() =
+        runTest {
+            val expectedFirebaseUser = mockk<FirebaseUser>()
+            coEvery { editUserUseCase.getCurrentUser()} returns expectedFirebaseUser
+
+            val response = viewModel.getCurrentUserRegister()
+
+            assert(expectedFirebaseUser == response)
+            coVerify(exactly = 1){ editUserUseCase.getCurrentUser() }
+        }
 
 
 }

@@ -1,11 +1,8 @@
 package br.com.zup.ezuppers.domain.usecase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import br.com.zup.ezuppers.data.model.State
 import br.com.zup.ezuppers.data.model.StatesResult
 import br.com.zup.ezuppers.data.repository.UfRepository
-import br.com.zup.ezuppers.data.repository.ZuppersRepository
-import br.com.zup.ezuppers.domain.model.User
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +15,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
-internal class GetUfUseCaseTest{
+internal class GetUfUseCaseTest {
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
@@ -26,7 +23,7 @@ internal class GetUfUseCaseTest{
     @RelaxedMockK
     private lateinit var repository: UfRepository
 
-    lateinit var getUfUseCase : GetUfUseCase
+    lateinit var getUfUseCase: GetUfUseCase
 
     @Before
     fun onBefore() {
@@ -42,19 +39,13 @@ internal class GetUfUseCaseTest{
     }
 
     @Test
-    fun `When call fun execute should to call the fun on repository with to same value`() =
+    fun `When call fun execute() should to call the fun on repository`() =
         runTest {
-            
-            coEvery { repository.getStates() } returns StatesResult()
+            val expectedStatesResult = mockk<StatesResult>()
+
+            coEvery { repository.getStates() } returns expectedStatesResult
             getUfUseCase.execute()
 
             coVerify(exactly = 1) { repository.getStates() }
-    }
-
-    private fun mockkListStates() = listOf(
-        State(1,"São Paulo", "SP"),
-        State(2,"Rio de Janeiro", "RJ")
-
-    )
-
+        }
 }

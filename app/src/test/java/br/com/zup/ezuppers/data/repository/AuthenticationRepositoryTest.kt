@@ -2,14 +2,11 @@ package br.com.zup.ezuppers.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.zup.ezuppers.data.datasource.AuthenticationDataSource
-import br.com.zup.ezuppers.domain.usecase.GetCepUseCase
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
-import io.mockk.MockKAnnotations
-import io.mockk.every
+import com.google.firebase.auth.FirebaseUser
+import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.mockk
-import io.mockk.unmockkAll
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
@@ -45,8 +42,8 @@ internal class AuthenticationRepositoryTest{
     }
 
     @Test
-    fun `fun registerUser()should to return success`(){
-        val expectedEmail = "chris@gmai.com"
+    fun `fun registerUser() should to return success`(){
+        val expectedEmail = "chris@gmail.com"
         val expectedPassword = "123456"
         val expectedTaskAuthResult = mockk<Task<AuthResult>>()
 
@@ -54,8 +51,63 @@ internal class AuthenticationRepositoryTest{
         val response = authRepository.registerUser(expectedEmail, expectedPassword)
 
         assert(expectedTaskAuthResult == response)
+        verify (exactly = 1){ dataSource.registerUser(expectedEmail, expectedPassword)}
     }
 
-//    fun registerUser(email: String, password: String): Task<AuthResult> =
-//        authenticationDataSource.registerUser(email, password)
+    @Test
+    fun `fun updateUserProfile() should to return success`(){
+        val expectedEmail = "chris@gmail.com"
+        val expectedTaskVoid = mockk<Task<Void>>()
+
+        every { dataSource.updateUserProfile(expectedEmail) } returns expectedTaskVoid
+        val response = authRepository.updateUserProfile(expectedEmail)
+
+        assert(expectedTaskVoid == response)
+        verify (exactly = 1){ dataSource.updateUserProfile(expectedEmail) }
+
+    }
+
+    @Test
+    fun `fun logoutUser() should to return success`(){
+        every { dataSource.logOut() } just runs
+
+         authRepository.logOutUser()
+
+        verify (exactly = 1){ dataSource.logOut() }
+    }
+
+    @Test
+    fun `fun loginUser() should to return success`(){
+        val expectedEmail = "chris@gmail.com"
+        val expectedPassword = "123456"
+        val expectedTaskAuthResult = mockk<Task<AuthResult>>()
+
+        every { dataSource.loginUser(expectedEmail, expectedPassword) } returns expectedTaskAuthResult
+        val response = authRepository.loginUser(expectedEmail, expectedPassword)
+
+        assert(expectedTaskAuthResult == response)
+        verify (exactly = 1){ dataSource.loginUser(expectedEmail, expectedPassword)}
+    }
+
+    @Test
+    fun `fun getUserName() should to return success`(){
+        val expectedResult = "posso usar essa variavel tbm"
+        every { dataSource.getUsersName() } returns "Christian"
+
+       val response =  authRepository.getUsersName()
+
+        assert("Christian" == response)
+        verify (exactly = 1){ dataSource.getUsersName() }
+    }
+
+    @Test
+    fun `fun getCurrentUser() should to return success`(){
+        val expectedUser = mockk<FirebaseUser>()
+        every { dataSource.getCurrentUser() } returns expectedUser
+
+        val response =  authRepository.getCurrentUser()
+
+        assert(expectedUser == response)
+        verify (exactly = 1){ dataSource.getCurrentUser() }
+    }
 }

@@ -39,6 +39,8 @@ class ZuppersViewModel(
     private val _errorListStates = MutableLiveData<Exception>()
     val errorListStates : LiveData<Exception> get() = _errorListStates
 
+    private val _errorListCities = MutableLiveData<Exception>()
+    val errorListCities : LiveData<Exception> get() = _errorListCities
 
     fun getListZuppers(city: String) {
         viewModelScope.launch {
@@ -82,9 +84,7 @@ class ZuppersViewModel(
     private fun getCities(ufId: Int) {
         viewModelScope.launch {
             try {
-                val response = withContext(Dispatchers.IO) {
-                    getCitiesUseCase.execute(ufId)
-                }
+                val response = getCitiesUseCase.execute(ufId)
                 val cityList = mutableListOf<String>()
                 response.forEach {
                     cityList.add(it.nome)
@@ -93,7 +93,8 @@ class ZuppersViewModel(
                 _citiesResponse.value = cityList
 
             } catch (ex: Exception) {
-                Log.i("Error", "${ex.message}")
+//                Log.i("Error", "${ex.message}")
+                _errorListCities.value = ex
             }
         }
     }

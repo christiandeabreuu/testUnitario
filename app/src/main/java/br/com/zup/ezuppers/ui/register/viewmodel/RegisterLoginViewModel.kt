@@ -100,9 +100,7 @@ class RegisterLoginViewModel(
     fun insertRegisterLoginUserData(user: User) {
         viewModelScope.launch {
             try {
-                val response = withContext(Dispatchers.IO) {
-                    userUseCase.insertAllRegisterLogin(user)
-                }
+                val response = userUseCase.insertAllRegisterLogin(user)
                 _registerUserLoginState.value = response
             } catch (ex: Exception) {
                 _registerUserLoginState.value =

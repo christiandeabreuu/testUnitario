@@ -9,6 +9,9 @@ import br.com.zup.ezuppers.domain.usecase.UserUseCase
 import br.com.zup.ezuppers.ui.editregister.viewmodel.EditRegisterViewModel
 import br.com.zup.ezuppers.utilities.*
 import br.com.zup.ezuppers.viewstate.ViewState
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseUser
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
 import junit.framework.Assert
@@ -53,72 +56,6 @@ internal class LoginViewModelTest{
     }
 
     @Test
-    fun `Dois mais dois nao é cinco `() {
-        assert(2 + 2 != 5)
-    }
-
-    @Test
-    fun `When call fun getListFavorite should to return error`() = runTest {
-
-        coEvery { userUseCase.getRegisterLoginInformation() } throws NullPointerException()
-
-        viewModel.getRegisterLoginInformation()
-
-        val state = viewModel.loginUserAddData.value
-
-//        assertEquals(state, null)
-//        assertTrue(viewModel.loginUserAddData.value is NullPointerException)
-//        assertEquals(state, ERROR_INSERTING_REGISTER_USER_DATA_LOCAL)
-        assertTrue(true)
-        coVerify (exactly = 1) { userUseCase.getRegisterLoginInformation() }
-    }
-
-    @Test
-    fun `When call fun getCurrentUser() should to call the same fun in repository`() =
-        runTest {
-
-            coEvery { authenticationRepository.getCurrentUser()} returns mockk(relaxed = true)
-            viewModel.getCurrentUser()
-
-            coVerify{ authenticationRepository.getCurrentUser() }
-        }
-
-    @Test
-    fun `When call fun getRegisterLoginInformation() should to return success`() =
-        runTest {
-            val expectedUser: User =
-                User(
-                    "1", "chris", "Chis@gmail.com", false, "chris", "17/01/1992",
-                    "11040-020", "Santos", "SP", "Brasil", "homem", "hetero",
-                    "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
-                )
-
-            coEvery { userUseCase.getRegisterLoginInformation()} returns ViewState.Success(expectedUser)
-            viewModel.getRegisterLoginInformation()
-            val result = viewModel.loginUserAddData.value
-
-            assertEquals(true, result is ViewState.Success)
-        }
-
-    @Test
-    fun `When call fun getRegisterLoginInformation() should to return error`() =
-        runTest {
-            val expectedUser: User =
-                User(
-                    "1", "", "Chis@gmail.com", false, "chris", "17/01/1992",
-                    "11040-020", "Santos", "SP", "Brasil", "homem", "hetero",
-                    "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
-                )
-
-            coEvery { userUseCase.getRegisterLoginInformation()} throws NullPointerException()//returns ViewState.Error(Throwable(ERROR_INSERTING_REGISTER_USER_DATA_LOCAL))
-            viewModel.getRegisterLoginInformation()
-            val result = viewModel.loginUserAddData.value
-
-            assertEquals(true, result is ViewState.Error)
-            assertEquals("Não foi possivel inserir suas informações no banco de dados" ,ERROR_INSERTING_REGISTER_USER_DATA_LOCAL )
-        }
-
-    @Test
     fun `when the call fun validateDateUser without PASSWORD should be to return msg PASSWORD error `() {
         val expectedUser: User =
             User(
@@ -149,17 +86,35 @@ internal class LoginViewModelTest{
 
     @Test
     fun `when the call fun validateDateUser with field ok should to go for  loginUser() `() {
+        val expectedMockkUser = mockk<User>()
+        val expectedTaskAuthResult = mockk<Task<AuthResult>>()
         val expectedUser: User =
             User(
-                "1", "Christian", "chistian@zup.com.br", true, "chris", "17/01/1992",
+                "1", "Christian", "christian@zup.com.br", true, "chris", "17/01/1992",
                 "11040-020", "Santos", "SP", "", "homem", "hetero",
                 "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
             )
-        every {  authenticationRepository.loginUser("chistian@zup.com.br", "Ch9206ch!")} returns mockk(relaxed = true)
+        every {  authenticationRepository.loginUser("christian@zup.com.br", "Ch9206ch!")} returns expectedTaskAuthResult
         viewModel.validateDataUser(expectedUser)
 
-//        assertEquals(ERROR_EMAIL_MESSAGE, viewModel.errorState.value)
-        verify(exactly = 0) {  viewModel.loginUser(expectedUser) }
+        verify{  viewModel.loginUser(expectedUser) } // nao esta sendo chamada, sera que pq esta na mesma classe e era privada???
+    }
+
+    @Test
+    fun `when the call fun loginUser should be to return success `() {
+        val expectedTaskAuthResult = mockk<Task<AuthResult>>()
+        val expectedUser: User =
+            User(
+                "1", "Chris", "chistian@zup.com", true, "chris", "17/01/1992",
+                "11040-020", "Santos", "SP", "", "homem", "hetero",
+                "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
+            )
+        every { authenticationRepository.loginUser("chistian@zup.com.br", "Ch9206ch!").addOnSuccessListener {  }} returns expectedTaskAuthResult
+        val result = viewModel.loginUserAddData.value
+        viewModel.loginUser(expectedUser)
+
+//        assertEquals(ViewState.Success(expectedUser), viewModel.loginUserAddData.value)
+        assert(result is ViewState.Success )
     }
 
     @Test
@@ -170,11 +125,82 @@ internal class LoginViewModelTest{
                 "11040-020", "Santos", "SP", "", "homem", "hetero",
                 "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
             )
-        every { authenticationRepository.loginUser("chistian@zup.com", "Ch9206ch!")} throws NullPointerException()
+        every { authenticationRepository.loginUser("chistian@zup.com.br", "Ch9206ch!")} throws NullPointerException()
 
         viewModel.loginUser(expectedUser)
 
         assertEquals("Error login", viewModel.errorState.value)
     }
+
+
+
+    @Test
+    fun `When call fun getRegisterLoginInformation() should to return success`() =
+        runTest {
+            val expectedUser: User =
+                User(
+                    "1", "chris", "Chis@gmail.com", false, "chris", "17/01/1992",
+                    "11040-020", "Santos", "SP", "Brasil", "homem", "hetero",
+                    "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
+                )
+
+            coEvery { userUseCase.getRegisterLoginInformation()} returns ViewState.Success(expectedUser)
+            viewModel.getRegisterLoginInformation()
+            val result = viewModel.loginUserAddData.value
+
+            assertEquals(true, result is ViewState.Success)
+        }
+
+    @Test
+    fun `When call fun getRegisterLoginInformation() should to return success 2`() =
+        runTest {
+            val expectedMockkUser = mockk<User>()
+
+            coEvery { userUseCase.getRegisterLoginInformation()} returns ViewState.Success(expectedMockkUser)
+            viewModel.getRegisterLoginInformation()
+
+            val result = viewModel.loginUserAddData.value
+
+
+           assertEquals(true, result is ViewState.Success)
+
+        }
+
+    @Test
+    fun `When call fun getRegisterLoginInformation() should to return error`() =
+        runTest {
+
+            coEvery { userUseCase.getRegisterLoginInformation()} throws NullPointerException()
+            viewModel.getRegisterLoginInformation()
+            val result = viewModel.loginUserAddData.value
+
+            assertEquals(true, result is ViewState.Error)
+            assertEquals("Não foi possivel inserir suas informações no banco de dados" ,ERROR_INSERTING_REGISTER_USER_DATA_LOCAL )
+//            assertTrue(ERROR_INSERTING_REGISTER_USER_DATA_LOCAL, true)
+
+        }
+
+    @Test
+    fun `When call fun getCurrentUser() should to call the same fun in repository`() =
+        runTest {
+
+            coEvery { authenticationRepository.getCurrentUser()} returns mockk(relaxed = true)
+            viewModel.getCurrentUser()
+
+            coVerify{ authenticationRepository.getCurrentUser() }
+        }
+
+    @Test
+    fun `When call fun getCurrentUser() should to call the same fun in repository 2`() =
+        runTest {
+            val expectedFirebaseUser = mockk<FirebaseUser>()
+            coEvery { authenticationRepository.getCurrentUser()} returns expectedFirebaseUser
+
+            val response = viewModel.getCurrentUser()
+
+            assert(expectedFirebaseUser == response)
+            coVerify(exactly = 1){ authenticationRepository.getCurrentUser() }
+        }
+
 
 }

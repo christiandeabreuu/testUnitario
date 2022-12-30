@@ -52,7 +52,7 @@ class EditRegisterViewModel(application: Application, private val editUserUseCas
         return false
     }
 
-    private fun haveErrorsDateUserEditRegister(user: User): Boolean {
+     fun haveErrorsDateUserEditRegister(user: User): Boolean {
 
         val cepPattern: Pattern =
             Pattern.compile(

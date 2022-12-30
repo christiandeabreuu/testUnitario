@@ -1,11 +1,16 @@
 package br.com.zup.ezuppers.ui.zupperprofile.viewmodel
 
-import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import br.com.zup.ezuppers.data.model.StatesResult
+import androidx.lifecycle.LiveData
+import br.com.zup.ezuppers.domain.model.User
 import br.com.zup.ezuppers.domain.usecase.UserUseCase
+import com.google.android.gms.tasks.Task
+import com.google.common.truth.Truth.assertThat
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
+import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
@@ -43,11 +48,6 @@ internal class ZupperProfileViewModelTest{
     }
 
     @Test
-    fun `Dois mais dois nao é cinco `() {
-        assert(2 + 2 != 5)
-    }
-
-    @Test
     fun `When call fun getCurrentUserRegister() should to call the same fun in useCase`() =
         runTest {
 
@@ -55,6 +55,35 @@ internal class ZupperProfileViewModelTest{
             viewModel.getCurrentUserRegister()
 
             coVerify{ userUseCase.getCurrentUser() }
+        }
+
+    @Test
+    fun `When call fun getCurrentUserRegister() should to call the same fun in useCase2`() =
+        runTest {
+            val expectedFirebaseUser = mockk<FirebaseUser>()
+            coEvery { userUseCase.getCurrentUser()} returns expectedFirebaseUser
+
+            val response = viewModel.getCurrentUserRegister()
+
+            assert(expectedFirebaseUser == response)
+            coVerify(exactly = 1){ userUseCase.getCurrentUser() }
+        }
+
+    @Test
+    fun `When call fun getAuthor() should to call the same fun in useCase`() =
+        runTest {
+            val expectedTaskDAtaSnapshot = mockk<Task<DataSnapshot>>()
+            val expectedUser = mockk<User>()
+            val expectedAuthorId = "123"
+
+            coEvery { userUseCase.getAuthor(expectedAuthorId).addOnSuccessListener {} } returns expectedTaskDAtaSnapshot
+
+            val response = viewModel.getAuthor("123")
+
+            assert(response == Unit)
+            coVerify(exactly = 1){ userUseCase.getAuthor(expectedAuthorId) }
+           // assertThat(viewModel.authorResponse.value).isEqualTo(expectedUser)
+     //       assert(viewModel.authorResponse.value == expectedUser)  falta fazer comparaçao de valor
         }
 
 }

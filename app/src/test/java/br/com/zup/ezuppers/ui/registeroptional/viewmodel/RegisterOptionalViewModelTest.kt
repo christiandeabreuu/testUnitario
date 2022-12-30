@@ -54,11 +54,6 @@ internal class RegisterOptionalViewModelTest {
     }
 
     @Test
-    fun `Dois mais dois nao é cinco `() {
-        assert(2 + 2 != 5)
-    }
-
-    @Test
     fun `when the call the fun getCEP should be success`() = runTest {
         val expectedCep = "11040020"
 
@@ -81,7 +76,7 @@ internal class RegisterOptionalViewModelTest {
         coEvery { getCepUseCase.execute(expectedCep) } throws NullPointerException()
          viewModel.getCep(expectedCep)
 
-        assertEquals(viewModel.cepResult.value?.cep, null)
+        assertEquals(viewModel.messageState.value, "Error")
         coVerify(exactly = 0) { getCepUseCase.execute("12345678") }
     }
 
@@ -100,8 +95,6 @@ internal class RegisterOptionalViewModelTest {
 
         val value = viewModel.insertAllRegister(expectedUser)
 
-//        assertEquals(viewModel.cepResult.value?.cep, expectedCep)
-
         coVerify(exactly = 1) { userUseCase.insertAllRegisterLogin(expectedUser) }
     }
 
@@ -115,17 +108,17 @@ internal class RegisterOptionalViewModelTest {
                 "Ch9206ch!", "rua A", "1", "casa", "trabalho", "ele"
             )
         val mockkError = ViewState.Error(Throwable(ERROR_INSERTING_REGISTER_USER_DATA_LOCAL))
-        coEvery { viewModel.insertAllRegister(expectedUser) } returns Unit
+        coEvery { userUseCase.insertAllRegisterLogin(expectedUser) } throws NullPointerException()
         //WHEN
 
         viewModel.insertAllRegister(expectedUser)
-        val value = viewModel.registerOptionalState.value
+        val response = viewModel.registerOptionalState.value
         //THEN
 
+        assert(response is ViewState.Error)
         assertTrue("Error", true)
         assertTrue("Não foi possivel inserir suas informações no banco de dados", true)
         assertTrue(ERROR_INSERTING_REGISTER_USER_DATA_LOCAL, true)
-
     }
 
     @Test
@@ -297,18 +290,4 @@ internal class RegisterOptionalViewModelTest {
 
     }
 
-    //    @Test
-//    fun `when the call the fun validateDateUserRegister should be to return true`() {
-//        val expectedUser: User =
-//            User("1", "chris", "Chis@gmail.com", true, "chis", "39",
-//                "11040020", "Santos","SP","Brasil", "homem","hetero",
-//            "Ch9206ch!","rua A", "1", "casa", "trabalho", "ele")
-////        every { userUseCase.insertAllRegisterLogin(expectedUser) } returns mockk(relaxed = true)
-//         viewModel.validateDateUserRegister(expectedUser)
-//
-//
-//        verify (exactly = 0){ viewModel.insertAllRegister(expectedUser) }
-//        verify (exactly = 0){ viewModel.savedRegisterInfoRealTime(expectedUser) }
-//
-//    }
 }

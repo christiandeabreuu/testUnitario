@@ -1,14 +1,13 @@
 package br.com.zup.ezuppers.ui.zuppers.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import br.com.zup.ezuppers.data.model.CitiesResult
 import br.com.zup.ezuppers.data.model.State
-import br.com.zup.ezuppers.data.model.StatesResult
 import br.com.zup.ezuppers.domain.model.User
 import br.com.zup.ezuppers.domain.usecase.GetCitiesUseCase
 import br.com.zup.ezuppers.domain.usecase.GetUfUseCase
 import br.com.zup.ezuppers.domain.usecase.GetZuppersQuantityUseCase
 import br.com.zup.ezuppers.domain.usecase.GetZuppersUseCase
-import com.google.common.truth.Truth.assertThat
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
 import junit.framework.Assert.assertEquals
@@ -25,29 +24,34 @@ import org.junit.Test
 import org.junit.rules.TestRule
 
 @ExperimentalCoroutinesApi
-internal class ZuppersViewModelTest{
+internal class ZuppersViewModelTest {
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
     @RelaxedMockK
-    private var getUfUseCase : GetUfUseCase = mockk(relaxed = true)
+    private var getUfUseCase: GetUfUseCase = mockk(relaxed = true)
 
     @RelaxedMockK
-    private var getCitiesUseCase : GetCitiesUseCase = mockk(relaxed = true)
+    private var getCitiesUseCase: GetCitiesUseCase = mockk(relaxed = true)
 
     @RelaxedMockK
-    private var getZuppersUseCase : GetZuppersUseCase = mockk(relaxed = true)
+    private var getZuppersUseCase: GetZuppersUseCase = mockk(relaxed = true)
 
     @RelaxedMockK
-    private var getZuppersQuantityUseCase : GetZuppersQuantityUseCase = mockk(relaxed = true)
+    private var getZuppersQuantityUseCase: GetZuppersQuantityUseCase = mockk(relaxed = true)
 
     private lateinit var viewModel: ZuppersViewModel
 
     @Before
     fun onBefore() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        viewModel = ZuppersViewModel(getUfUseCase, getCitiesUseCase, getZuppersUseCase, getZuppersQuantityUseCase)
+        viewModel = ZuppersViewModel(
+            getUfUseCase,
+            getCitiesUseCase,
+            getZuppersUseCase,
+            getZuppersQuantityUseCase
+        )
         Dispatchers.setMain(Dispatchers.Unconfined)
     }
 
@@ -58,23 +62,16 @@ internal class ZuppersViewModelTest{
     }
 
     @Test
-    fun `Dois mais dois nao é cinco `() {
-        assert(2 + 2 != 5)
-    }
-
-
-    @Test
     fun `When call fun getQuantityCity() should to call the same fun in useCase and to return zuppers quantity `() =
         runTest {
             val expectedCity = "Ubatuba"
 
-            coEvery { getZuppersQuantityUseCase.execute("Ubatuba")} returns 7
+            coEvery { getZuppersQuantityUseCase.execute("Ubatuba") } returns 7
             viewModel.getQuantityZuppers(expectedCity)
 
             assertEquals(getZuppersQuantityUseCase.execute("Ubatuba"), 7)
-            coVerify{ getZuppersQuantityUseCase.execute(expectedCity) }
+            coVerify { getZuppersQuantityUseCase.execute(expectedCity) }
         }
-
 
 
     private fun mockkListUsers() = listOf(
@@ -88,10 +85,11 @@ internal class ZuppersViewModelTest{
         runTest {
             val expectedCity = "Ubatuba"
 
-            coEvery { getZuppersUseCase.execute("Ubatuba")} returns mockkListUsers()
+            coEvery { getZuppersUseCase.execute("Ubatuba") } returns mockkListUsers()
             viewModel.getListZuppers(expectedCity)
 
             assertEquals(getZuppersUseCase.execute("Ubatuba"), mockkListUsers())
+            coVerify { getZuppersUseCase.execute(expectedCity) }
         }
 
     @Test
@@ -99,23 +97,24 @@ internal class ZuppersViewModelTest{
         runTest {
             val expectedCity = "Ubatuba"
 
-            coEvery { getZuppersUseCase.execute("Ubatuba")} throws NullPointerException()
+            coEvery { getZuppersUseCase.execute("Ubatuba") } throws NullPointerException()
             viewModel.getListZuppers(expectedCity)
             val value = viewModel.errorListZuppers.value
 
             assertTrue(value is NullPointerException)
 
         }
+
     @Test
     fun `When call fun getStates() should to call the same fun in useCase `() = runTest {
-            val nameStates = arrayListOf("Sao Paulo", "Rio de Janeiro", "Minas Gerais")
+        val nameStates = arrayListOf("Sao Paulo", "Rio de Janeiro", "Minas Gerais")
 
-            coEvery { getUfUseCase.execute()} returns mockkListStates()
-            viewModel.getStates()
+        coEvery { getUfUseCase.execute() } returns mockkListStates()
+        viewModel.getStates()
 
-            coVerify { getUfUseCase.execute() }
-           assertEquals( nameStates, viewModel.ufResponse.value ) // falta verificar valor
-        }
+        coVerify { getUfUseCase.execute() }
+        assertEquals(nameStates, viewModel.ufResponse.value) // falta verificar valor
+    }
 
     private fun mockkListStates() = arrayListOf(
         State(0, "Sao Paulo", "SP"),
@@ -127,7 +126,7 @@ internal class ZuppersViewModelTest{
     @Test
     fun `When call fun getStates() should  to return msg Exception `() = runTest {
 
-        coEvery { getUfUseCase.execute()} throws NullPointerException()
+        coEvery { getUfUseCase.execute() } throws NullPointerException()
         viewModel.getStates()
         val value = viewModel.errorListStates.value
 
@@ -138,11 +137,46 @@ internal class ZuppersViewModelTest{
     fun `When call fun getQuantityZuppers() should to call the same fun in useCase `() = runTest {
         val expectedCity = "Ubatuba"
 
-        coEvery { getZuppersQuantityUseCase.execute("Ubatuba")} returns 3
+        coEvery { getZuppersQuantityUseCase.execute("Ubatuba") } returns 3
         val value = viewModel.getQuantityZuppers(expectedCity)
 
         coVerify { getZuppersQuantityUseCase.execute(expectedCity) }
         assertEquals(value, 3)
+    }
 
+    //    private fun getCities(ufId: Int) {
+//        viewModelScope.launch {
+//            try {
+//                val response = getCitiesUseCase.execute(ufId)
+//                val cityList = mutableListOf<String>()
+//                response.forEach {
+//                    cityList.add(it.nome)
+//                }
+//                _citiesResponse.value = cityList
+//            } catch (ex: Exception) {
+//                Log.i("Error", "${ex.message}")
+//
+    @Test
+    fun `When call fun getCities() should to call the same fun in useCase `() = runTest {
+        val expectedUfid = 123
+        val expectedCitiesResult = mockk<CitiesResult>()
+
+        coEvery { getCitiesUseCase.execute(expectedUfid) } returns expectedCitiesResult
+        val value = viewModel.getCities("SP")
+
+        coVerify { getCitiesUseCase.execute(any()) }
+//        assertEquals(value, 3)
+    }
+
+    @Test
+    fun `When call fun getCities() should to return an Exception `() = runTest {
+        val expectedUfid = 123
+        val expectedCitiesResult = mockk<CitiesResult>()
+
+        coEvery { getCitiesUseCase.execute(expectedUfid) } throws NullPointerException()
+        val response = viewModel.getCities("SP")
+        val value = viewModel.errorListCities.value
+
+        assertTrue(value is NullPointerException)
     }
 }

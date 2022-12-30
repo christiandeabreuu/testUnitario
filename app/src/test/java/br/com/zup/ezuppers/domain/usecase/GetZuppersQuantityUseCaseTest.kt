@@ -1,15 +1,15 @@
 package br.com.zup.ezuppers.domain.usecase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import br.com.zup.ezuppers.data.model.StatesResult
-import br.com.zup.ezuppers.data.repository.UfRepository
 import br.com.zup.ezuppers.data.repository.ZuppersRepository
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.unmockkAll
+import io.mockk.verify
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
@@ -17,7 +17,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
-internal class GetZuppersQuantityUseCaseTest{
+internal class GetZuppersQuantityUseCaseTest {
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
@@ -25,7 +25,7 @@ internal class GetZuppersQuantityUseCaseTest{
     @RelaxedMockK
     private lateinit var repository: ZuppersRepository
 
-    lateinit var getZuppersQuantityUseCase : GetZuppersQuantityUseCase
+    lateinit var getZuppersQuantityUseCase: GetZuppersQuantityUseCase
 
     @Before
     fun onBefore() {
@@ -41,16 +41,13 @@ internal class GetZuppersQuantityUseCaseTest{
     }
 
     @Test
-    fun `When call fun execute should to call the fun on repository with to same value`() =
-        runTest {
-            val expectedCity = "Santos"
+    fun `When call fun execute() should to call the fun on repository with to same value`() {
+        val expectedCity = "Santos"
 
-            coEvery { repository.getZuppersQuantity(expectedCity) } returns 10 
-            getZuppersQuantityUseCase.execute(expectedCity)
+        every { repository.getZuppersQuantity(expectedCity) } returns 10
+        val result = getZuppersQuantityUseCase.execute(expectedCity)
 
-            assertEquals(getZuppersQuantityUseCase.execute("Santos"), 10)
-            coVerify{ repository.getZuppersQuantity(expectedCity) }
-        }
-
-
+        assertEquals(result, 10)
+        verify (exactly = 1){ repository.getZuppersQuantity(expectedCity) }
+    }
 }

@@ -1,7 +1,6 @@
 package br.com.zup.ezuppers.domain.usecase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import br.com.zup.ezuppers.data.repository.UfRepository
 import br.com.zup.ezuppers.data.repository.ZuppersRepository
 import br.com.zup.ezuppers.domain.model.User
 import io.mockk.*
@@ -9,7 +8,6 @@ import io.mockk.impl.annotations.RelaxedMockK
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
@@ -17,7 +15,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
-internal class GetZuppersUseCaseTest{
+internal class GetZuppersUseCaseTest {
 
 
     @get:Rule
@@ -26,7 +24,7 @@ internal class GetZuppersUseCaseTest{
     @RelaxedMockK
     private lateinit var repository: ZuppersRepository
 
-    lateinit var getZuppersUseCase : GetZuppersUseCase
+    lateinit var getZuppersUseCase: GetZuppersUseCase
 
     @Before
     fun onBefore() {
@@ -42,17 +40,17 @@ internal class GetZuppersUseCaseTest{
     }
 
     @Test
-    fun `When call fun execute should to call the fun on repository with to same value`() =
-        runTest {
+    fun `When call fun execute() should to call the fun on repository with to same value`() {
             val expectedCity = "Santos"
 
-            coEvery { repository.getZuppers(expectedCity) } returns mockkListUsers()
+            every { repository.getZuppers(expectedCity) } returns mockkListUsers()
 
-            val value = getZuppersUseCase.execute(expectedCity)
+            val result = getZuppersUseCase.execute(expectedCity)
             val expectedListUsers = mockkListUsers()
 
-            assertEquals(value, expectedListUsers)
-            coVerify(exactly = 1) { repository.getZuppers(expectedCity) }
+
+            assertEquals(result, expectedListUsers)
+        verify(exactly = 1) { repository.getZuppers(expectedCity) }
         }
 
     private fun mockkListUsers() = listOf(
@@ -60,5 +58,20 @@ internal class GetZuppersUseCaseTest{
         User("2"),
         User("3")
     )
+
+    @Test
+    fun `When call fun execute() should to call the fun on repository with to same value 2`() {
+        val expectedCity = "Santos"
+        val expectedListUser = mockk<List<User>>()
+
+        every { repository.getZuppers(expectedCity) } returns expectedListUser
+
+        val result = getZuppersUseCase.execute(expectedCity)
+
+        assertEquals(result, expectedListUser)
+        verify(exactly = 1) { repository.getZuppers(expectedCity) }
+    }
+
+
 
 }

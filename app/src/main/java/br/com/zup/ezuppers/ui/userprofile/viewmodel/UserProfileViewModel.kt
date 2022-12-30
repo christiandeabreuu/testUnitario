@@ -40,12 +40,11 @@ class UserProfileViewModel(
             try {
                 val response =
                     userUseCase.getAllRegisterInformationOffline(email)
-
                 _userProfileListState.value = response
             } catch (ex: Exception) {
                 _userProfileListState.value =
                     ViewState.Error(Throwable(ERROR_REGISTER_DATA_LOCAL))
-//                _message.value = ERROR_REGISTER_USER_DATA_LOCAL
+                _message.value = ERROR_REGISTER_USER_DATA_LOCAL
             }
         }
     }

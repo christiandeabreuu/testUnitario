@@ -1,16 +1,11 @@
 package br.com.zup.ezuppers.domain.usecase
 
-import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.zup.ezuppers.data.model.CepResult
 import br.com.zup.ezuppers.data.repository.CepRepository
-import br.com.zup.ezuppers.data.repository.UfRepository
-import br.com.zup.ezuppers.data.repository.ZuppersRepository
-import br.com.zup.ezuppers.ui.zuppers.viewmodel.ZuppersViewModel
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
 import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
@@ -47,7 +42,7 @@ internal class GetCepUseCaseTest {
     }
 
     @Test
-    fun `When call fun execute() should to call the fun on repository with to same value`() =
+    fun ` when call fun execute() should to call the function on repository with to same value`() =
         runTest {
             val expectedCep = "11040020"
 
@@ -55,21 +50,33 @@ internal class GetCepUseCaseTest {
                 1, "11040020", "a",
                 "SP", "sp", "ap 23", "Santos"
             )
-            val value = getCepUseCase.execute(expectedCep)
+            val result = getCepUseCase.execute(expectedCep)
 
             val expectedCepResult = CepResult(
-                        1, 
-                        "11040020", 
-                        "a",
-                        "SP", 
-                        "sp", 
-                        "ap 23",
-                         "Santos"
-                    )
-            assertEquals(expectedCepResult, value)
+                1,
+                "11040020",
+                "a",
+                "SP",
+                "sp",
+                "ap 23",
+                "Santos"
+            )
+            assertEquals(expectedCepResult, result)
             coVerify(exactly = 1) { repository.getCep("11040020") }
         }
 
+    @Test
+    fun ` when call fun execute() should to call the function on repository with to same value 2 `() =
+        runTest {
+            val expectedCep = "11040020"
+            val mockkCepResult = mockk<CepResult>()
+
+            coEvery { repository.getCep(expectedCep) } returns mockkCepResult
+            val result = getCepUseCase.execute(expectedCep)
+
+            assertEquals(mockkCepResult, result)
+            coVerify(exactly = 1) { repository.getCep("11040020") }
+        }
 
     @Test
     fun `When call fun execute() dont should to call the fun on repository `() =

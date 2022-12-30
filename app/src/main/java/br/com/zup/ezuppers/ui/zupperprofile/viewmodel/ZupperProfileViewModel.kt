@@ -21,6 +21,7 @@ class ZupperProfileViewModel(private val userUseCase : UserUseCase) : ViewModel(
             val user = dataSnapshot.getValue(User::class.java)
             user?.let {
                 _authorResponse.value = it
+                _message.value = "ok"
             }
         }
     }

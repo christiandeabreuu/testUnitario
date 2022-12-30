@@ -7,6 +7,7 @@ import br.com.zup.ezuppers.domain.model.User
 import br.com.zup.ezuppers.domain.usecase.GetFavoriteUseCase
 import br.com.zup.ezuppers.domain.usecase.UserUseCase
 import br.com.zup.ezuppers.ui.editregister.viewmodel.EditRegisterViewModel
+import com.google.common.truth.Truth.assertThat
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
 import junit.framework.Assert.assertEquals
@@ -72,13 +73,6 @@ internal class FavoriteViewModelTest {
         coVerify(exactly = 1) { getFavoritesUseCase.execute() }
     }
 
-//    private fun verifyListUser(listUser: List<User>) {
-//        val mockkList = mockkListUsers()
-//        listUser.forEachIndexed { i, user ->
-//            assertEquals(mockkList[i].userId, user.userId)
-//        }
-//    }
-
     private fun mockkListUsers() = listOf(
         User(
             name = "Amanda",
@@ -107,16 +101,27 @@ internal class FavoriteViewModelTest {
     )
 
     @Test
+    fun `When call fun getListFavorite should to return success 2 `() = runTest {
+        val expectedMockkListUser = mockk<List<User>>()
+        coEvery { getFavoritesUseCase.execute() } returns expectedMockkListUser
+
+        viewModel.getListFavorite()
+
+        val response = viewModel.favoriteZuppers.value
+
+        assertEquals(expectedMockkListUser, response )
+        coVerify(exactly = 1) { getFavoritesUseCase.execute() }
+    }
+
+    @Test
     fun `When call fun getListFavorite should to return error`() = runBlocking {
 
         coEvery { viewModel.getListFavorite() } throws NullPointerException()
 
         viewModel.getListFavorite()
 
-        val state = viewModel.errorState.value
+        val result = viewModel.errorState.value
 
-        assertEquals(state , "error Exception")
-
+        assertEquals(result , "error Exception")
     }
-
 }

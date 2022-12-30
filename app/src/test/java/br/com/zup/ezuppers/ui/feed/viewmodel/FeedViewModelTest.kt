@@ -14,6 +14,9 @@ import br.com.zup.ezuppers.utilities.EMPTY_POST_ERROR_MESSAGE
 import br.com.zup.ezuppers.utilities.POST_ERROR_MESSAGE
 import br.com.zup.ezuppers.utilities.POST_SIZE_ERROR_MESSAGE
 import br.com.zup.ezuppers.utilities.POST_SUCESS_MESSAGE
+import com.google.common.truth.Truth.assertThat
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import io.mockk.*
 import io.mockk.MockKSettings.relaxed
 import io.mockk.impl.annotations.RelaxedMockK
@@ -78,6 +81,17 @@ internal class FeedViewModelTest {
     }
 
     @Test
+    fun `When call fun getUserName should to return the same fun on repository 2`() {
+        val expectedUserName = "Christian"
+        every { authenticationRepository.getUsersName() } returns expectedUserName
+
+        val response = viewModel.getUserName()
+
+        assert(expectedUserName == response)
+        verify (exactly = 1) { authenticationRepository.getUsersName() }
+    }
+
+    @Test
     fun `When call fun getPostId should to return the same fun on repository`() {
 
         every { postRepository.getPostId() } returns "String"
@@ -88,6 +102,17 @@ internal class FeedViewModelTest {
     }
 
     @Test
+    fun `When call fun getPostId should to return the same fun on repository 2`() {
+        val expectedPostId = "123"
+        every { postRepository.getPostId() } returns expectedPostId
+
+        val response = viewModel.getPostId()
+
+        assert(expectedPostId == response)
+        verify (exactly = 1){ postRepository.getPostId() }
+    }
+
+    @Test
     fun `When call fun getCurrentUserId should to return the same fun on repository`() {
 
         every { userUseCase.getCurrentUserId() } returns "String"
@@ -95,6 +120,15 @@ internal class FeedViewModelTest {
         viewModel.getCurrentUserId()
 
         verify { userUseCase.getCurrentUserId() }
+    }  @Test
+    fun `When call fun getCurrentUserId should to return the same fun on repository 2`() {
+        val expectedUserIdId = "1"
+        every { userUseCase.getCurrentUserId() } returns expectedUserIdId
+
+        val response = viewModel.getCurrentUserId()
+
+        assert(expectedUserIdId == response)
+        verify (exactly = 1){ userUseCase.getCurrentUserId() }
     }
 
 
@@ -110,18 +144,39 @@ internal class FeedViewModelTest {
     }
 
     @Test
-    fun `When call fun savePost should to return msg error`() {
+    fun `When call fun updatePostFavoriteStatus should to call fun on repository 2`() {
         val expectedPostResponse = PostResponse("1", "a", "oii", "Author", "25/12/2022", false)
 
-//        every {
-//            postRepository.postDatabaseReference().child(expectedPostResponse.id)
-//                .setValue(expectedPostResponse)
-//        } returns mockk(relaxed = true)
+        val expectedMockkPostResponse = mockk<PostResponse>()
+        val expectedMockkDatabaseReference = mockk<DatabaseReference>()
+
+        every { postRepository.postDatabaseReference() } returns mockk(relaxed = true)
+
+        viewModel.updatePostFavoriteStatus(expectedPostResponse)
+
+        verify { postRepository.postDatabaseReference() }
+        //a funcao passa mas nao consigo substituir pelos mockks
+    }
+
+    @Test
+    fun `When call fun savePost should to return `() {
+        val expectedPostResponse = PostResponse("", "a", "oii", "Author", "25/12/2022", true)
+        val expectedPostResponse1 = PostResponse("", "a", "oii", "Author", "25/12/2022", false)
+        val expectedPostResponse2 = PostResponse()
+        val expectedDatabaseReference = mockk<DatabaseReference>()
+        val expectedDatabaseError = mockk<DatabaseError>()
+
+        every { postRepository.postDatabaseReference().child(expectedPostResponse.id)
+                .setValue(expectedPostResponse)
+        } returns mockk(relaxed= true)
 
         viewModel.savePost(expectedPostResponse)
+       val response = viewModel.message.value
 
-        assertEquals(viewModel.message.value, POST_ERROR_MESSAGE)
-        verify(exactly = 0) { viewModel.savePost(expectedPostResponse) }
+
+//        assertEquals(viewModel.message.value, POST_ERROR_MESSAGE)
+        assertEquals(response, POST_SUCESS_MESSAGE)
+//        assertThat(response is null)
     }
 
     @Test
@@ -149,7 +204,7 @@ internal class FeedViewModelTest {
                 .setValue(expectedPostResponse)
         } returns mockk(relaxed = true)
 
-        viewModel.savePost(expectedPostResponse)
+        viewModel.validatePost(expectedPostResponse)
 
         assertEquals(viewModel.message.value, POST_SIZE_ERROR_MESSAGE)
     }
