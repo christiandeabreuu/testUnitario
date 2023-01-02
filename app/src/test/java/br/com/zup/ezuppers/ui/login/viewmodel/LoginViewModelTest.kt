@@ -2,27 +2,27 @@ package br.com.zup.ezuppers.ui.login.viewmodel
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.viewModelScope
 import br.com.zup.ezuppers.data.repository.AuthenticationRepository
 import br.com.zup.ezuppers.domain.model.User
 import br.com.zup.ezuppers.domain.usecase.UserUseCase
-import br.com.zup.ezuppers.ui.editregister.viewmodel.EditRegisterViewModel
-import br.com.zup.ezuppers.utilities.*
+import br.com.zup.ezuppers.utilities.ERROR_EMAIL_MESSAGE
+import br.com.zup.ezuppers.utilities.ERROR_INSERTING_REGISTER_USER_DATA_LOCAL
+import br.com.zup.ezuppers.utilities.ERROR_PASSWORD_MESSAGE
 import br.com.zup.ezuppers.viewstate.ViewState
 import com.google.android.gms.tasks.Task
+import com.google.common.truth.Truth.assertThat
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
-import junit.framework.Assert
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
-import kotlinx.coroutines.*
+
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import org.hamcrest.core.Every
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -56,28 +56,17 @@ internal class LoginViewModelTest{
     }
 
     @Test
-    fun `when the call fun validateDateUser without PASSWORD should be to return msg PASSWORD error `() {
-        val expectedUser: User =
-            User(
-                "1", "Chris", "chistian@zup.com.br", true, "chris", "17/01/1992",
-                "11040-020", "Santos", "SP", "", "homem", "hetero",
-                "", "Rua A", "123", "casa", "trabalho", "ele"
-            )
+    fun `wvalidateDateUser() without PASSWORD should be to return msg PASSWORD error `() {
+        val expectedUser: User = mockkUserWithoutPassword()
 
         viewModel.validateDataUser(expectedUser)
 
         assertEquals(ERROR_PASSWORD_MESSAGE, viewModel.errorState.value)
-
     }
 
     @Test
-    fun `when the call fun validateDateUser without EMAIL should be to return msg EMAIL error `() {
-        val expectedUser: User =
-            User(
-                "1", "Chris", "", true, "chris", "17/01/1992",
-                "11040-020", "Santos", "SP", "", "homem", "hetero",
-                "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
-            )
+    fun `validateDateUser() without EMAIL should be to return msg EMAIL error `() {
+        val expectedUser: User = mockkUserWithoutEmail()
 
         viewModel.validateDataUser(expectedUser)
 
@@ -85,40 +74,30 @@ internal class LoginViewModelTest{
     }
 
     @Test
-    fun `when the call fun validateDateUser with field ok should to go for  loginUser() `() {
-        val expectedMockkUser = mockk<User>()
-        val expectedTaskAuthResult = mockk<Task<AuthResult>>()
-        val expectedUser: User =
-            User(
-                "1", "Christian", "christian@zup.com.br", true, "chris", "17/01/1992",
-                "11040-020", "Santos", "SP", "", "homem", "hetero",
-                "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
-            )
-        every {  authenticationRepository.loginUser("christian@zup.com.br", "Ch9206ch!")} returns expectedTaskAuthResult
+    fun `validateDateUser() with field ok should to call loginUser() `() {
+        val expectedUser: User = mockUser()
+
         viewModel.validateDataUser(expectedUser)
 
-        verify{  viewModel.loginUser(expectedUser) } // nao esta sendo chamada, sera que pq esta na mesma classe e era privada???
+        assertEquals(expectedUser, viewModel.userIsValid.value)
     }
 
     @Test
-    fun `when the call fun loginUser should be to return success `() {
+    fun ` loginUser() should be to return success `() {
         val expectedTaskAuthResult = mockk<Task<AuthResult>>()
-        val expectedUser: User =
-            User(
-                "1", "Chris", "chistian@zup.com", true, "chris", "17/01/1992",
-                "11040-020", "Santos", "SP", "", "homem", "hetero",
-                "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
-            )
-        every { authenticationRepository.loginUser("chistian@zup.com.br", "Ch9206ch!").addOnSuccessListener {  }} returns expectedTaskAuthResult
-        val result = viewModel.loginUserAddData.value
+        val expectedUser: User = mockUser()
+
+        every { authenticationRepository.loginUser("chistian@zup.com.br", "Ch9206ch!")} returns expectedTaskAuthResult
+        val result = viewModel.loginUserAddData.value as ViewState.Success
+
         viewModel.loginUser(expectedUser)
 
 //        assertEquals(ViewState.Success(expectedUser), viewModel.loginUserAddData.value)
-        assert(result is ViewState.Success )
+  //      assertThat(result is ViewState.Success )
     }
 
     @Test
-    fun `when the call fun loginUser  should be to return msg LOGIN error `() {
+    fun `loginUser() should be to return msg LOGIN error `() {
         val expectedUser: User =
             User(
                 "1", "Chris", "chistian@zup.com", true, "chris", "17/01/1992",
@@ -135,7 +114,7 @@ internal class LoginViewModelTest{
 
 
     @Test
-    fun `When call fun getRegisterLoginInformation() should to return success`() =
+    fun `getRegisterLoginInformation() should to return success`() =
         runTest {
             val expectedUser: User =
                 User(
@@ -152,7 +131,7 @@ internal class LoginViewModelTest{
         }
 
     @Test
-    fun `When call fun getRegisterLoginInformation() should to return success 2`() =
+    fun `getRegisterLoginInformation() should to return success 2`() =
         runTest {
             val expectedMockkUser = mockk<User>()
 
@@ -167,7 +146,7 @@ internal class LoginViewModelTest{
         }
 
     @Test
-    fun `When call fun getRegisterLoginInformation() should to return error`() =
+    fun `getRegisterLoginInformation() should to return error`() =
         runTest {
 
             coEvery { userUseCase.getRegisterLoginInformation()} throws NullPointerException()
@@ -176,12 +155,11 @@ internal class LoginViewModelTest{
 
             assertEquals(true, result is ViewState.Error)
             assertEquals("Não foi possivel inserir suas informações no banco de dados" ,ERROR_INSERTING_REGISTER_USER_DATA_LOCAL )
-//            assertTrue(ERROR_INSERTING_REGISTER_USER_DATA_LOCAL, true)
 
         }
 
     @Test
-    fun `When call fun getCurrentUser() should to call the same fun in repository`() =
+    fun `getCurrentUser() should to call the same fun in repository`() =
         runTest {
 
             coEvery { authenticationRepository.getCurrentUser()} returns mockk(relaxed = true)
@@ -191,7 +169,7 @@ internal class LoginViewModelTest{
         }
 
     @Test
-    fun `When call fun getCurrentUser() should to call the same fun in repository 2`() =
+    fun `getCurrentUser() should to call the same fun in repository 2`() =
         runTest {
             val expectedFirebaseUser = mockk<FirebaseUser>()
             coEvery { authenticationRepository.getCurrentUser()} returns expectedFirebaseUser
@@ -202,5 +180,22 @@ internal class LoginViewModelTest{
             coVerify(exactly = 1){ authenticationRepository.getCurrentUser() }
         }
 
+    private fun mockUser() = User(
+    "1", "Chris", "chistian@zup.com.br", true, "chris", "17/01/1992",
+    "11040-020", "Santos", "SP", "", "homem", "hetero",
+    "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
+    )
+
+    private fun mockkUserWithoutEmail() =  User(
+        "1", "Chris", "", true, "chris", "17/01/1992",
+        "11040-020", "Santos", "SP", "", "homem", "hetero",
+        "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
+    )
+
+    private fun mockkUserWithoutPassword() = User(
+        "1", "Chris", "chistian@zup.com.br", true, "chris", "17/01/1992",
+        "11040-020", "Santos", "SP", "", "homem", "hetero",
+        "", "Rua A", "123", "casa", "trabalho", "ele"
+    )
 
 }

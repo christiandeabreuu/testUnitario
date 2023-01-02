@@ -5,13 +5,13 @@ import br.com.zup.ezuppers.data.model.CepResult
 import br.com.zup.ezuppers.data.repository.CepRepository
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -42,7 +42,7 @@ internal class GetCepUseCaseTest {
     }
 
     @Test
-    fun ` when call fun execute() should to call the function on repository with to same value`() =
+    fun `execute() should to call repository and return CepResult`() =
         runTest {
             val expectedCep = "11040020"
 

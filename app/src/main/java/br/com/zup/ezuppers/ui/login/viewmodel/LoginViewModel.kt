@@ -13,11 +13,7 @@ import br.com.zup.ezuppers.utilities.ERROR_INSERTING_REGISTER_USER_DATA_LOCAL
 import br.com.zup.ezuppers.utilities.ERROR_LOGIN_MESSAGE
 import br.com.zup.ezuppers.utilities.ERROR_PASSWORD_MESSAGE
 import br.com.zup.ezuppers.viewstate.ViewState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
 
 class LoginViewModel(
@@ -34,6 +30,8 @@ class LoginViewModel(
     private var _errorState = MutableLiveData<String>()
     val errorState = _errorState
 
+    private var _userIsValid = MutableLiveData<User>()
+    val userIsValid: LiveData<User> get() = _userIsValid
 
     fun validateDataUser(user: User) {
 
@@ -55,22 +53,21 @@ class LoginViewModel(
                 _errorState.value = ERROR_PASSWORD_MESSAGE
             }
             else -> {
-                loginUser(user)
+                _userIsValid.value = user
+
             }
         }
     }
 
-     fun loginUser(user: User?) {  //private
+    fun loginUser(user: User?) {  //private
         try {
             user?.email?.let {
                 user.password?.let { it1 ->
                     authenticationRepository.loginUser(
                         it,
                         it1
-
                     ).addOnSuccessListener {
                         _loginUserAddData.value = ViewState.Success(user)
-
                     }.addOnFailureListener {
                         _errorState.value = ERROR_LOGIN_MESSAGE
                     }
@@ -89,7 +86,8 @@ class LoginViewModel(
 
                 _loginUserAddData.value = response
             } catch (ex: Exception) {
-                _loginUserAddData.value = ViewState.Error(Throwable(ERROR_INSERTING_REGISTER_USER_DATA_LOCAL))
+                _loginUserAddData.value =
+                    ViewState.Error(Throwable(ERROR_INSERTING_REGISTER_USER_DATA_LOCAL))
             }
         }
     }

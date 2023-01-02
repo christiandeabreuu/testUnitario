@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import br.com.zup.ezuppers.R
@@ -20,7 +18,6 @@ import br.com.zup.ezuppers.utilities.SUCCESS_ADD_REGISTER_USER_DATA
 import br.com.zup.ezuppers.viewstate.ViewState
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterLoginFragment : Fragment() {
@@ -56,10 +53,7 @@ class RegisterLoginFragment : Fragment() {
     private fun clickButtonRegister() {
         binding.buttonRegister.setOnClickListener {
             val user = getDataUserRegisterLogin()
-            if (viewModel.validateDateUserLogin(user)) {
-                goToRegisterOptional(user)
-                insertRegisterLoginUserData()
-            }
+            viewModel.haveErrorsDateUser(user)
         }
     }
 
@@ -93,6 +87,11 @@ class RegisterLoginFragment : Fragment() {
 
         viewModel.messageState.observe(this.viewLifecycleOwner) {
             Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
+        }
+        viewModel.userIsValid.observe(this.viewLifecycleOwner) {
+            goToRegisterOptional(it)
+            insertRegisterLoginUserData()
+            viewModel.registerUserLogin(it)
         }
     }
 

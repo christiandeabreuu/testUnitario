@@ -5,16 +5,18 @@ import br.com.zup.ezuppers.data.repository.ZuppersRepository
 import br.com.zup.ezuppers.domain.model.User
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
+@ExperimentalCoroutinesApi
 internal class GetZuppersUseCaseTest {
 
 
@@ -40,18 +42,18 @@ internal class GetZuppersUseCaseTest {
     }
 
     @Test
-    fun `When call fun execute() should to call the fun on repository with to same value`() {
-            val expectedCity = "Santos"
+    fun `execute() should to call repository and return ListUsers`() {
+        val expectedCity = "Santos"
 
-            every { repository.getZuppers(expectedCity) } returns mockkListUsers()
+        every { repository.getZuppers(expectedCity) } returns mockkListUsers()
 
-            val result = getZuppersUseCase.execute(expectedCity)
-            val expectedListUsers = mockkListUsers()
+        val result = getZuppersUseCase.execute(expectedCity)
+        val expectedListUsers = mockkListUsers()
 
 
-            assertEquals(result, expectedListUsers)
+        assertEquals(result, expectedListUsers)
         verify(exactly = 1) { repository.getZuppers(expectedCity) }
-        }
+    }
 
     private fun mockkListUsers() = listOf(
         User("1"),
@@ -60,7 +62,7 @@ internal class GetZuppersUseCaseTest {
     )
 
     @Test
-    fun `When call fun execute() should to call the fun on repository with to same value 2`() {
+    fun `execute() should to call repository and return ListUsers (2)`() {
         val expectedCity = "Santos"
         val expectedListUser = mockk<List<User>>()
 
@@ -71,7 +73,6 @@ internal class GetZuppersUseCaseTest {
         assertEquals(result, expectedListUser)
         verify(exactly = 1) { repository.getZuppers(expectedCity) }
     }
-
 
 
 }

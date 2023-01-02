@@ -4,11 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import br.com.zup.ezuppers.R
 import br.com.zup.ezuppers.databinding.FragmentLoginBinding
@@ -122,23 +119,9 @@ class LoginFragment : Fragment() {
                 is ViewState.Success -> { goToFeed(it.data) }
             }
         }
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.loginUserAddData.collect {
-//                when (it) {
-//                    is ViewState.Error -> {
-//                        ViewState.Error(
-//                            Throwable(
-//                                ERROR_LOGIN_MESSAGE
-//                            )
-//                        )
-//                    }
-//                    is ViewState.Loading -> ViewState.Loading()
-//                    is ViewState.Success -> {
-//                        goToFeed(it.data)
-//                    }
-//                }
-//            }
-//        }
+        viewModel.userIsValid.observe(this.viewLifecycleOwner){
+            viewModel.loginUser(it)
+        }
     }
 
     private fun goToFeed(user: User) {

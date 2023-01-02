@@ -6,6 +6,7 @@ import br.com.zup.ezuppers.data.repository.UfRepository
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -15,6 +16,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
+@ExperimentalCoroutinesApi
 internal class GetUfUseCaseTest {
 
     @get:Rule
@@ -39,7 +41,7 @@ internal class GetUfUseCaseTest {
     }
 
     @Test
-    fun `When call fun execute() should to call the fun on repository`() =
+    fun `execute() should to call repository and return StatesResult`() =
         runTest {
             val expectedStatesResult = mockk<StatesResult>()
 

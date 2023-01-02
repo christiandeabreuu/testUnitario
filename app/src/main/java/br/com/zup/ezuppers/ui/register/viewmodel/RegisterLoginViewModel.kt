@@ -10,11 +10,9 @@ import br.com.zup.ezuppers.domain.model.User
 import br.com.zup.ezuppers.domain.usecase.UserUseCase
 import br.com.zup.ezuppers.utilities.*
 import br.com.zup.ezuppers.viewstate.ViewState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
 
 class RegisterLoginViewModel(
@@ -26,21 +24,15 @@ class RegisterLoginViewModel(
 
 
     private val _registerUserLoginState = MutableStateFlow<ViewState<User>>(ViewState.Loading(true))
-    val registerUserLoginState : StateFlow<ViewState<User>> get() = _registerUserLoginState
-//    val registerUserLoginState = _registerUserLoginState
+    val registerUserLoginState: StateFlow<ViewState<User>> get() = _registerUserLoginState
 
     private var _messageState = MutableLiveData<String>()
     val messageState: LiveData<String> = _messageState
 
-    fun validateDateUserLogin(user: User): Boolean {
-        if (!haveErrorsDateUser(user)) {
-            registerUserLogin(user)
-            return true
-        }
-        return false
-    }
+    private var _userIsValid = MutableLiveData<User>()
+    val userIsValid: LiveData<User> get() = _userIsValid
 
-     fun haveErrorsDateUser(user: User): Boolean {
+    fun haveErrorsDateUser(user: User) {
         val emailPattern: Pattern =
             Pattern.compile(
                 "^[a-z.]+@[zup]+.[com]+.[br]{2}\$"
@@ -57,24 +49,19 @@ class RegisterLoginViewModel(
         when {
             user.name?.isEmpty() ?: true || !namePattern.matcher(user.name).matches() -> {
                 _messageState.value = NAME_ERROR_MESSAGE
-                return true
             }
             user.email?.isEmpty() ?: true || !emailPattern.matcher(user.email).matches() -> {
                 _messageState.value = EMAIL_ERROR_MESSAGE
-                return true
             }
             user.password?.isEmpty() ?: true || !passwordPattern.matcher(user.password)
                 .matches() -> {
                 _messageState.value = PASSWORD_ERROR_MESSAGE
-                return true
             }
-            else -> {
-                return false
-            }
+            else -> _userIsValid.value = user
         }
     }
 
-    private fun registerUserLogin(user: User) {
+    fun registerUserLogin(user: User) {
         try {
             user.email?.let {
                 user.password?.let { it1 ->

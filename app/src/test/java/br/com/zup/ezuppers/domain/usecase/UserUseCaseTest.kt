@@ -47,11 +47,6 @@ internal class UserUseCaseTest {
     }
 
     @Test
-    fun `Dois mais dois nao é cinco `() {
-        assert(2 + 2 != 5)
-    }
-
-    @Test
     fun `fun databaseReference should to call the same fun on repository `() =
         runTest {
 

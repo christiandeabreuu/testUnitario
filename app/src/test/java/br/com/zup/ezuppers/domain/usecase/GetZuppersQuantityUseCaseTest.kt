@@ -7,16 +7,18 @@ import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.unmockkAll
 import io.mockk.verify
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
+@ExperimentalCoroutinesApi
 internal class GetZuppersQuantityUseCaseTest {
 
     @get:Rule
@@ -41,13 +43,13 @@ internal class GetZuppersQuantityUseCaseTest {
     }
 
     @Test
-    fun `When call fun execute() should to call the fun on repository with to same value`() {
+    fun `execute() should to call repository and return QuantityZuppers`() {
         val expectedCity = "Santos"
 
         every { repository.getZuppersQuantity(expectedCity) } returns 10
         val result = getZuppersQuantityUseCase.execute(expectedCity)
 
         assertEquals(result, 10)
-        verify (exactly = 1){ repository.getZuppersQuantity(expectedCity) }
+        verify(exactly = 1) { repository.getZuppersQuantity(expectedCity) }
     }
 }

@@ -5,16 +5,18 @@ import br.com.zup.ezuppers.data.repository.ZuppersRepository
 import br.com.zup.ezuppers.domain.model.User
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
+@ExperimentalCoroutinesApi
 internal class GetFavoriteUseCaseTest {
 
     @get:Rule
@@ -39,7 +41,7 @@ internal class GetFavoriteUseCaseTest {
     }
 
     @Test
-    fun `When call fun execute() should to call the fun on repository `() {
+    fun `execute() should to call repository and return ListUsers`() {
         every { repository.getFavorites() } returns mockkListUsers()
         val result = getFavoriteUseCase.execute()
         val expectedListUsers = mockkListUsers()
@@ -55,7 +57,7 @@ internal class GetFavoriteUseCaseTest {
     )
 
     @Test
-    fun `When call fun execute() should to call the fun on repository 2`() {
+    fun `execute() should to call repository and return ListUsers (2)`() {
         val listUsers = mockk<List<User>>()
         every { repository.getFavorites() } returns listUsers
 

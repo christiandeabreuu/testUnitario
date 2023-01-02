@@ -10,14 +10,15 @@ import br.com.zup.ezuppers.domain.usecase.GetZuppersQuantityUseCase
 import br.com.zup.ezuppers.domain.usecase.GetZuppersUseCase
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -144,37 +145,24 @@ internal class ZuppersViewModelTest {
         assertEquals(value, 3)
     }
 
-    //    private fun getCities(ufId: Int) {
-//        viewModelScope.launch {
-//            try {
-//                val response = getCitiesUseCase.execute(ufId)
-//                val cityList = mutableListOf<String>()
-//                response.forEach {
-//                    cityList.add(it.nome)
-//                }
-//                _citiesResponse.value = cityList
-//            } catch (ex: Exception) {
-//                Log.i("Error", "${ex.message}")
-//
     @Test
     fun `When call fun getCities() should to call the same fun in useCase `() = runTest {
         val expectedUfid = 123
         val expectedCitiesResult = mockk<CitiesResult>()
 
         coEvery { getCitiesUseCase.execute(expectedUfid) } returns expectedCitiesResult
-        val value = viewModel.getCities("SP")
+         viewModel.getCities("SP")
 
         coVerify { getCitiesUseCase.execute(any()) }
-//        assertEquals(value, 3)
+
     }
 
     @Test
     fun `When call fun getCities() should to return an Exception `() = runTest {
         val expectedUfid = 123
-        val expectedCitiesResult = mockk<CitiesResult>()
 
         coEvery { getCitiesUseCase.execute(expectedUfid) } throws NullPointerException()
-        val response = viewModel.getCities("SP")
+        viewModel.getCities("SP")
         val value = viewModel.errorListCities.value
 
         assertTrue(value is NullPointerException)

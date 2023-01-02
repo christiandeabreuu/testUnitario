@@ -21,8 +21,8 @@ import java.util.*
 class FeedViewModel(
     application: Application,
     private val authenticationRepository: AuthenticationRepository,
-    private val postRepository : PostRepository,
-    private val userUseCase : UserUseCase
+    private val postRepository: PostRepository,
+    private val userUseCase: UserUseCase
 ) : AndroidViewModel(application) {
 
     private val _message = MutableLiveData<String>()
