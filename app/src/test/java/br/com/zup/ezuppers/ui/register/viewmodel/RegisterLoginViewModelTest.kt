@@ -52,89 +52,47 @@ internal class RegisterLoginViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without NAME and should be to return msg NAME error `() {
-        val expectedUser: User =
-            User(
-                "1", "", "Chis@zup.com.br", false, "chris", "17/01/1992",
-                "11040-020", "Santos", "SP", "", "homem", "hetero",
-                "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
-            )
+    fun `when haveErrorsDateUserRegister() without NAME and should be to return msg NAME error `() {
+        val userWithoutName = mockUserWithoutName()
 
-        viewModel.haveErrorsDateUser(expectedUser)
+        viewModel.haveErrorsDateUser(userWithoutName)
 
         assertEquals(NAME_ERROR_MESSAGE, viewModel.messageState.value)
-
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without EMAIL and should be to return msg ERROR error `() {
-        val expectedUser: User =
-            User(
-                "1", "Chris", "", false, "chris", "17/01/1992",
-                "11040-020", "Santos", "SP", "", "homem", "hetero",
-                "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
-            )
+    fun `when haveErrorsDateUserRegister without EMAIL and should be to return msg ERROR error `() {
+        val userWithoutEmail = mockUserWithoutEmail()
 
-        viewModel.haveErrorsDateUser(expectedUser)
+        viewModel.haveErrorsDateUser(userWithoutEmail)
 
         assertEquals(EMAIL_ERROR_MESSAGE, viewModel.messageState.value)
-
     }
 
     @Test
-    fun `when the call fun haveErrorsDateUserRegister without PASSWORD should be to return msg PASSWORD error `() {
-        val expectedUser: User =
-            User(
-                "1", "Chris", "chistian@zup.com.br", true, "chris", "17/01/1992",
-                "11040-020", "Santos", "SP", "", "homem", "hetero",
-                "", "Rua A", "123", "casa", "trabalho", "ele"
-            )
+    fun `when haveErrorsDateUserRegister without PASSWORD should be to return msg PASSWORD error `() {
+        val userWithoutPassword = mockUserWithoutPassword()
 
-        viewModel.haveErrorsDateUser(expectedUser)
+        viewModel.haveErrorsDateUser(userWithoutPassword)
 
         assertEquals(PASSWORD_ERROR_MESSAGE, viewModel.messageState.value)
-
     }
 
     @Test
     fun `when haveErrorsDateUserRegister() is called with valid fields should create valid user`() {
-        val expectedUser: User =
-            User(
-                "1", "christian", "chistian@zup.com.br", true, "chris", "17/01/1992",
-                "11040-020", "Santos", "SP", "", "homem", "hetero",
-                "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
-            )
+        val expectedUser: User = mockUser()
 
         viewModel.haveErrorsDateUser(expectedUser)
 
-        assertEquals(expectedUser, viewModel.userIsValid.value)
+        assertEquals(mockUser(), viewModel.userIsValid.value)
     }
 
     @Test
     fun `insertRegisterLoginUserData() should to return success`() =
         runTest {
             val expectedViewStateUser = mockk<ViewState<User>>()
-            val expectedUser: User =
-                User(
-                    "1",
-                    "chris",
-                    "christian@zup.com.br",
-                    false,
-                    "chris",
-                    "17/01/1992",
-                    "11040-020",
-                    "Santos",
-                    "SP",
-                    "Brasil",
-                    "homem",
-                    "hetero",
-                    "Ch9206ch!",
-                    "Rua A",
-                    "123",
-                    "casa",
-                    "trabalho",
-                    "ele"
-                )
+            val expectedUser: User = mockUser()
+
             coEvery { userUseCase.insertAllRegisterLogin(expectedUser) } returns ViewState.Success(
                 expectedUser
             )
@@ -150,27 +108,8 @@ internal class RegisterLoginViewModelTest {
     fun `When call fun insertRegisterLoginUserData() should to return error`() =
         runTest {
 
-            val expectedUser: User =
-                User(
-                    "1",
-                    "chris",
-                    "christian@zup.com.br",
-                    false,
-                    "chris",
-                    "17/01/1992",
-                    "11040-020",
-                    "Santos",
-                    "SP",
-                    "Brasil",
-                    "homem",
-                    "hetero",
-                    "Ch9206ch!",
-                    "Rua A",
-                    "123",
-                    "casa",
-                    "trabalho",
-                    "ele"
-                )
+            val expectedUser: User = mockUser()
+
             coEvery { userUseCase.insertAllRegisterLogin(expectedUser) } throws NullPointerException()
 
             viewModel.insertRegisterLoginUserData(expectedUser)
@@ -182,27 +121,8 @@ internal class RegisterLoginViewModelTest {
     @Test
     fun `When call fun getRegisterLoginInformation() should to return success`() =
         runTest {
-            val expectedUser: User =
-                User(
-                    "1",
-                    "chris",
-                    "christian@zup.com.br",
-                    false,
-                    "chris",
-                    "17/01/1992",
-                    "11040-020",
-                    "Santos",
-                    "SP",
-                    "Brasil",
-                    "homem",
-                    "hetero",
-                    "Ch9206ch!",
-                    "Rua A",
-                    "123",
-                    "casa",
-                    "trabalho",
-                    "ele"
-                )
+            val expectedUser: User = mockUser()
+
             coEvery { userUseCase.getRegisterLoginInformation() } returns ViewState.Success(
                 expectedUser
             )
@@ -218,27 +138,6 @@ internal class RegisterLoginViewModelTest {
     fun `When call fun getRegisterLoginInformation() should to return error`() =
         runTest {
 
-            val expectedUser: User =
-                User(
-                    "1",
-                    "chris",
-                    "christian@zup.com.br",
-                    false,
-                    "chris",
-                    "17/01/1992",
-                    "11040-020",
-                    "Santos",
-                    "SP",
-                    "Brasil",
-                    "homem",
-                    "hetero",
-                    "Ch9206ch!",
-                    "Rua A",
-                    "123",
-                    "casa",
-                    "trabalho",
-                    "ele"
-                )
             coEvery { userUseCase.getRegisterLoginInformation() } throws NullPointerException()
 
             viewModel.getRegisterLoginInformation()
@@ -247,5 +146,32 @@ internal class RegisterLoginViewModelTest {
             assert(response is ViewState.Error)
         }
 
+    private fun mockUser(): User =
+        User(
+            "1", "christian", "chistian@zup.com.br", true, "chris", "17/01/1992",
+            "11040-020", "Santos", "SP", "", "homem", "hetero",
+            "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
+        )
+
+    private fun mockUserWithoutName(): User =
+        User(
+            "1", "", "chistian@zup.com.br", true, "chris", "17/01/1992",
+            "11040-020", "Santos", "SP", "", "homem", "hetero",
+            "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
+        )
+
+    private fun mockUserWithoutEmail(): User =
+        User(
+            "1", "christian", "", true, "chris", "17/01/1992",
+            "11040-020", "Santos", "SP", "", "homem", "hetero",
+            "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
+        )
+
+    private fun mockUserWithoutPassword(): User =
+        User(
+            "1", "christian", "chistian@zup.com.br", true, "chris", "17/01/1992",
+            "11040-020", "Santos", "SP", "", "homem", "hetero",
+            "", "Rua A", "123", "casa", "trabalho", "ele"
+        )
 
 }

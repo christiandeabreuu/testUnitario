@@ -45,7 +45,7 @@ internal class UserRepositoryTest {
     }
 
     @Test
-    fun `databaseReference() should to return function on dataSource`() {
+    fun `when databaseReference() is called should call function on dataSource`() {
         val expectedDatabaseReference = mockk<DatabaseReference>()
         every { dataSource.databaseReference() } returns expectedDatabaseReference
 
@@ -56,7 +56,7 @@ internal class UserRepositoryTest {
     }
 
     @Test
-    fun `getRegisterInformation()`() {
+    fun `when getRegisterInformation() is called should call function on dataSource and return Query`() {
         val mockkQuery = mockk<Query>()
 
         every { dataSource.getRegisterInformation() } returns mockkQuery
@@ -70,7 +70,7 @@ internal class UserRepositoryTest {
     }
 
     @Test
-    fun `getCurrentUser()`() {
+    fun `when getCurrentUser() is called should call function on dataSource`() {
         val mockkUser = mockk<FirebaseUser>()
 
         every { dataSource.getCurrentUser() } returns mockkUser
@@ -84,7 +84,7 @@ internal class UserRepositoryTest {
     }
 
     @Test
-    fun `getRegisterLoginInformation() `() {
+    fun `when getRegisterLoginInformation() is called should call function on dataSource and return user`() {
         val mockkUser = mockk<User>()
 
         every { dataSource.getRegisterLoginInformation() } returns mockkUser
@@ -98,7 +98,7 @@ internal class UserRepositoryTest {
     }
 
     @Test
-    fun `getAllRegisterInformationOffline() `() {
+    fun `when getAllRegisterInformationOffline() is called should call function on dataSource and return listUser`() {
         val userId = "12345"
         val mockkListUser = mockk<List<User>>()
 
@@ -113,7 +113,7 @@ internal class UserRepositoryTest {
     }
 
     @Test
-    fun `insertAllRegisterLogin() `() {
+    fun `when insertAllRegisterLogin() is called should call function on dataSource`() {
 
         val user = mockk<User>()
 
@@ -129,7 +129,7 @@ internal class UserRepositoryTest {
 
 
     @Test
-    fun `updateInformationUser() `() {
+    fun `when updateInformationUser() is called should call function on dataSource`() {
         val user = mockk<User>()
         every { dataSource.updateInformationUser(user) } just runs
 
@@ -142,7 +142,7 @@ internal class UserRepositoryTest {
     }
 
     @Test
-    fun `getAuthor() `() {
+    fun `when getAuthor() is called should call function on dataSource and return TaskDataSnapshot`() {
         val authorId = "Chris"
         val expectedTaskDataSnapshot = mockk<Task<DataSnapshot>>()
         every { dataSource.getAuthor(authorId) } returns expectedTaskDataSnapshot
@@ -156,9 +156,8 @@ internal class UserRepositoryTest {
     }
 
     @Test
-    fun `getCurrentUserId() `() {
+    fun `when getCurrentUserId() is called should call function on dataSource`() {
         val expectedString = "Chris"
-        val expectedTaskDataSnapshot = mockk<Task<DataSnapshot>>()
         every { dataSource.getCurrentUserId() } returns expectedString
 
         val response = repository.getCurrentUserId()

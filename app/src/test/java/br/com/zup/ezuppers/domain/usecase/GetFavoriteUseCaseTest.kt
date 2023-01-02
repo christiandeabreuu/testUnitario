@@ -41,7 +41,7 @@ internal class GetFavoriteUseCaseTest {
     }
 
     @Test
-    fun `execute() should to call repository and return ListUsers`() {
+    fun `when execute() is called should to call repository and return ListUsers`() {
         every { repository.getFavorites() } returns mockkListUsers()
         val result = getFavoriteUseCase.execute()
         val expectedListUsers = mockkListUsers()

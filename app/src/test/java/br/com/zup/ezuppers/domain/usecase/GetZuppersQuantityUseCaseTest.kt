@@ -43,7 +43,7 @@ internal class GetZuppersQuantityUseCaseTest {
     }
 
     @Test
-    fun `execute() should to call repository and return QuantityZuppers`() {
+    fun `when execute() is called should to call repository and return QuantityZuppers`() {
         val expectedCity = "Santos"
 
         every { repository.getZuppersQuantity(expectedCity) } returns 10

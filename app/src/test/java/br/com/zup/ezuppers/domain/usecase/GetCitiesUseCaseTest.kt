@@ -43,7 +43,7 @@ internal class GetCitiesUseCaseTest {
     }
 
     @Test
-    fun `execute() should to call repository and return CitiesResult`() =
+    fun `when execute() is called should to call repository and return CitiesResult`() =
         runTest {
             val expectedUfid = 12345
             val mockkCitiesResult = mockk<CitiesResult>()

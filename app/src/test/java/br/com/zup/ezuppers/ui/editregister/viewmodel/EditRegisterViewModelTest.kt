@@ -56,7 +56,7 @@ internal class EditRegisterViewModelTest {
 
 
     @Test
-    fun `getCEP() is called should return CepResult`() = runTest {
+    fun `when getCEP() is called should return CepResult`() = runTest {
         val expectedCep = "11040020"
 
         coEvery { getCepUseCase.execute(expectedCep) } returns CepResult(
@@ -78,7 +78,7 @@ internal class EditRegisterViewModelTest {
     }
 
     @Test
-    fun `when the call the fun getCEP should be Error`() = runTest {
+    fun `when getCEP() is called should return Error`() = runTest {
         val expectedCep = "000"
         coEvery { getCepUseCase.execute(expectedCep) } throws NullPointerException()
 
@@ -89,7 +89,7 @@ internal class EditRegisterViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without NICKNAME and should be to return msg NICKNAME error `() {
+    fun `when haveErrorsDateUserRegister() is called without NICKNAME should return msg NICKNAME error`() {
         val expectedUser: User =
             User(
                 "1", "chris", "Chis@gmail.com", true, "", "39",
@@ -104,7 +104,7 @@ internal class EditRegisterViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without CEP and should be to return msg CEP error `() {
+    fun `when haveErrorsDateUserRegister() is called without CEP should return msg CEP error`() {
         val expectedUser: User =
             User(
                 "1", "chris", "Chis@gmail.com", true, "chris", "39",
@@ -118,7 +118,7 @@ internal class EditRegisterViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without COMPLEMENT and should be to return msg COMPLEMENT error `() {
+    fun `when haveErrorsDateUserRegister() is called without COMPLEMENT should return msg COMPLEMENT error`() {
         val expectedUser: User =
             User(
                 "1", "chris", "Chis@gmail.com", false, "chris", "39",
@@ -132,7 +132,7 @@ internal class EditRegisterViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without NUMBER and should be to return msg NUMBER error `() {
+    fun `when haveErrorsDateUserRegister() is called without NUMBER should be to return msg NUMBER error`() {
         val expectedUser: User =
             User(
                 "1", "chris", "Chis@gmail.com", false, "chris", "17/01/1992",
@@ -146,7 +146,7 @@ internal class EditRegisterViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without State and should be to return msg State error `() {
+    fun `when haveErrorsDateUserRegister is called without State should return msg State error `() {
         val expectedUser: User =
             User(
                 "1", "chris", "Chis@gmail.com", false, "chris", "17/01/1992",
@@ -160,7 +160,7 @@ internal class EditRegisterViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without RoadAv and should be to return msg RoadAv error `() {
+    fun `when haveErrorsDateUserRegister is called without RoadAv should return msg RoadAv error `() {
         val expectedUser: User =
             User(
                 "1", "chris", "Chis@gmail.com", false, "chris", "17/01/1992",
@@ -174,7 +174,7 @@ internal class EditRegisterViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without AGE and should be to return msg AGE error`() {
+    fun `when haveErrorsDateUserRegister() without AGE should return msg AGE error`() {
         val expectedUser: User =
             User(
                 "1", "chris", "Chis@gmail.com", false, "chris", "",
@@ -188,7 +188,7 @@ internal class EditRegisterViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without CITY and should be to return msg CITY error `() {
+    fun `when haveErrorsDateUserRegister() is called without CITY should return msg CITY error `() {
         val expectedUser: User =
             User(
                 "1", "chris", "Chis@gmail.com", false, "chris", "17/01/1992",
@@ -202,7 +202,7 @@ internal class EditRegisterViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without Country and should be to return msg Country error `() {
+    fun `when haveErrorsDateUserRegister() is called without Country should return msg Country error `() {
         val expectedUser: User =
             User(
                 "1", "chris", "Chis@gmail.com", false, "chris", "17/01/1992",
@@ -216,7 +216,7 @@ internal class EditRegisterViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without INTEREST and should be to return msg INTEREST error `() {
+    fun `when haveErrorsDateUserRegister() is called without INTEREST should return msg INTEREST error `() {
         val expectedUser: User =
             User(
                 "1", "chris", "Chis@gmail.com", false, "chris", "17/01/1992",
@@ -231,21 +231,7 @@ internal class EditRegisterViewModelTest {
     }
 
     @Test
-    fun `when to call fun haveErrorsDateUserRegister with valid fields dont should be to return error msg`() {
-        val expectedUser: User =
-            User(
-                "1", "chris", "Chis@gmail.com", false, "chris", "17/01/1992",
-                "11040-020", "Santos", "SP", "Brasil", "homem", "hetero",
-                "Ch9206ch!", "Rua A", "123", "casa", "", "ele"
-            )
-
-        viewModel.validateDateUserRegister(expectedUser)
-
-        assertEquals(INTEREST_ERROR_MESSAGE, viewModel.messageState.value)
-    }
-
-    @Test
-    fun `getCurrentUserRegister() is callled should to call the same fun in useCase`() =
+    fun `when getCurrentUserRegister() is callled should to call the same fun in useCase`() =
         runTest {
             coEvery { editUserUseCase.getCurrentUser() } returns mockk(relaxed = true)
 
@@ -255,7 +241,7 @@ internal class EditRegisterViewModelTest {
         }
 
     @Test
-    fun `getCurrentUserRegister() should to call the same fun in useCase 2 and return FirebaseUser`() =
+    fun `when getCurrentUserRegister() is called should to call the same fun in useCase 2 and return FirebaseUser`() =
         runTest {
             val expectedFirebaseUser = mockk<FirebaseUser>()
             coEvery { editUserUseCase.getCurrentUser() } returns expectedFirebaseUser

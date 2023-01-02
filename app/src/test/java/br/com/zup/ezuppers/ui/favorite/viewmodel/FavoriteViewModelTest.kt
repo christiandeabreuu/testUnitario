@@ -2,7 +2,6 @@ package br.com.zup.ezuppers.ui.favorite.viewmodel
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import br.com.zup.ezuppers.data.repository.ZuppersRepository
 import br.com.zup.ezuppers.domain.model.User
 import br.com.zup.ezuppers.domain.usecase.GetFavoriteUseCase
 import io.mockk.*
@@ -38,7 +37,6 @@ internal class FavoriteViewModelTest {
     @Before
     fun onBefore() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-//        getFavoritesUseCase = GetFavoriteUseCase(repository)  //mockk(relaxed = true)
         viewModel = FavoriteViewModel(Application(), getFavoritesUseCase)
         Dispatchers.setMain(Dispatchers.Unconfined) //TestDispatcher
     }
@@ -51,7 +49,7 @@ internal class FavoriteViewModelTest {
 
 
     @Test
-    fun `getListFavorite() should call ta same fun on Usecase`() = runTest {
+    fun `when getListFavorite() is called should call ta same fun on Usecase`() = runTest {
 
         coEvery { getFavoritesUseCase.execute() } returns mockkListUsers()
 
@@ -65,7 +63,7 @@ internal class FavoriteViewModelTest {
     }
 
     @Test
-    fun `When call fun getListFavorite should to return error`() = runBlocking {
+    fun `When call fun getListFavorite is called should to return error`() = runBlocking {
 
         coEvery { viewModel.getListFavorite() } throws NullPointerException()
 

@@ -37,7 +37,7 @@ internal class UfRepositoryTest{
 
 
 //    @Test
-//    fun `When call fun getCities should to call the fun on API with to same value`() =
+//    fun `When call fun getCities should to call the fun on API`() =
 //        runBlocking {
 //            val expectedUfid = 12345
 //

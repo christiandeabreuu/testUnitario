@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.zup.ezuppers.data.datasource.remote.API
 import br.com.zup.ezuppers.data.datasource.remote.RetrofitService
 import br.com.zup.ezuppers.data.datasource.remote.RetrofitService.Companion.CEP_URL
-import com.google.android.gms.common.api.Api
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.unmockkAll
@@ -49,7 +48,7 @@ internal class CepRepositoryTest {
     }
 
     @Test
-    fun `getCep() return Success`() = runTest {
+    fun `getCep() is called should call fun in API`() = runTest {
         val expectedCep = "11040020"
         val expectedUrl = "abcde"
 

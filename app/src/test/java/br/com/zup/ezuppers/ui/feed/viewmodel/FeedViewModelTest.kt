@@ -59,7 +59,7 @@ internal class FeedViewModelTest {
     }
 
     @Test
-    fun `getUserName() should call the same fun on repository`() {
+    fun `when getUserName() is called should call the same fun on repository`() {
 
         every { authenticationRepository.getUsersName() } returns "Christian"
         viewModel.getUserName()
@@ -68,7 +68,7 @@ internal class FeedViewModelTest {
     }
 
     @Test
-    fun `getUserName should call the same fun on repository 2`() {
+    fun `when getUserName() is called should call the same fun on repository 2`() {
         val expectedUserName = "Christian"
         every { authenticationRepository.getUsersName() } returns expectedUserName
 
@@ -79,7 +79,7 @@ internal class FeedViewModelTest {
     }
 
     @Test
-    fun `getPostId should call the same fun on repository`() {
+    fun `when getPostId() is called should call the same fun on repository`() {
 
         every { postRepository.getPostId() } returns "String"
 
@@ -89,7 +89,7 @@ internal class FeedViewModelTest {
     }
 
     @Test
-    fun `getPostId should call the same fun on repository 2`() {
+    fun `when getPostId() is called should call the same fun on repository 2`() {
         val expectedPostId = "123"
         every { postRepository.getPostId() } returns expectedPostId
 
@@ -100,7 +100,7 @@ internal class FeedViewModelTest {
     }
 
     @Test
-    fun `getCurrentUserId should call the same fun on repository`() {
+    fun `when getCurrentUserId() is called should call the same fun on repository`() {
 
         every { userUseCase.getCurrentUserId() } returns "String"
 
@@ -110,7 +110,7 @@ internal class FeedViewModelTest {
     }
 
     @Test
-    fun `getCurrentUserId should call the same fun on repository 2`() {
+    fun `when getCurrentUserId() is called should call the same fun on repository 2`() {
         val expectedUserIdId = "1"
         every { userUseCase.getCurrentUserId() } returns expectedUserIdId
 
@@ -122,7 +122,7 @@ internal class FeedViewModelTest {
 
 
     @Test
-    fun `updatePostFavoriteStatus() change Post the favorite status `() {
+    fun `when updatePostFavoriteStatus() is called should change Post the favorite status `() {
         val expectedPostResponse = PostResponse("1", "a", "oii", "Author", "25/12/2022", false)
 
         every { postRepository.postDatabaseReference() } returns mockk(relaxed = true)
@@ -134,7 +134,7 @@ internal class FeedViewModelTest {
     }
 
     @Test
-    fun `When call fun savePost should to return `() {
+    fun `When savePost() should to return `() {
         val expectedPostResponse = PostResponse("", "a", "oii", "Author", "25/12/2022", true)
         val expectedPostResponse1 = PostResponse("", "a", "oii", "Author", "25/12/2022", false)
         val expectedPostResponse2 = PostResponse()
@@ -153,7 +153,7 @@ internal class FeedViewModelTest {
     }
 
     @Test
-    fun `When call fun validatePost should to return the error size post`() {
+    fun `When validatePost() should to return size error`() {
         val expectedPostResponse = PostResponse(
             "1",
             "123",
@@ -161,11 +161,6 @@ internal class FeedViewModelTest {
                     "jkfbjfdfbjfgbasdkdgfdskfdgjfsgdfbcdjkfbjfdfbjfgbasdkdgfdskfdgjfsgdfbcdjkfbjfdfbj" +
                     "fgbasdkdgfdskfdgjfsgdfbcdjkfbjfdfbjfgbasdkdgfdskfdgjfsgdfbcdjkfbjfdfbjfgbasdkdgfdskfdg" +
                     "jfsgdfbcdjkfbjfdfbjfgbasdkdgfdskfdgjfsgdfbcdjkfbjfdfbjfgbasdkdgfdskfdgjfsgdfbcdjkfbjfdf" +
-                    "bjfgbasdkdgfdskfdgjfsgdfbcdjkfbjfdfbjfgbasdkdgfdskfdgjfsgdfbcdjkfbjfdfbjfgbasdk" +
-                    "dgfdskfdgjfsgdfbcdjkfbjfdfbjfgbasdkdgfdskfdgjfsgdfbcdjkfbjfdfbjfgbasdkdgfdskfdgjfs" +
-                    "jfdfbjfgbasdkdgfdskfdgjfsgdfbcdjkfbjfdfbjfgbasdkdgfdskfdgjfsgdfbcdjkfbjfdfbjfgbasdkdgfdsk" +
-                    "fdgjfsgdfbcdjkfbjfdfbjfgbasdkdgfdskfdgjfsgdfbcdjkfbjfdfbjfgbasdkdgfdskfdgjfsgdfbcdjkfbjfdfbj" +
-                    "fgbasdkdgfdskfdgjfsgdfbcdjkfbjfdfbjfgbasdkdgfdskfdgjfsgdfbcdjkfbjfdfbjfgbasdkdgfdskfdgjfsgdfb" +
                     "djkfbjfdfbjfgbasdkdgfdskfdgjfsgdfbcdbcdjkfbjfdfbjfgb",
             "Christian",
             "25/12/2022",
@@ -183,19 +178,17 @@ internal class FeedViewModelTest {
     }
 
     @Test
-    fun `When call fun validatePost should to return the error`() {
-        val expectedPostResponse = PostResponse("")
+    fun `When validatePost() should to return empty error`() {
+        val expectedPostResponseEmpty = PostResponse("")
 
         every {
-            postRepository.postDatabaseReference().child(expectedPostResponse.id)
-                .setValue(expectedPostResponse)
+            postRepository.postDatabaseReference().child(expectedPostResponseEmpty.id)
+                .setValue(expectedPostResponseEmpty)
         } returns mockk(relaxed = true)
 
-        viewModel.validatePost(expectedPostResponse)
+        viewModel.validatePost(expectedPostResponseEmpty)
 
         assertEquals(viewModel.message.value, EMPTY_POST_ERROR_MESSAGE)
     }
-
-
 }
 

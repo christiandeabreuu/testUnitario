@@ -52,7 +52,7 @@ internal class UserProfileViewModelTest {
     }
 
     @Test
-    fun `When call fun getCurrentUserRegister() should to call the same fun in useCase`() =
+    fun `When getCurrentUserRegister() is called should to call the same fun in useCase`() =
         runTest {
 
             coEvery { userUseCase.getCurrentUser() } returns mockk(relaxed = true)
@@ -62,7 +62,7 @@ internal class UserProfileViewModelTest {
         }
 
     @Test
-    fun `When call fun logout() should to call the same fun in useCase`() =
+    fun `When logout() is called should to call the same fun in useCase`() =
         runTest {
 
             coEvery { authenticationRepository.logOutUser() } returns mockk(relaxed = true)
@@ -72,7 +72,7 @@ internal class UserProfileViewModelTest {
         }
 
     @Test
-    fun `When call fun getAllRegisterInformationOffline() should to call the same fun in useCase`() =
+    fun `When getAllRegisterInformationOffline() is called should to call the same fun in useCase`() =
         runTest {
             val expectedUserId = "Chris@zup.com"
             val expectedViewStateListUsers = mockk<ViewState<List<User>>>()
@@ -90,7 +90,7 @@ internal class UserProfileViewModelTest {
         }
 
     @Test
-    fun `When call fun getAllRegisterInformationOffline() should to call error `() =
+    fun `When getAllRegisterInformationOffline() is called should return error `() =
         runTest {
             val expectedEmail = "Chris@zup.com"
             val expectedResponse = mockk<ViewState<List<User>>>()
@@ -106,6 +106,4 @@ internal class UserProfileViewModelTest {
             assertEquals(true, result is ViewState.Error)
             assert(result2 == ERROR_REGISTER_USER_DATA_LOCAL)
         }
-
-
 }

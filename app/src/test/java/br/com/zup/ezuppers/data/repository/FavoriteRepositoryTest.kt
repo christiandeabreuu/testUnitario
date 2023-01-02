@@ -1,11 +1,8 @@
 package br.com.zup.ezuppers.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import br.com.zup.ezuppers.data.datasource.AuthenticationDataSource
 import br.com.zup.ezuppers.domain.model.User
 import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.mockk
 import io.mockk.unmockkAll
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -39,7 +36,7 @@ internal class FavoriteRepositoryTest{
         }
 
     @Test
-    fun `getListFavorite()`() {
+    fun `when getListFavorite() is called should return listUser`() {
 
         val listFavoriteZuppers = mutableListOf<User>()
         listFavoriteZuppers.add(

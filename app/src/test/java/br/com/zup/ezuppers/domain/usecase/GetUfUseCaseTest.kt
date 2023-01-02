@@ -41,7 +41,7 @@ internal class GetUfUseCaseTest {
     }
 
     @Test
-    fun `execute() should to call repository and return StatesResult`() =
+    fun `when execute() is called should to call repository and return ArrayList States`() =
         runTest {
             val expectedStatesResult = mockk<StatesResult>()
 

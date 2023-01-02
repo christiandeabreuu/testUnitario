@@ -74,13 +74,6 @@ internal class ZuppersViewModelTest {
             coVerify { getZuppersQuantityUseCase.execute(expectedCity) }
         }
 
-
-    private fun mockkListUsers() = listOf(
-        User("1"),
-        User("2"),
-        User("3")
-    )
-
     @Test
     fun `When call fun getListZuppers() should to call the same fun in useCase and to return zuppers quantity `() =
         runTest {
@@ -114,15 +107,8 @@ internal class ZuppersViewModelTest {
         viewModel.getStates()
 
         coVerify { getUfUseCase.execute() }
-        assertEquals(nameStates, viewModel.ufResponse.value) // falta verificar valor
+        assertEquals(nameStates, viewModel.ufResponse.value)
     }
-
-    private fun mockkListStates() = arrayListOf(
-        State(0, "Sao Paulo", "SP"),
-        State(1, "Rio de Janeiro", "RJ"),
-        State(2, "Minas Gerais", "MG"),
-    )
-
 
     @Test
     fun `When call fun getStates() should  to return msg Exception `() = runTest {
@@ -154,7 +140,6 @@ internal class ZuppersViewModelTest {
          viewModel.getCities("SP")
 
         coVerify { getCitiesUseCase.execute(any()) }
-
     }
 
     @Test
@@ -167,4 +152,16 @@ internal class ZuppersViewModelTest {
 
         assertTrue(value is NullPointerException)
     }
+
+    private fun mockkListUsers() = listOf(
+        User("1"),
+        User("2"),
+        User("3")
+    )
+
+    private fun mockkListStates() = arrayListOf(
+        State(0, "Sao Paulo", "SP"),
+        State(1, "Rio de Janeiro", "RJ"),
+        State(2, "Minas Gerais", "MG"),
+    )
 }

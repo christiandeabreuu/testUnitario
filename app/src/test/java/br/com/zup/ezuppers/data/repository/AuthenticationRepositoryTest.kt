@@ -42,7 +42,7 @@ internal class AuthenticationRepositoryTest{
     }
 
     @Test
-    fun `fun registerUser() should to return success`(){
+    fun `when registerUser() is called should call fun in datasource and return TaskAuthResult`(){
         val expectedEmail = "chris@gmail.com"
         val expectedPassword = "123456"
         val expectedTaskAuthResult = mockk<Task<AuthResult>>()
@@ -55,7 +55,7 @@ internal class AuthenticationRepositoryTest{
     }
 
     @Test
-    fun `fun updateUserProfile() should to return success`(){
+    fun `when updateUserProfile() is called should call fun in datasource and return TaskVoid`(){
         val expectedEmail = "chris@gmail.com"
         val expectedTaskVoid = mockk<Task<Void>>()
 
@@ -68,7 +68,7 @@ internal class AuthenticationRepositoryTest{
     }
 
     @Test
-    fun `fun logoutUser() should to return success`(){
+    fun `when logoutUser() is called should cal fun in datasource`(){
         every { dataSource.logOut() } just runs
 
          authRepository.logOutUser()
@@ -77,7 +77,7 @@ internal class AuthenticationRepositoryTest{
     }
 
     @Test
-    fun `fun loginUser() should to return success`(){
+    fun `when loginUser() is called should call fun in datasource and return TaskAuthResult`(){
         val expectedEmail = "chris@gmail.com"
         val expectedPassword = "123456"
         val expectedTaskAuthResult = mockk<Task<AuthResult>>()
@@ -90,7 +90,7 @@ internal class AuthenticationRepositoryTest{
     }
 
     @Test
-    fun `fun getUserName() should to return success`(){
+    fun `when getUserName() is called should call fun in datasource and return String`(){
         val expectedResult = "posso usar essa variavel tbm"
         every { dataSource.getUsersName() } returns "Christian"
 
@@ -101,7 +101,7 @@ internal class AuthenticationRepositoryTest{
     }
 
     @Test
-    fun `fun getCurrentUser() should to return success`(){
+    fun `when getCurrentUser() is called should call fun in datasource`(){
         val expectedUser = mockk<FirebaseUser>()
         every { dataSource.getCurrentUser() } returns expectedUser
 

@@ -42,7 +42,7 @@ internal class GetCepUseCaseTest {
     }
 
     @Test
-    fun `execute() should to call repository and return CepResult`() =
+    fun `when execute() is called should to call repository and return CepResult`() =
         runTest {
             val expectedCep = "11040020"
 

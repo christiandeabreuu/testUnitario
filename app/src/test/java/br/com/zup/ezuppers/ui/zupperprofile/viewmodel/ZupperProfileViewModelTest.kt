@@ -1,16 +1,13 @@
 package br.com.zup.ezuppers.ui.zupperprofile.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
 import br.com.zup.ezuppers.domain.model.User
 import br.com.zup.ezuppers.domain.usecase.UserUseCase
 import com.google.android.gms.tasks.Task
-import com.google.common.truth.Truth.assertThat
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
@@ -36,7 +33,6 @@ internal class ZupperProfileViewModelTest{
     @Before
     fun onBefore() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-//        userUseCase = UserUseCase(Application())
         viewModel = ZupperProfileViewModel(userUseCase)
         Dispatchers.setMain(Dispatchers.Unconfined)
     }
@@ -82,8 +78,6 @@ internal class ZupperProfileViewModelTest{
 
             assert(response == Unit)
             coVerify(exactly = 1){ userUseCase.getAuthor(expectedAuthorId) }
-           // assertThat(viewModel.authorResponse.value).isEqualTo(expectedUser)
-     //       assert(viewModel.authorResponse.value == expectedUser)  falta fazer comparaçao de valor
         }
 
 }

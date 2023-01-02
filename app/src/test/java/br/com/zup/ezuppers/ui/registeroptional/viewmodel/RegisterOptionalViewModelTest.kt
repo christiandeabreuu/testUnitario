@@ -3,11 +3,9 @@ package br.com.zup.ezuppers.ui.registeroptional.viewmodel
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.zup.ezuppers.data.model.CepResult
-import br.com.zup.ezuppers.data.repository.AuthenticationRepository
 import br.com.zup.ezuppers.domain.model.User
 import br.com.zup.ezuppers.domain.usecase.GetCepUseCase
 import br.com.zup.ezuppers.domain.usecase.UserUseCase
-import br.com.zup.ezuppers.ui.login.viewmodel.LoginViewModel
 import br.com.zup.ezuppers.ui.register.viewmodel.RegisterOptionalViewModel
 import br.com.zup.ezuppers.utilities.*
 import br.com.zup.ezuppers.viewstate.ViewState
@@ -54,7 +52,7 @@ internal class RegisterOptionalViewModelTest {
     }
 
     @Test
-    fun `when the call the fun getCEP should be success`() = runTest {
+    fun `when getCEP() is called should be success`() = runTest {
         val expectedCep = "11040020"
 
         coEvery { getCepUseCase.execute(expectedCep) } returns CepResult(
@@ -70,7 +68,7 @@ internal class RegisterOptionalViewModelTest {
     }
 
     @Test
-    fun `when the call the fun getCEP should be Error`() = runTest {
+    fun `when getCEP() should be Error`() = runTest {
         val expectedCep = "000"
 
         coEvery { getCepUseCase.execute(expectedCep) } throws NullPointerException()
@@ -81,13 +79,8 @@ internal class RegisterOptionalViewModelTest {
     }
 
     @Test
-    fun `when the call the fun insertAllRegister should be success`() = runTest {
-        val expectedUser =
-            User(
-                "1", "chris", "Chis@gmail.com", true, "chis", "39",
-                "11040020", "Santos", "SP", "Brasil", "homem", "hetero",
-                "Ch9206ch!", "rua A", "1", "casa", "trabalho", "ele"
-            )
+    fun `when insertAllRegister() should be success`() = runTest {
+        val expectedUser = mockUser()
 
         val mockk = ViewState.Success(expectedUser)
 
@@ -99,15 +92,10 @@ internal class RegisterOptionalViewModelTest {
     }
 
     @Test
-    fun `when the call the fun insertAllRegister should be error`() = runTest {
+    fun `when insertAllRegister() should be error`() = runTest {
         //GIVEN
-        val expectedUser =
-            User(
-                "1", "chris", "Chis@gmail.com", true, "chis", "39",
-                "11040020", "Santos", "SP", "Brasil", "homem", "hetero",
-                "Ch9206ch!", "rua A", "1", "casa", "trabalho", "ele"
-            )
-        val mockkError = ViewState.Error(Throwable(ERROR_INSERTING_REGISTER_USER_DATA_LOCAL))
+        val expectedUser = mockUser()
+
         coEvery { userUseCase.insertAllRegisterLogin(expectedUser) } throws NullPointerException()
         //WHEN
 
@@ -122,32 +110,20 @@ internal class RegisterOptionalViewModelTest {
     }
 
     @Test
-    fun `when the call the fun savedRegisterInfo should be success`() = runTest {
-        val expectedUser =
-            User(
-                "1", "chris", "Chis@gmail.com", true, "chis", "39",
-                "11040020", "Santos", "SP", "Brasil", "homem", "hetero",
-                "Ch9206ch!", "rua A", "1", "casa", "trabalho", "ele"
-            )
-
-        val mockk = ViewState.Success(expectedUser)
+    fun `when savedRegisterInfo() should be success`() = runTest {
+        val expectedUser = mockUser()
 
         coEvery { userUseCase.databaseReference() } returns mockk(relaxed = true)
 
-        val value = viewModel.savedRegisterInfoRealTime(expectedUser)
+        viewModel.savedRegisterInfoRealTime(expectedUser)
 
         assertTrue(SUCCESS_ADD_REGISTER_USER_DATA, true)
 
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without NICKNAME and should be to return msg NICKNAME error `() {
-        val expectedUser: User =
-            User(
-                "1", "chris", "Chis@gmail.com", true, "", "39",
-                "11040-020", "Santos", "SP", "Brasil", "homem", "hetero",
-                "Ch9206ch!", "rua A", "1", "casa", "trabalho", "ele"
-            )
+    fun `when haveErrorsDateUserRegister() without NICKNAME and should be to return msg NICKNAME error `() {
+        val expectedUser: User = mockUserWithoutNickName()
 
          viewModel.validateDateUserRegister(expectedUser)
 
@@ -156,13 +132,8 @@ internal class RegisterOptionalViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without CEP and should be to return msg CEP error `() {
-        val expectedUser: User =
-            User(
-                "1", "chris", "Chis@gmail.com", true, "chris", "39",
-                "", "Santos", "SP", "Brasil", "homem", "hetero",
-                "Ch9206ch!", "rua A", "1", "casa", "trabalho", "ele"
-            )
+    fun `when haveErrorsDateUserRegister() without CEP and should be to return msg CEP error `() {
+        val expectedUser: User = mockUserWithoutCEP()
 
         viewModel.validateDateUserRegister(expectedUser)
 
@@ -171,13 +142,8 @@ internal class RegisterOptionalViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without COMPLEMENT and should be to return msg COMPLEMENT error `() {
-        val expectedUser: User =
-            User(
-                "1", "chris", "Chis@gmail.com", false, "chris", "39",
-                "11040-020", "Santos", "SP", "Brasil", "homem", "hetero",
-                "Ch9206ch!", "rua A", "1", "", "trabalho", "ele"
-            )
+    fun `when haveErrorsDateUserRegister() without COMPLEMENT and should be to return msg COMPLEMENT error `() {
+        val expectedUser: User = mockUserWithoutComplement()
 
         viewModel.validateDateUserRegister(expectedUser)
 
@@ -186,13 +152,8 @@ internal class RegisterOptionalViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without NUMBER and should be to return msg NUMBER error `() {
-        val expectedUser: User =
-            User(
-                "1", "chris", "Chis@gmail.com", false, "chris", "17/01/1992",
-                "11040-020", "Santos", "Sp", "Brasil", "homem", "hetero",
-                "Ch9206ch!", "rua A", "", "casa", "trabalho", "ele"
-            )
+    fun `when haveErrorsDateUserRegister() without NUMBER and should be to return msg NUMBER error `() {
+        val expectedUser: User = mockUserWithoutNumber()
 
         viewModel.validateDateUserRegister(expectedUser)
 
@@ -201,13 +162,8 @@ internal class RegisterOptionalViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without State and should be to return msg State error `() {
-        val expectedUser: User =
-            User(
-                "1", "chris", "Chis@gmail.com", false, "chris", "17/01/1992",
-                "11040-020", "Santos", "", "Brasil", "homem", "hetero",
-                "Ch9206ch!", "rua A", "123", "casa", "trabalho", "ele"
-            )
+    fun `when haveErrorsDateUserRegister() without State and should be to return msg State error `() {
+        val expectedUser: User = mockUserWithoutState()
 
         viewModel.validateDateUserRegister(expectedUser)
 
@@ -216,13 +172,8 @@ internal class RegisterOptionalViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without RoadAv and should be to return msg RoadAv error `() {
-        val expectedUser: User =
-            User(
-                "1", "chris", "Chis@gmail.com", false, "chris", "17/01/1992",
-                "11040-020", "Santos", "SP", "Brasil", "homem", "hetero",
-                "Ch9206ch!", "", "123", "casa", "trabalho", "ele"
-            )
+    fun `when haveErrorsDateUserRegister() without RoadAv and should be to return msg RoadAv error `() {
+        val expectedUser: User = mockUserWithoutRoadAv()
 
         viewModel.validateDateUserRegister(expectedUser)
 
@@ -231,13 +182,8 @@ internal class RegisterOptionalViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without AGE and should be to return msg AGE error`() {
-        val expectedUser: User =
-            User(
-                "1", "chris", "Chis@gmail.com", false, "chris", "",
-                "11040-020", "Santos", "", "Brasil", "homem", "hetero",
-                "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
-            )
+    fun `when haveErrorsDateUserRegister() without AGE and should be to return msg AGE error`() {
+        val expectedUser: User = mockUserWithoutAge()
 
         viewModel.validateDateUserRegister(expectedUser)
 
@@ -246,13 +192,8 @@ internal class RegisterOptionalViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without CITY and should be to return msg CITY error `() {
-        val expectedUser: User =
-            User(
-                "1", "chris", "Chis@gmail.com", false, "chris", "17/01/1992",
-                "11040-020", "", "SP", "Brasil", "homem", "hetero",
-                "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
-            )
+    fun `when haveErrorsDateUserRegister() without CITY and should be to return msg CITY error `() {
+        val expectedUser: User = mockUserWithoutCity()
 
         viewModel.validateDateUserRegister(expectedUser)
 
@@ -261,13 +202,8 @@ internal class RegisterOptionalViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without Country and should be to return msg Country error `() {
-        val expectedUser: User =
-            User(
-                "1", "chris", "Chis@gmail.com", false, "chris", "17/01/1992",
-                "11040-020", "Santos", "SP", "", "homem", "hetero",
-                "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
-            )
+    fun `when haveErrorsDateUserRegister() without Country and should be to return msg Country error `() {
+        val expectedUser: User = mockUserWithoutCountry()
 
         viewModel.validateDateUserRegister(expectedUser)
 
@@ -276,13 +212,8 @@ internal class RegisterOptionalViewModelTest {
     }
 
     @Test
-    fun `when the call the fun haveErrorsDateUserRegister without INTEREST and should be to return msg INTEREST error `() {
-        val expectedUser: User =
-            User(
-                "1", "chris", "Chis@gmail.com", false, "chris", "17/01/1992",
-                "11040-020", "Santos", "SP", "Brasil", "homem", "hetero",
-                "Ch9206ch!", "Rua A", "123", "casa", "", "ele"
-            )
+    fun `when haveErrorsDateUserRegister() without INTEREST and should be to return msg INTEREST error `() {
+        val expectedUser: User = mockUserWithoutInterestes()
 
         viewModel.validateDateUserRegister(expectedUser)
 
@@ -290,4 +221,80 @@ internal class RegisterOptionalViewModelTest {
 
     }
 
+    private fun mockUser(): User =
+        User(
+            "1", "christian", "chistian@zup.com.br", true, "chris", "17/01/1992",
+            "11040-020", "Santos", "SP", "", "homem", "hetero",
+            "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
+        )
+
+    private fun mockUserWithoutNickName(): User =
+        User(
+            "1", "christian", "chistian@zup.com.br", true, "", "17/01/1992",
+            "11040-020", "Santos", "SP", "", "homem", "hetero",
+            "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
+        )
+
+    private fun mockUserWithoutCEP(): User =
+        User(
+            "1", "christian", "chistian@zup.com.br", true, "chris", "17/01/1992",
+            "", "Santos", "SP", "brasil", "homem", "hetero",
+            "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
+        )
+
+    private fun mockUserWithoutComplement(): User =
+        User(
+            "1", "christian", "chistian@zup.com.br", true, "chris", "17/01/1992",
+            "11040-020", "Santos", "SP", "brasil", "homem", "hetero",
+            "Ch9206ch!", "Rua A", "123", "", "trabalho", "ele"
+        )
+
+    private fun mockUserWithoutNumber(): User =
+        User(
+            "1", "christian", "chistian@zup.com.br", true, "chris", "17/01/1992",
+            "11040-020", "Santos", "SP", "brasil", "homem", "hetero",
+            "Ch9206ch!", "Rua A", "", "casa", "trabalho", "ele"
+        )
+
+    private fun mockUserWithoutState(): User =
+        User(
+            "1", "christian", "chistian@zup.com.br", true, "chris", "17/01/1992",
+            "11040-020", "Santos", "", "brasil", "homem", "hetero",
+            "Ch9206ch!", "Rua A", "23", "casa", "trabalho", "ele"
+        )
+
+    private fun mockUserWithoutRoadAv(): User =
+        User(
+            "1", "christian", "chistian@zup.com.br", true, "chris", "17/01/1992",
+            "11040-020", "Santos", "SP", "brasil", "homem", "hetero",
+            "Ch9206ch!", "", "23", "casa", "trabalho", "ele"
+        )
+
+    private fun mockUserWithoutAge(): User =
+        User(
+            "1", "christian", "chistian@zup.com.br", true, "chris", "",
+            "11040-020", "Santos", "SP", "brasil", "homem", "hetero",
+            "Ch9206ch!", "Rua A", "23", "casa", "trabalho", "ele"
+        )
+
+    private fun mockUserWithoutCity(): User =
+        User(
+            "1", "christian", "chistian@zup.com.br", true, "chris", "17/01/1992",
+            "11040-020", "", "SP", "brasil", "homem", "hetero",
+            "Ch9206ch!", "Rua A", "23", "casa", "trabalho", "ele"
+        )
+
+    private fun mockUserWithoutCountry(): User =
+        User(
+            "1", "christian", "chistian@zup.com.br", true, "chris", "17/01/1992",
+            "11040-020", "Santos", "SP", "", "homem", "hetero",
+            "Ch9206ch!", "Rua A", "23", "casa", "trabalho", "ele"
+        )
+
+    private fun mockUserWithoutInterestes(): User =
+        User(
+            "1", "christian", "chistian@zup.com.br", true, "chris", "17/01/1992",
+            "11040-020", "Santos", "SP", "brasil", "homem", "hetero",
+            "Ch9206ch!", "Rua A", "23", "casa", "", "ele"
+        )
 }
