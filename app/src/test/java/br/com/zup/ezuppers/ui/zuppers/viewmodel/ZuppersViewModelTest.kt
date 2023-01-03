@@ -96,7 +96,6 @@ internal class ZuppersViewModelTest {
             val value = viewModel.errorListZuppers.value
 
             assertTrue(value is NullPointerException)
-
         }
 
     @Test

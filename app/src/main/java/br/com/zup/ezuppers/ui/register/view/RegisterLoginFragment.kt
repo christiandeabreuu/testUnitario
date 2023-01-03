@@ -34,9 +34,6 @@ class RegisterLoginFragment : Fragment() {
     }
 
     private val viewModel: RegisterLoginViewModel by viewModel()
-//    private val viewModel: RegisterLoginViewModel by lazy {
-//        ViewModelProvider(this)[RegisterLoginViewModel::class.java]
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

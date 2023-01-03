@@ -1,19 +1,16 @@
 package br.com.zup.ezuppers.ui.zuppers.viewmodel
 
-import android.app.Application
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import br.com.zup.ezuppers.data.model.State
-import br.com.zup.ezuppers.data.repository.UfRepository
-import br.com.zup.ezuppers.data.repository.ZuppersRepository
 import br.com.zup.ezuppers.domain.model.User
 import br.com.zup.ezuppers.domain.usecase.GetCitiesUseCase
 import br.com.zup.ezuppers.domain.usecase.GetUfUseCase
 import br.com.zup.ezuppers.domain.usecase.GetZuppersQuantityUseCase
 import br.com.zup.ezuppers.domain.usecase.GetZuppersUseCase
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ZuppersViewModel(
     private val getUfUseCase: GetUfUseCase,

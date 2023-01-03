@@ -50,12 +50,10 @@ internal class FavoriteViewModelTest {
 
     @Test
     fun `when getListFavorite() is called should call ta same fun on Usecase`() = runTest {
-
+        val expectedListUsers = mockkListUsers()
         coEvery { getFavoritesUseCase.execute() } returns mockkListUsers()
 
         viewModel.getListFavorite()
-
-        val expectedListUsers = mockkListUsers()
         val state = viewModel.favoriteZuppers.value
 
         assertEquals(state, expectedListUsers)
@@ -64,11 +62,9 @@ internal class FavoriteViewModelTest {
 
     @Test
     fun `When call fun getListFavorite is called should to return error`() = runBlocking {
-
         coEvery { viewModel.getListFavorite() } throws NullPointerException()
 
         viewModel.getListFavorite()
-
         val result = viewModel.errorState.value
 
         assertEquals(result , "error Exception")

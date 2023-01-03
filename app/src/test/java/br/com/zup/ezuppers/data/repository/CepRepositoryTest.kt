@@ -48,7 +48,7 @@ internal class CepRepositoryTest {
     }
 
     @Test
-    fun `getCep() is called should call fun in API`() = runTest {
+    fun `when getCep() is called should call fun in API`() = runTest {
         val expectedCep = "11040020"
         val expectedUrl = "abcde"
 

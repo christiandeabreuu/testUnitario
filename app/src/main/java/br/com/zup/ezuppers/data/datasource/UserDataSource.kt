@@ -6,17 +6,12 @@ import br.com.zup.ezuppers.utilities.REGISTER_INFORMATION_USER
 import br.com.zup.ezuppers.utilities.USER
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 
 class UserDataSource(private val userDao: UserDAO, private val auth: FirebaseAuth, private val database: DatabaseReference) {
-//    private val auth: FirebaseAuth = Firebase.auth
 
-//    private var database: DatabaseReference = Firebase.database.reference
     private val reference =
         database.database.getReference("$REGISTER_INFORMATION_USER/${auth.currentUser?.uid}/$USER")
 
@@ -42,5 +37,4 @@ class UserDataSource(private val userDao: UserDAO, private val auth: FirebaseAut
         pathReference().child(authorId).child(USER).get()
 
     fun getCurrentUserId() = auth.currentUser?.uid
-
 }

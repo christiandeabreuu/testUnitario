@@ -17,7 +17,6 @@ import br.com.zup.ezuppers.ui.zuppers.viewmodel.ZuppersViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import org.hamcrest.CoreMatchers.any
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -65,56 +64,3 @@ val dataSourceModules = module{
  val firebaseModules = module {
      single { Firebase.auth }
  }
-
-
-
-//val userProfileViewModelModule = module {
-//}
-//val registerViewModelModules = module {
-//}
-//val favoriteViewModelModules = module {
-//}
-//val feedViewModelModules = module {
-//}
-//val registerOptionalViewModelModules = module {
-//}
-//val editRegisterViewModelModules = module {
-//}
-//val zupperProfileViewModelModules = module {
-//}
-//val zupperViewModelModules = module {
-//}
-//val getUfUseCaseModules = module {
-//}
-//val getCitiesUseCaseModules = module {
-//}
-//val getZuppersUseCaseModules = module {
-//}
-//val getFavoriteUseCaseModules = module {
-//}
-//val getZuppersQuantityUseCaseModules = module {
-//}
-//val userUseCaseModules = module {
-//}
-//val ufRepositoryModules = module {
-//}
-//val zupperRepositorymodule = module {
-//}
-//val postRepositorymodule = module {
-//}
-//val authRepositoryModules = module {
-//}
-
-
-
-
-
-//                registerViewModelModules,
-//                userProfileViewModelModule,
-//                favoriteViewModelModules,
-//                registerViewModelModules,
-//                feedViewModelModules,
-//                registerOptionalViewModelModules,
-//                editRegisterViewModelModules,
-//                zupperProfileViewModelModules,
-//                zupperViewModelModules,

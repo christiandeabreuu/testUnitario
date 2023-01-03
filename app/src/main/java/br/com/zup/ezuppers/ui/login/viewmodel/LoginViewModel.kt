@@ -21,8 +21,6 @@ class LoginViewModel(
     private val authenticationRepository: AuthenticationRepository,
     private val userUseCase: UserUseCase
 ) : AndroidViewModel(application) {
-//    private val _loginUserAddData = MutableStateFlow<ViewState<User>>(ViewState.Loading())
-//    val loginUserAddData : StateFlow<ViewState<User>> get() = _loginUserAddData
 
     private val _loginUserAddData = MutableLiveData<ViewState<User>>()
     val loginUserAddData = _loginUserAddData

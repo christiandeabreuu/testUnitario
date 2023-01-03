@@ -66,7 +66,7 @@ internal class GetCepUseCaseTest {
         }
 
     @Test
-    fun ` when call fun execute() should to call the function on repository with to same value 2 `() =
+    fun ` when call fun execute() should to call the function on repository with to same value (2) `() =
         runTest {
             val expectedCep = "11040020"
             val mockkCepResult = mockk<CepResult>()
@@ -76,15 +76,5 @@ internal class GetCepUseCaseTest {
 
             assertEquals(mockkCepResult, result)
             coVerify(exactly = 1) { repository.getCep("11040020") }
-        }
-
-    @Test
-    fun `When call fun execute() dont should to call the fun on repository `() =
-        runTest {
-            val expectedCep = "11040020"
-
-            coEvery { repository.getCep(expectedCep) } throws NullPointerException()
-
-            coVerify(exactly = 0) { repository.getCep(expectedCep) }
         }
 }

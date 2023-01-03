@@ -50,12 +50,6 @@ internal class GetFavoriteUseCaseTest {
         verify(exactly = 1) { repository.getFavorites() }
     }
 
-    private fun mockkListUsers() = listOf(
-        User("1"),
-        User("2"),
-        User("3")
-    )
-
     @Test
     fun `execute() should to call repository and return ListUsers (2)`() {
         val listUsers = mockk<List<User>>()
@@ -66,4 +60,10 @@ internal class GetFavoriteUseCaseTest {
         assertEquals(result, listUsers)
         verify(exactly = 1) { repository.getFavorites() }
     }
+
+    private fun mockkListUsers() = listOf(
+        User("1"),
+        User("2"),
+        User("3")
+    )
 }

@@ -62,5 +62,4 @@ data class User(
 
     @ColumnInfo(name = "pronoun")
     var pronoun: String? = null,
-
     ) : Parcelable

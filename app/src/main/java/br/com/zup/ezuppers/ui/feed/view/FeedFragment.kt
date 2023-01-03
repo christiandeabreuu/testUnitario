@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.zup.ezuppers.R
@@ -25,10 +24,6 @@ class FeedFragment : Fragment() {
     private lateinit var binding: FragmentFeedBinding
 
     private val viewModel: FeedViewModel by viewModel()
-
-//    private val viewModel: FeedViewModel by lazy {
-//        ViewModelProvider(this)[FeedViewModel::class.java]
-//    }
 
     private val adapter: FeedAdapter by lazy {
         FeedAdapter(arrayListOf(), ::updatePost, ::goToZupperProfile)
@@ -117,5 +112,4 @@ class FeedFragment : Fragment() {
         NavHostFragment.findNavController(this)
             .navigate(R.id.action_feedFragment2_to_zupperProfileFragment, bundle)
     }
-
 }

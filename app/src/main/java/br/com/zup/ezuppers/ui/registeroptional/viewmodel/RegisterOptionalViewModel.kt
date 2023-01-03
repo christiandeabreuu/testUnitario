@@ -1,21 +1,17 @@
 package br.com.zup.ezuppers.ui.register.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import br.com.zup.ezuppers.data.model.CepResult
-import br.com.zup.ezuppers.data.repository.CepRepository
 import br.com.zup.ezuppers.domain.model.User
 import br.com.zup.ezuppers.domain.usecase.GetCepUseCase
 import br.com.zup.ezuppers.domain.usecase.UserUseCase
 import br.com.zup.ezuppers.utilities.*
 import br.com.zup.ezuppers.viewstate.ViewState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
 
 class RegisterOptionalViewModel(
@@ -24,7 +20,6 @@ class RegisterOptionalViewModel(
     private val getCepUseCase: GetCepUseCase
 ) :
     AndroidViewModel(application) {
-
 
     private val _registerOptionalState = MutableLiveData<ViewState<User>>()
     val registerOptionalState = _registerOptionalState
@@ -106,7 +101,6 @@ class RegisterOptionalViewModel(
                 _cepResult.value = response
             } catch (ex: Exception) {
                 _messageState.value = "Error"
-                //Log.i("Error", "${ex.message}")
             }
         }
     }
@@ -125,7 +119,7 @@ class RegisterOptionalViewModel(
         }
     }
 
-    fun savedRegisterInfoRealTime(user: User) {       //funcao privada
+    fun savedRegisterInfoRealTime(user: User) {     //p
         userUseCase.databaseReference()
             .setValue(user) { error, _ ->
                 if (error != null) {
@@ -134,5 +128,4 @@ class RegisterOptionalViewModel(
                 _messageState.value = SUCCESS_ADD_REGISTER_USER_DATA
             }
     }
-
 }

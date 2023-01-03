@@ -6,10 +6,6 @@ import com.google.firebase.auth.AuthResult
 
 class AuthenticationRepository (private val authenticationDataSource: AuthenticationDataSource){
 
-//    private val authenticationDataSource: AuthenticationDataSource by lazy {
-//        AuthenticationDataSource()
-//    }
-
     fun registerUser(email: String, password: String): Task<AuthResult> =
         authenticationDataSource.registerUser(email, password)
 

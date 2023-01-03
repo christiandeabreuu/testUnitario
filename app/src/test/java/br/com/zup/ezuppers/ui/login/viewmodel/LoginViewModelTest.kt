@@ -54,7 +54,7 @@ internal class LoginViewModelTest{
     }
 
     @Test
-    fun `when validateDateUser() is called without PASSWORD should be return msg PASSWORD error `() {
+    fun `when validateDateUser() is called without PASSWORD should be return PASSWORD error msg`() {
         val expectedUser: User = mockkUserWithoutPassword()
 
         viewModel.validateDataUser(expectedUser)
@@ -63,7 +63,7 @@ internal class LoginViewModelTest{
     }
 
     @Test
-    fun `when validateDateUser() is calles without EMAIL should be return msg EMAIL error `() {
+    fun `when validateDateUser() is calles without EMAIL should be return EMAIL error msg`() {
         val expectedUser: User = mockkUserWithoutEmail()
 
         viewModel.validateDataUser(expectedUser)
@@ -91,11 +91,11 @@ internal class LoginViewModelTest{
         viewModel.loginUser(expectedUser)
 
 //        assertEquals(ViewState.Success(expectedUser), viewModel.loginUserAddData.value)
-  //      assertThat(result is ViewState.Success )
+  //      assertThat(result is ViewState.Success ) ???
     }
 
     @Test
-    fun `when loginUser() is called should be return msg LOGIN error `() {
+    fun `when loginUser() is called should be return msg LOGIN error`() {
         val expectedUser: User = mockUser()
 
         every { authenticationRepository.loginUser("chistian@zup.com.br", "Ch9206ch!")} throws NullPointerException()
@@ -104,8 +104,6 @@ internal class LoginViewModelTest{
 
         assertEquals("Error login", viewModel.errorState.value)
     }
-
-
 
     @Test
     fun `when getRegisterLoginInformation() is called should return success`() =
@@ -117,19 +115,6 @@ internal class LoginViewModelTest{
             val result = viewModel.loginUserAddData.value
 
             assertEquals(true, result is ViewState.Success)
-        }
-
-    @Test
-    fun `when getRegisterLoginInformation() is called should return success 2`() =
-        runTest {
-            val expectedMockkUser = mockk<User>()
-
-            coEvery { userUseCase.getRegisterLoginInformation()} returns ViewState.Success(expectedMockkUser)
-            viewModel.getRegisterLoginInformation()
-
-            val result = viewModel.loginUserAddData.value
-
-           assertEquals(true, result is ViewState.Success)
         }
 
     @Test
@@ -147,7 +132,6 @@ internal class LoginViewModelTest{
     @Test
     fun `when getCurrentUser() is called should call the same fun on repository`() =
         runTest {
-
             coEvery { authenticationRepository.getCurrentUser()} returns mockk(relaxed = true)
 
             viewModel.getCurrentUser()
@@ -184,5 +168,4 @@ internal class LoginViewModelTest{
         "11040-020", "Santos", "SP", "", "homem", "hetero",
         "", "Rua A", "123", "casa", "trabalho", "ele"
     )
-
 }

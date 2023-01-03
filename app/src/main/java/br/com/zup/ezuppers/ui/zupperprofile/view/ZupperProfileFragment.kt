@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import br.com.zup.ezuppers.R
 import br.com.zup.ezuppers.databinding.FragmentZupperProfileBinding
 import br.com.zup.ezuppers.domain.model.User

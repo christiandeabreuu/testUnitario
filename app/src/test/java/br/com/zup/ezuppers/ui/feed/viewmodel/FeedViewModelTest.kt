@@ -13,12 +13,12 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -68,7 +68,7 @@ internal class FeedViewModelTest {
     }
 
     @Test
-    fun `when getUserName() is called should call the same fun on repository 2`() {
+    fun `when getUserName() is called should call the same fun on repository (2)`() {
         val expectedUserName = "Christian"
         every { authenticationRepository.getUsersName() } returns expectedUserName
 
@@ -110,7 +110,7 @@ internal class FeedViewModelTest {
     }
 
     @Test
-    fun `when getCurrentUserId() is called should call the same fun on repository 2`() {
+    fun `when getCurrentUserId() is called should call the same fun on repository (2)`() {
         val expectedUserIdId = "1"
         every { userUseCase.getCurrentUserId() } returns expectedUserIdId
 
@@ -122,7 +122,7 @@ internal class FeedViewModelTest {
 
 
     @Test
-    fun `when updatePostFavoriteStatus() is called should change Post the favorite status `() {
+    fun `when updatePostFavoriteStatus() is called should change Post the favorite status`() {
         val expectedPostResponse = PostResponse("1", "a", "oii", "Author", "25/12/2022", false)
 
         every { postRepository.postDatabaseReference() } returns mockk(relaxed = true)
@@ -134,7 +134,7 @@ internal class FeedViewModelTest {
     }
 
     @Test
-    fun `When savePost() should to return `() {
+    fun `When savePost() is called should to return success`() {
         val expectedPostResponse = PostResponse("", "a", "oii", "Author", "25/12/2022", true)
         val expectedPostResponse1 = PostResponse("", "a", "oii", "Author", "25/12/2022", false)
         val expectedPostResponse2 = PostResponse()
@@ -153,7 +153,7 @@ internal class FeedViewModelTest {
     }
 
     @Test
-    fun `When validatePost() should to return size error`() {
+    fun `When validatePost() is called should to return size error msg`() {
         val expectedPostResponse = PostResponse(
             "1",
             "123",
@@ -178,7 +178,7 @@ internal class FeedViewModelTest {
     }
 
     @Test
-    fun `When validatePost() should to return empty error`() {
+    fun `When validatePost() is called should to return empty error msg`() {
         val expectedPostResponseEmpty = PostResponse("")
 
         every {

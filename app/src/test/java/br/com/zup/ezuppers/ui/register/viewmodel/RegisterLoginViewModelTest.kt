@@ -11,7 +11,6 @@ import br.com.zup.ezuppers.utilities.PASSWORD_ERROR_MESSAGE
 import br.com.zup.ezuppers.viewstate.ViewState
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
@@ -52,7 +51,7 @@ internal class RegisterLoginViewModelTest {
     }
 
     @Test
-    fun `when haveErrorsDateUserRegister() without NAME and should be to return msg NAME error `() {
+    fun `when haveErrorsDateUserRegister() is called without NAME and should be to return NAME error msg`() {
         val userWithoutName = mockUserWithoutName()
 
         viewModel.haveErrorsDateUser(userWithoutName)
@@ -61,7 +60,7 @@ internal class RegisterLoginViewModelTest {
     }
 
     @Test
-    fun `when haveErrorsDateUserRegister without EMAIL and should be to return msg ERROR error `() {
+    fun `when haveErrorsDateUserRegister is called without EMAIL and should be to return ERROR error msg`() {
         val userWithoutEmail = mockUserWithoutEmail()
 
         viewModel.haveErrorsDateUser(userWithoutEmail)
@@ -70,7 +69,7 @@ internal class RegisterLoginViewModelTest {
     }
 
     @Test
-    fun `when haveErrorsDateUserRegister without PASSWORD should be to return msg PASSWORD error `() {
+    fun `when haveErrorsDateUserRegister is called without PASSWORD should be to return PASSWORD error msg`() {
         val userWithoutPassword = mockUserWithoutPassword()
 
         viewModel.haveErrorsDateUser(userWithoutPassword)
@@ -88,7 +87,7 @@ internal class RegisterLoginViewModelTest {
     }
 
     @Test
-    fun `insertRegisterLoginUserData() should to return success`() =
+    fun `when insertRegisterLoginUserData() is called should to return success`() =
         runTest {
             val expectedViewStateUser = mockk<ViewState<User>>()
             val expectedUser: User = mockUser()
@@ -105,7 +104,7 @@ internal class RegisterLoginViewModelTest {
         }
 
     @Test
-    fun `When call fun insertRegisterLoginUserData() should to return error`() =
+    fun `When insertRegisterLoginUserData() is called should to return error`() =
         runTest {
 
             val expectedUser: User = mockUser()
@@ -119,13 +118,11 @@ internal class RegisterLoginViewModelTest {
         }
 
     @Test
-    fun `When call fun getRegisterLoginInformation() should to return success`() =
+    fun `When getRegisterLoginInformation() is called should to return success`() =
         runTest {
             val expectedUser: User = mockUser()
 
-            coEvery { userUseCase.getRegisterLoginInformation() } returns ViewState.Success(
-                expectedUser
-            )
+            coEvery { userUseCase.getRegisterLoginInformation() } returns ViewState.Success(expectedUser)
 
             viewModel.getRegisterLoginInformation()
             val response = viewModel.registerUserLoginState.value
@@ -135,9 +132,8 @@ internal class RegisterLoginViewModelTest {
         }
 
     @Test
-    fun `When call fun getRegisterLoginInformation() should to return error`() =
+    fun `When getRegisterLoginInformation() is called should to return error`() =
         runTest {
-
             coEvery { userUseCase.getRegisterLoginInformation() } throws NullPointerException()
 
             viewModel.getRegisterLoginInformation()

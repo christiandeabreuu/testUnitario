@@ -50,19 +50,12 @@ internal class GetZuppersUseCaseTest {
         val result = getZuppersUseCase.execute(expectedCity)
         val expectedListUsers = mockkListUsers()
 
-
         assertEquals(result, expectedListUsers)
         verify(exactly = 1) { repository.getZuppers(expectedCity) }
     }
 
-    private fun mockkListUsers() = listOf(
-        User("1"),
-        User("2"),
-        User("3")
-    )
-
     @Test
-    fun `execute() should to call repository and return ListUsers (2)`() {
+    fun `when execute() is called should to call repository and return ListUsers (2)`() {
         val expectedCity = "Santos"
         val expectedListUser = mockk<List<User>>()
 
@@ -74,5 +67,9 @@ internal class GetZuppersUseCaseTest {
         verify(exactly = 1) { repository.getZuppers(expectedCity) }
     }
 
-
+    private fun mockkListUsers() = listOf(
+        User("1"),
+        User("2"),
+        User("3")
+    )
 }

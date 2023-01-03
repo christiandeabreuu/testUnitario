@@ -79,5 +79,4 @@ internal class ZupperProfileViewModelTest{
             assert(response == Unit)
             coVerify(exactly = 1){ userUseCase.getAuthor(expectedAuthorId) }
         }
-
 }

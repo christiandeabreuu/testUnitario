@@ -1,13 +1,11 @@
 package br.com.zup.ezuppers.ui.editregister.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import br.com.zup.ezuppers.data.model.CepResult
-import br.com.zup.ezuppers.data.repository.CepRepository
 import br.com.zup.ezuppers.domain.model.User
 import br.com.zup.ezuppers.domain.usecase.GetCepUseCase
 import br.com.zup.ezuppers.domain.usecase.UserUseCase
@@ -20,8 +18,6 @@ import java.util.regex.Pattern
 
 class EditRegisterViewModel(application: Application, private val editUserUseCase: UserUseCase, private val getCepUseCase : GetCepUseCase) :
     AndroidViewModel(application) {
-
-//    private val getCepUseCase = GetCepUseCase(CepRepository())
 
     private val _editRegisterState = MutableLiveData<ViewState<User>>()
     val editRegisterState = _editRegisterState

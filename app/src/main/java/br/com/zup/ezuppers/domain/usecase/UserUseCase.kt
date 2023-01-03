@@ -1,7 +1,5 @@
 package br.com.zup.ezuppers.domain.usecase
 
-import android.app.Application
-import br.com.zup.ezuppers.data.datasource.local.UserDataBase
 import br.com.zup.ezuppers.data.repository.UserRepository
 import br.com.zup.ezuppers.domain.model.User
 import br.com.zup.ezuppers.utilities.ERROR_LIST_REGISTER_DATA_LOCAL
@@ -11,12 +9,8 @@ import br.com.zup.ezuppers.viewstate.ViewState
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.Query
-import org.hamcrest.Matcher
 
 class UserUseCase(private val userRepository: UserRepository) {
-
-//    private val userDataBase = UserDataBase.getDatabase(application).userDao()
-//    private val userRepository = UserRepository(userDataBase)
 
     fun databaseReference() = this.userRepository.databaseReference()
 
@@ -63,5 +57,4 @@ class UserUseCase(private val userRepository: UserRepository) {
     fun getCurrentUserId() = this.userRepository.getCurrentUserId()
 
     fun getAuthor(authorId: String): Task<DataSnapshot> = this.userRepository.getAuthor(authorId)
-
 }

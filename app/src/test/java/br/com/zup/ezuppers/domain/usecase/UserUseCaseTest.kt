@@ -47,7 +47,7 @@ internal class UserUseCaseTest {
     }
 
     @Test
-    fun `when databaseReference() is called should to call the same fun on repository `() =
+    fun `when databaseReference() is called should to call the same fun on repository`() =
         runTest {
 
             coEvery { repository.databaseReference() } returns mockk(relaxed = true)
@@ -58,7 +58,7 @@ internal class UserUseCaseTest {
         }
 
     @Test
-    fun `when getRegisterInformation() is called should to call the same fun on repository `() =
+    fun `when getRegisterInformation() is called should to call the same fun on repository`() =
         runTest {
 
             coEvery { repository.getRegisterInformation() } returns mockk(relaxed = true)
@@ -69,7 +69,7 @@ internal class UserUseCaseTest {
         }
 
     @Test
-    fun `when getCurrentUser() is called should to call the same fun on repository `() {
+    fun `when getCurrentUser() is called should to call the same fun on repository`() {
         val expectedUser = mockk<FirebaseUser>()
 
         every { repository.getCurrentUser() } returns expectedUser
@@ -81,7 +81,7 @@ internal class UserUseCaseTest {
     }
 
     @Test
-    fun `when getRegisterLoginInformation() is called return ViewState success`() {
+    fun `when getRegisterLoginInformation() is called should return ViewState success`() {
         val expectedUser = mockk<User>()
 
         every { repository.getRegisterLoginInformation() } returns expectedUser
@@ -92,7 +92,7 @@ internal class UserUseCaseTest {
     }
 
     @Test
-    fun `when getRegisterLoginInformation() is called return ViewState error`() {
+    fun `when getRegisterLoginInformation() is called should return ViewState error`() {
 
         every { repository.getRegisterLoginInformation() } throws NullPointerException()
         val result = userUseCase.getRegisterLoginInformation()
@@ -101,7 +101,7 @@ internal class UserUseCaseTest {
     }
 
     @Test
-    fun `when insertAllRegisterLogin() is called return ViewState success`() {
+    fun `when insertAllRegisterLogin() is called should return ViewState success`() {
         val expectedUser = mockk<User>()
 
         every { repository.insertAllRegisterLogin(expectedUser) } just runs
@@ -112,7 +112,7 @@ internal class UserUseCaseTest {
     }
 
     @Test
-    fun `when insertAllRegisterLogin() is called return ViewState error`() {
+    fun `when insertAllRegisterLogin() is called should return ViewState error`() {
 
         every { repository.getRegisterLoginInformation() } throws NullPointerException()
         val result = userUseCase.getRegisterLoginInformation()
@@ -121,7 +121,7 @@ internal class UserUseCaseTest {
     }
 
     @Test
-    fun `when getAllRegisterInformationOffline() is called return ViewState success`() {
+    fun `when getAllRegisterInformationOffline() is called should return ViewState success`() {
         val expectedId = "12345 "
         val expectedResponse = mockk<List<User>>()
 
@@ -132,7 +132,7 @@ internal class UserUseCaseTest {
     }
 
     @Test
-    fun `when getAllRegisterInformationOffline() is called return ViewState error`() {
+    fun `when getAllRegisterInformationOffline() is called should return ViewState error`() {
         val expectedId = "12345"
 
         every { repository.getAllRegisterInformationOffline(expectedId) } throws NullPointerException()
@@ -143,7 +143,7 @@ internal class UserUseCaseTest {
 
 
     @Test
-    fun `when updateInformationUser() is called return ViewState success`() {
+    fun `when updateInformationUser() is called should return ViewState success`() {
         val expectedUser = mockk<User>()
 
         every { repository.updateInformationUser(expectedUser) } just runs
@@ -154,7 +154,7 @@ internal class UserUseCaseTest {
 
 
     @Test
-    fun `when updateInformationUser() is called return ViewState error`() {
+    fun `when updateInformationUser() is called should return ViewState error`() {
         val expectedUser = mockk<User>()
         every { repository.updateInformationUser(expectedUser) } throws NullPointerException()
         val result = userUseCase.updateInformationUser(expectedUser)

@@ -1,7 +1,9 @@
 package br.com.zup.ezuppers.ui.userprofile.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import br.com.zup.ezuppers.data.repository.AuthenticationRepository
 import br.com.zup.ezuppers.domain.model.User
 import br.com.zup.ezuppers.domain.usecase.UserUseCase
@@ -11,16 +13,12 @@ import br.com.zup.ezuppers.viewstate.ViewState
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class UserProfileViewModel(
     private val authenticationRepository: AuthenticationRepository,
     private val userUseCase: UserUseCase
-) :
-    ViewModel() {
-
+) : ViewModel() {
 
     private var _userProfileListState = MutableLiveData<ViewState<List<User>>>()
     val userProfileListState = _userProfileListState
