@@ -4,9 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.zup.ezuppers.data.datasource.remote.API
 import br.com.zup.ezuppers.data.datasource.remote.RetrofitService
 import br.com.zup.ezuppers.data.datasource.remote.RetrofitService.Companion.CEP_URL
-import io.mockk.MockKAnnotations
+import br.com.zup.ezuppers.data.model.CepResult
+import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.unmockkAll
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
@@ -51,18 +51,16 @@ internal class CepRepositoryTest {
     fun `when getCep() is called should call fun in API`() = runTest {
         val expectedCep = "11040020"
         val expectedUrl = "abcde"
+        val expectecCepResult = mockk<CepResult>()
 
-        val response = api.getAddress(expectedUrl)
+//        val response = api.getAddress(expectedUrl)
 
 //        coEvery { retrofitService.get() }
-//        val response = cepRepository.getCep(expectedCep)
+        coEvery { RetrofitService.apiService.getAddress(CEP_URL.replace("{cep}", expectedCep)) } returns expectecCepResult
+        val response = cepRepository.getCep(expectedCep)
 //
-//        coVerify {  retrofitService. }
+        coVerify {  RetrofitService.apiService.getAddress(CEP_URL.replace("{cep}", "11040020")) }
     }
-
-//    suspend fun getCep(cep: String): CepResult {
-//        return RetrofitService.apiService.getAddress(RetrofitService.CEP_URL.replace("{cep}", cep))
-//    }
 }
 
 

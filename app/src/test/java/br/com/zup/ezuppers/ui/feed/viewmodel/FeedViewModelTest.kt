@@ -60,8 +60,8 @@ internal class FeedViewModelTest {
 
     @Test
     fun `when getUserName() is called should call the same fun on repository`() {
-
         every { authenticationRepository.getUsersName() } returns "Christian"
+
         viewModel.getUserName()
 
         verify { authenticationRepository.getUsersName() }
@@ -80,7 +80,6 @@ internal class FeedViewModelTest {
 
     @Test
     fun `when getPostId() is called should call the same fun on repository`() {
-
         every { postRepository.getPostId() } returns "String"
 
         viewModel.getPostId()
@@ -101,7 +100,6 @@ internal class FeedViewModelTest {
 
     @Test
     fun `when getCurrentUserId() is called should call the same fun on repository`() {
-
         every { userUseCase.getCurrentUserId() } returns "String"
 
         viewModel.getCurrentUserId()
@@ -124,7 +122,6 @@ internal class FeedViewModelTest {
     @Test
     fun `when updatePostFavoriteStatus() is called should change Post the favorite status`() {
         val expectedPostResponse = PostResponse("1", "a", "oii", "Author", "25/12/2022", false)
-
         every { postRepository.postDatabaseReference() } returns mockk(relaxed = true)
 
         viewModel.updatePostFavoriteStatus(expectedPostResponse)
@@ -166,7 +163,6 @@ internal class FeedViewModelTest {
             "25/12/2022",
             false
         )
-
         every {
             postRepository.postDatabaseReference().child(expectedPostResponse.id)
                 .setValue(expectedPostResponse)
@@ -180,7 +176,6 @@ internal class FeedViewModelTest {
     @Test
     fun `When validatePost() is called should to return empty error msg`() {
         val expectedPostResponseEmpty = PostResponse("")
-
         every {
             postRepository.postDatabaseReference().child(expectedPostResponseEmpty.id)
                 .setValue(expectedPostResponseEmpty)

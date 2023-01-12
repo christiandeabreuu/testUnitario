@@ -36,12 +36,10 @@ class UserProfileViewModel(
     fun getAllRegisterInformationOffline(email: String) {
         viewModelScope.launch {
             try {
-                val response =
-                    userUseCase.getAllRegisterInformationOffline(email)
+                val response = userUseCase.getAllRegisterInformationOffline(email)
                 _userProfileListState.value = response
             } catch (ex: Exception) {
-                _userProfileListState.value =
-                    ViewState.Error(Throwable(ERROR_REGISTER_DATA_LOCAL))
+                _userProfileListState.value = ViewState.Error(Throwable(ERROR_REGISTER_DATA_LOCAL))
                 _message.value = ERROR_REGISTER_USER_DATA_LOCAL
             }
         }
@@ -57,10 +55,8 @@ class UserProfileViewModel(
                 registerResponse?.let {
                     registerUser.put(key, it)
                 }
-
                 _userProfileDataListState.value = registerUser
             }
-
             override fun onCancelled(error: DatabaseError) {
                 _message.value = ERROR_REGISTER_USER_DATA_LOCAL
             }

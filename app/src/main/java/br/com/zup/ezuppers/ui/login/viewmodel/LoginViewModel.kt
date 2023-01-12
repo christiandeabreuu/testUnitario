@@ -57,7 +57,7 @@ class LoginViewModel(
         }
     }
 
-    fun loginUser(user: User?) {  //private
+    fun loginUser(user: User?) {
         try {
             user?.email?.let {
                 user.password?.let { it1 ->

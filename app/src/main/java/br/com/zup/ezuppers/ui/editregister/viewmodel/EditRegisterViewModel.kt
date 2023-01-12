@@ -16,7 +16,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
 
-class EditRegisterViewModel(application: Application, private val editUserUseCase: UserUseCase, private val getCepUseCase : GetCepUseCase) :
+class EditRegisterViewModel(
+    application: Application,
+    private val editUserUseCase: UserUseCase,
+    private val getCepUseCase: GetCepUseCase
+) :
     AndroidViewModel(application) {
 
     private val _editRegisterState = MutableLiveData<ViewState<User>>()
@@ -34,7 +38,7 @@ class EditRegisterViewModel(application: Application, private val editUserUseCas
                 val response = getCepUseCase.execute(cep)
                 _cepResult.value = ViewState.Success(response)
             } catch (ex: Exception) {
-               _cepResult.value = ViewState.Error(Throwable("Error getCep"))
+                _cepResult.value = ViewState.Error(Throwable("Error getCep"))
             }
         }
     }
@@ -48,7 +52,7 @@ class EditRegisterViewModel(application: Application, private val editUserUseCas
         return false
     }
 
-     fun haveErrorsDateUserEditRegister(user: User): Boolean {
+    fun haveErrorsDateUserEditRegister(user: User): Boolean {
 
         val cepPattern: Pattern =
             Pattern.compile(

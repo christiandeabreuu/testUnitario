@@ -46,15 +46,12 @@ internal class GetCitiesUseCaseTest {
     fun `when execute() is called should to call repository and return CitiesResult`() =
         runTest {
             val expectedUfid = 12345
-            val mockkCitiesResult = mockk<CitiesResult>()
-
-            coEvery { repository.getCities(expectedUfid) } returns mockkCitiesResult
+            val expectedCitiesResult = mockk<CitiesResult>()
+            coEvery { repository.getCities(expectedUfid) } returns expectedCitiesResult
 
             val result = getCitiesUseCase.execute(expectedUfid)
 
-            assertEquals(result, mockkCitiesResult)
-            coVerify(exactly = 1) {
-                repository.getCities(12345)
-            }
+            assertEquals(result, expectedCitiesResult)
+            coVerify(exactly = 1) { repository.getCities(12345) }
         }
 }

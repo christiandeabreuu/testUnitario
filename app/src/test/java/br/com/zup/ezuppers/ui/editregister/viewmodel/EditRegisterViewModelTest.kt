@@ -55,7 +55,6 @@ internal class EditRegisterViewModelTest {
     @Test
     fun `when getCEP() is called should return CepResult`() = runTest {
         val expectedCep = "11040020"
-
         coEvery { getCepUseCase.execute(expectedCep) } returns CepResult(
             1,
             "11040020",

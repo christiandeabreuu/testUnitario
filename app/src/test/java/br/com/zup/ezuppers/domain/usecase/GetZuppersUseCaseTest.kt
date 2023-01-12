@@ -44,7 +44,6 @@ internal class GetZuppersUseCaseTest {
     @Test
     fun `when execute() is called should to call repository and return ListUsers`() {
         val expectedCity = "Santos"
-
         every { repository.getZuppers(expectedCity) } returns mockkListUsers()
 
         val result = getZuppersUseCase.execute(expectedCity)
@@ -58,7 +57,6 @@ internal class GetZuppersUseCaseTest {
     fun `when execute() is called should to call repository and return ListUsers (2)`() {
         val expectedCity = "Santos"
         val expectedListUser = mockk<List<User>>()
-
         every { repository.getZuppers(expectedCity) } returns expectedListUser
 
         val result = getZuppersUseCase.execute(expectedCity)

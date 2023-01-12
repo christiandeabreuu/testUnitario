@@ -51,7 +51,7 @@ internal class FavoriteViewModelTest {
     @Test
     fun `when getListFavorite() is called should call ta same fun on Usecase`() = runTest {
         val expectedListUsers = mockkListUsers()
-        coEvery { getFavoritesUseCase.execute() } returns mockkListUsers()
+        coEvery { getFavoritesUseCase.execute() } returns expectedListUsers
 
         viewModel.getListFavorite()
         val state = viewModel.favoriteZuppers.value

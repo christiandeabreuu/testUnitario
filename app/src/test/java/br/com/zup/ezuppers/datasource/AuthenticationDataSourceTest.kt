@@ -42,13 +42,13 @@ internal class AuthenticationDataSourceTest {
         val expectedEmail = "chris@gmail.com"
         val expectedPassword = "123456"
         val expectedTaskAuthResult = mockk<Task<AuthResult>>()
-
         every {
             auth.createUserWithEmailAndPassword(
                 expectedEmail,
                 expectedPassword
             )
         } returns expectedTaskAuthResult
+
         val response = dataSource.registerUser(expectedEmail, expectedPassword)
 
         assert(expectedTaskAuthResult == response)
@@ -59,18 +59,19 @@ internal class AuthenticationDataSourceTest {
     fun `fun updateUserProfile() should to return success`() {
         val expectedName = "Christian"
         val user = mockk<FirebaseUser>()
-        val expectedProfile1 = UserProfileChangeRequest.Builder().setDisplayName("Christian").build()
-        val expectedProfile = mockk<UserProfileChangeRequest>()
+      //  val expectedProfile1 = UserProfileChangeRequest.Builder().setDisplayName("Christian").build()
+        val expectedUserProfileChangeRequest = mockk<UserProfileChangeRequest>()
         val expectedTaskVoid = mockk<Task<Void>>()
 
-        every { auth.currentUser } returns user
-        every { user.updateProfile(expectedProfile) } returns expectedTaskVoid
+//        every { auth.currentUser } returns user
+//        every { user.updateProfile(expectedProfile) } returns expectedTaskVoid
+       every{ UserProfileChangeRequest.Builder().setDisplayName(expectedName).build() } returns expectedUserProfileChangeRequest
 //        every { auth.currentUser?.updateProfile(expectedProfile) } returns expectedTaskVoid
         val response = dataSource.updateUserProfile(expectedName)
 
-//        assert(response == expectedTaskVoid)
+           assert(response == expectedUserProfileChangeRequest)
 //       assertEquals(expectedTaskVoid , response)
-        verify { auth.currentUser?.updateProfile(expectedProfile) }
+      // verify { auth.currentUser?.updateProfile(expectedUserProfileChangeRequest) }
     }
 
     @Test

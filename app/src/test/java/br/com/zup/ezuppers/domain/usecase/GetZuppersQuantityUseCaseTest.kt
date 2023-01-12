@@ -45,11 +45,11 @@ internal class GetZuppersQuantityUseCaseTest {
     @Test
     fun `when execute() is called should to call repository and return QuantityZuppers`() {
         val expectedCity = "Santos"
-
         every { repository.getZuppersQuantity(expectedCity) } returns 10
+
         val result = getZuppersQuantityUseCase.execute(expectedCity)
 
         assertEquals(result, 10)
-        verify(exactly = 1) { repository.getZuppersQuantity(expectedCity) }
+        verify (exactly = 1) { repository.getZuppersQuantity(expectedCity) }
     }
 }

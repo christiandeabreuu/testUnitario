@@ -43,13 +43,11 @@ internal class UserUseCaseTest {
     fun onAfter() {
         Dispatchers.resetMain()
         unmockkAll()
-
     }
 
     @Test
     fun `when databaseReference() is called should to call the same fun on repository`() =
         runTest {
-
             coEvery { repository.databaseReference() } returns mockk(relaxed = true)
 
             userUseCase.databaseReference()
@@ -60,7 +58,6 @@ internal class UserUseCaseTest {
     @Test
     fun `when getRegisterInformation() is called should to call the same fun on repository`() =
         runTest {
-
             coEvery { repository.getRegisterInformation() } returns mockk(relaxed = true)
 
             userUseCase.getRegisterInformation()
@@ -70,9 +67,9 @@ internal class UserUseCaseTest {
 
     @Test
     fun `when getCurrentUser() is called should to call the same fun on repository`() {
-        val expectedUser = mockk<FirebaseUser>()
+        val expectedFirebaseUser = mockk<FirebaseUser>()
 
-        every { repository.getCurrentUser() } returns expectedUser
+        every { repository.getCurrentUser() } returns expectedFirebaseUser
 
         val result = userUseCase.getCurrentUser()
 
@@ -83,18 +80,17 @@ internal class UserUseCaseTest {
     @Test
     fun `when getRegisterLoginInformation() is called should return ViewState success`() {
         val expectedUser = mockk<User>()
-
         every { repository.getRegisterLoginInformation() } returns expectedUser
-        val result = userUseCase.updateInformationUser(expectedUser)
 
+        val result = userUseCase.getRegisterLoginInformation()
 
         assert(result is ViewState.Success)
     }
 
     @Test
     fun `when getRegisterLoginInformation() is called should return ViewState error`() {
-
         every { repository.getRegisterLoginInformation() } throws NullPointerException()
+
         val result = userUseCase.getRegisterLoginInformation()
 
         assert(result is ViewState.Error)
@@ -103,18 +99,17 @@ internal class UserUseCaseTest {
     @Test
     fun `when insertAllRegisterLogin() is called should return ViewState success`() {
         val expectedUser = mockk<User>()
-
         every { repository.insertAllRegisterLogin(expectedUser) } just runs
-        val result = userUseCase.insertAllRegisterLogin(expectedUser)
 
+        val result = userUseCase.insertAllRegisterLogin(expectedUser)
 
         assert(result is ViewState.Success)
     }
 
     @Test
     fun `when insertAllRegisterLogin() is called should return ViewState error`() {
-
         every { repository.getRegisterLoginInformation() } throws NullPointerException()
+
         val result = userUseCase.getRegisterLoginInformation()
 
         assert(result is ViewState.Error)
@@ -124,8 +119,8 @@ internal class UserUseCaseTest {
     fun `when getAllRegisterInformationOffline() is called should return ViewState success`() {
         val expectedId = "12345 "
         val expectedResponse = mockk<List<User>>()
-
         every { repository.getAllRegisterInformationOffline(expectedId) } returns expectedResponse
+
         val result = userUseCase.getAllRegisterInformationOffline(expectedId)
 
         assert(result is ViewState.Success)
@@ -134,8 +129,8 @@ internal class UserUseCaseTest {
     @Test
     fun `when getAllRegisterInformationOffline() is called should return ViewState error`() {
         val expectedId = "12345"
-
         every { repository.getAllRegisterInformationOffline(expectedId) } throws NullPointerException()
+
         val result = userUseCase.getAllRegisterInformationOffline(expectedId)
 
         assert(result is ViewState.Error)
@@ -145,8 +140,8 @@ internal class UserUseCaseTest {
     @Test
     fun `when updateInformationUser() is called should return ViewState success`() {
         val expectedUser = mockk<User>()
-
         every { repository.updateInformationUser(expectedUser) } just runs
+
         val result = userUseCase.updateInformationUser(expectedUser)
 
         assert(result is ViewState.Success)
@@ -157,6 +152,7 @@ internal class UserUseCaseTest {
     fun `when updateInformationUser() is called should return ViewState error`() {
         val expectedUser = mockk<User>()
         every { repository.updateInformationUser(expectedUser) } throws NullPointerException()
+
         val result = userUseCase.updateInformationUser(expectedUser)
 
         assert(result is ViewState.Error)
@@ -165,8 +161,6 @@ internal class UserUseCaseTest {
     @Test
     fun `when getCurrentUserID() is called should call the same fun on repository`() {
         val expectedResponse = "String?"
-
-
         every { repository.getCurrentUserId() } returns expectedResponse
 
         val result = userUseCase.getCurrentUserId()
@@ -178,13 +172,12 @@ internal class UserUseCaseTest {
     @Test
     fun `when getAuthor() is called should call the same fun on repository`() {
         val expectedAuthor = "String?"
-        val expectedReturn = mockk<Task<DataSnapshot>>()
-
-        every { repository.getAuthor(expectedAuthor) } returns expectedReturn
+        val expectedTaskDataSnapshot = mockk<Task<DataSnapshot>>()
+        every { repository.getAuthor(expectedAuthor) } returns expectedTaskDataSnapshot
 
         val result = userUseCase.getAuthor(expectedAuthor)
 
-        assert(result == expectedReturn)
+        assert(result == expectedTaskDataSnapshot)
         verify(exactly = 1) { repository.getAuthor(expectedAuthor) }
     }
 }

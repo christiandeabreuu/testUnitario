@@ -37,7 +37,6 @@ internal class FavoriteRepositoryTest{
 
     @Test
     fun `when getListFavorite() is called should return listUser`() {
-
         val listFavoriteZuppers = mutableListOf<User>()
         listFavoriteZuppers.add(
             User(

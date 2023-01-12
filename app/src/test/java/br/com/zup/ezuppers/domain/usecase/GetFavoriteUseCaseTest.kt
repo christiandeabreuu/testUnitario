@@ -42,9 +42,10 @@ internal class GetFavoriteUseCaseTest {
 
     @Test
     fun `when execute() is called should to call repository and return ListUsers`() {
-        every { repository.getFavorites() } returns mockkListUsers()
+        every { repository.getFavorites() } returns fakeListUsers()
+        val expectedListUsers = fakeListUsers()
+
         val result = getFavoriteUseCase.execute()
-        val expectedListUsers = mockkListUsers()
 
         assertEquals(result, expectedListUsers)
         verify(exactly = 1) { repository.getFavorites() }
@@ -52,16 +53,16 @@ internal class GetFavoriteUseCaseTest {
 
     @Test
     fun `execute() should to call repository and return ListUsers (2)`() {
-        val listUsers = mockk<List<User>>()
-        every { repository.getFavorites() } returns listUsers
+        val expectedListUsers = mockk<List<User>>()
+        every { repository.getFavorites() } returns expectedListUsers
 
         val result = getFavoriteUseCase.execute()
 
-        assertEquals(result, listUsers)
+        assertEquals(result, expectedListUsers)
         verify(exactly = 1) { repository.getFavorites() }
     }
 
-    private fun mockkListUsers() = listOf(
+    private fun fakeListUsers() = listOf(
         User("1"),
         User("2"),
         User("3")

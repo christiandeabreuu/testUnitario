@@ -45,13 +45,10 @@ internal class GetCepUseCaseTest {
     fun `when execute() is called should to call repository and return CepResult`() =
         runTest {
             val expectedCep = "11040020"
-
             coEvery { repository.getCep(expectedCep) } returns CepResult(
                 1, "11040020", "a",
                 "SP", "sp", "ap 23", "Santos"
             )
-            val result = getCepUseCase.execute(expectedCep)
-
             val expectedCepResult = CepResult(
                 1,
                 "11040020",
@@ -61,6 +58,9 @@ internal class GetCepUseCaseTest {
                 "ap 23",
                 "Santos"
             )
+
+            val result = getCepUseCase.execute(expectedCep)
+
             assertEquals(expectedCepResult, result)
             coVerify(exactly = 1) { repository.getCep("11040020") }
         }
@@ -69,12 +69,12 @@ internal class GetCepUseCaseTest {
     fun ` when call fun execute() should to call the function on repository with to same value (2) `() =
         runTest {
             val expectedCep = "11040020"
-            val mockkCepResult = mockk<CepResult>()
+            val expectedCepResult = mockk<CepResult>()
+            coEvery { repository.getCep(expectedCep) } returns expectedCepResult
 
-            coEvery { repository.getCep(expectedCep) } returns mockkCepResult
             val result = getCepUseCase.execute(expectedCep)
 
-            assertEquals(mockkCepResult, result)
+            assertEquals(expectedCepResult, result)
             coVerify(exactly = 1) { repository.getCep("11040020") }
         }
 }

@@ -44,8 +44,8 @@ internal class GetUfUseCaseTest {
     fun `when execute() is called should to call repository and return ArrayList States`() =
         runTest {
             val expectedStatesResult = mockk<StatesResult>()
-
             coEvery { repository.getStates() } returns expectedStatesResult
+
             getUfUseCase.execute()
 
             coVerify(exactly = 1) { repository.getStates() }

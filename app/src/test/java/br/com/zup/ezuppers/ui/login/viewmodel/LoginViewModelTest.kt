@@ -97,7 +97,6 @@ internal class LoginViewModelTest{
     @Test
     fun `when loginUser() is called should be return msg LOGIN error`() {
         val expectedUser: User = mockUser()
-
         every { authenticationRepository.loginUser("chistian@zup.com.br", "Ch9206ch!")} throws NullPointerException()
 
         viewModel.loginUser(expectedUser)
@@ -109,8 +108,8 @@ internal class LoginViewModelTest{
     fun `when getRegisterLoginInformation() is called should return success`() =
         runTest {
             val expectedUser: User = mockUser()
-
             coEvery { userUseCase.getRegisterLoginInformation()} returns ViewState.Success(expectedUser)
+
             viewModel.getRegisterLoginInformation()
             val result = viewModel.loginUserAddData.value
 
@@ -120,8 +119,8 @@ internal class LoginViewModelTest{
     @Test
     fun `when getRegisterLoginInformation() is called should return error`() =
         runTest {
-
             coEvery { userUseCase.getRegisterLoginInformation()} throws NullPointerException()
+
             viewModel.getRegisterLoginInformation()
             val result = viewModel.loginUserAddData.value
 
@@ -153,13 +152,13 @@ internal class LoginViewModelTest{
 
     private fun mockUser() = User(
     "1", "Chris", "chistian@zup.com.br", true, "chris", "17/01/1992",
-    "11040-020", "Santos", "SP", "", "homem", "hetero",
+    "11040-020", "Santos", "SP", "brasil", "homem", "hetero",
     "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
     )
 
     private fun mockkUserWithoutEmail() =  User(
         "1", "Chris", "", true, "chris", "17/01/1992",
-        "11040-020", "Santos", "SP", "", "homem", "hetero",
+        "11040-020", "Santos", "SP", "brasil", "homem", "hetero",
         "Ch9206ch!", "Rua A", "123", "casa", "trabalho", "ele"
     )
 
@@ -168,4 +167,5 @@ internal class LoginViewModelTest{
         "11040-020", "Santos", "SP", "", "homem", "hetero",
         "", "Rua A", "123", "casa", "trabalho", "ele"
     )
+
 }

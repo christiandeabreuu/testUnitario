@@ -46,8 +46,8 @@ internal class AuthenticationRepositoryTest{
         val expectedEmail = "chris@gmail.com"
         val expectedPassword = "123456"
         val expectedTaskAuthResult = mockk<Task<AuthResult>>()
-
         every { dataSource.registerUser(expectedEmail, expectedPassword) } returns expectedTaskAuthResult
+
         val response = authRepository.registerUser(expectedEmail, expectedPassword)
 
         assert(expectedTaskAuthResult == response)
@@ -58,8 +58,8 @@ internal class AuthenticationRepositoryTest{
     fun `when updateUserProfile() is called should call fun in datasource and return TaskVoid`(){
         val expectedEmail = "chris@gmail.com"
         val expectedTaskVoid = mockk<Task<Void>>()
-
         every { dataSource.updateUserProfile(expectedEmail) } returns expectedTaskVoid
+
         val response = authRepository.updateUserProfile(expectedEmail)
 
         assert(expectedTaskVoid == response)
@@ -81,8 +81,8 @@ internal class AuthenticationRepositoryTest{
         val expectedEmail = "chris@gmail.com"
         val expectedPassword = "123456"
         val expectedTaskAuthResult = mockk<Task<AuthResult>>()
-
         every { dataSource.loginUser(expectedEmail, expectedPassword) } returns expectedTaskAuthResult
+
         val response = authRepository.loginUser(expectedEmail, expectedPassword)
 
         assert(expectedTaskAuthResult == response)

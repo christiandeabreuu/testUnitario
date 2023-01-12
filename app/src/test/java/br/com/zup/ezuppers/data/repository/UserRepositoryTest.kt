@@ -57,88 +57,70 @@ internal class UserRepositoryTest {
 
     @Test
     fun `when getRegisterInformation() is called should call function on dataSource and return Query`() {
-        val mockkQuery = mockk<Query>()
-
-        every { dataSource.getRegisterInformation() } returns mockkQuery
+        val expectedQuery = mockk<Query>()
+        every { dataSource.getRegisterInformation() } returns expectedQuery
 
         val response = repository.getRegisterInformation()
 
-        assert(mockkQuery == response)
-        verify(exactly = 1) {
-            dataSource.getRegisterInformation()
-        }
+        assert(expectedQuery == response)
+        verify(exactly = 1) { dataSource.getRegisterInformation() }
     }
 
     @Test
     fun `when getCurrentUser() is called should call function on dataSource`() {
-        val mockkUser = mockk<FirebaseUser>()
-
-        every { dataSource.getCurrentUser() } returns mockkUser
+        val expectedUser = mockk<FirebaseUser>()
+        every { dataSource.getCurrentUser() } returns expectedUser
 
         val response = repository.getCurrentUser()
 
-        assert(mockkUser == response)
-        verify(exactly = 1) {
-            dataSource.getCurrentUser()
-        }
+        assert(expectedUser == response)
+        verify(exactly = 1) { dataSource.getCurrentUser() }
     }
 
     @Test
     fun `when getRegisterLoginInformation() is called should call function on dataSource and return user`() {
-        val mockkUser = mockk<User>()
-
-        every { dataSource.getRegisterLoginInformation() } returns mockkUser
+        val expectedUser = mockk<User>()
+        every { dataSource.getRegisterLoginInformation() } returns expectedUser
 
         val response = repository.getRegisterLoginInformation()
 
-        assert(mockkUser == response)
-        verify(exactly = 1) {
-            dataSource.getRegisterLoginInformation()
-        }
+        assert(expectedUser == response)
+        verify(exactly = 1) { dataSource.getRegisterLoginInformation() }
     }
 
     @Test
     fun `when getAllRegisterInformationOffline() is called should call function on dataSource and return listUser`() {
         val userId = "12345"
-        val mockkListUser = mockk<List<User>>()
-
-        every { dataSource.getAllRegisterInformationOffline(userId) } returns mockkListUser
+        val expectedListUser = mockk<List<User>>()
+        every { dataSource.getAllRegisterInformationOffline(userId) } returns expectedListUser
 
         val response = repository.getAllRegisterInformationOffline("12345")
 
-        assert(mockkListUser == response)
-        verify(exactly = 1) {
-            dataSource.getAllRegisterInformationOffline(userId)
-        }
+        assert(expectedListUser == response)
+        verify(exactly = 1) { dataSource.getAllRegisterInformationOffline(userId) }
     }
 
     @Test
     fun `when insertAllRegisterLogin() is called should call function on dataSource`() {
+        val expecteduser = mockk<User>()
+        every { dataSource.insertAllRegisterLogin(expecteduser) } just runs
 
-        val user = mockk<User>()
-
-        every { dataSource.insertAllRegisterLogin(user) } just runs
-
-        val response = repository.insertAllRegisterLogin(user)
+        val response = repository.insertAllRegisterLogin(expecteduser)
 
         assert(Unit == response)
-        verify(exactly = 1) {
-            dataSource.insertAllRegisterLogin(user)
-        }
+        verify(exactly = 1) { dataSource.insertAllRegisterLogin(expecteduser) }
     }
 
 
     @Test
     fun `when updateInformationUser() is called should call function on dataSource`() {
-        val user = mockk<User>()
-        every { dataSource.updateInformationUser(user) } just runs
+        val expecteduser = mockk<User>()
+        every { dataSource.updateInformationUser(expecteduser) } just runs
 
-        val response = repository.updateInformationUser(user)
+        val response = repository.updateInformationUser(expecteduser)
 
         assert(Unit == response)
-        verify(exactly = 1) {
-            dataSource.updateInformationUser(user)
-        }
+        verify(exactly = 1) { dataSource.updateInformationUser(expecteduser) }
     }
 
     @Test
@@ -150,9 +132,7 @@ internal class UserRepositoryTest {
         val response = repository.getAuthor("Chris")
 
         assert(expectedTaskDataSnapshot == response)
-        verify(exactly = 1) {
-            dataSource.getAuthor(authorId)
-        }
+        verify(exactly = 1) { dataSource.getAuthor(authorId) }
     }
 
     @Test
@@ -163,9 +143,6 @@ internal class UserRepositoryTest {
         val response = repository.getCurrentUserId()
 
         assert(expectedString == response)
-        verify(exactly = 1) {
-            dataSource.getCurrentUserId()
-        }
+        verify(exactly = 1) { dataSource.getCurrentUserId() }
     }
-
 }

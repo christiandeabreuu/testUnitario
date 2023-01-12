@@ -12,12 +12,9 @@ import com.google.firebase.database.Query
 
 class UserDataSource(private val userDao: UserDAO, private val auth: FirebaseAuth, private val database: DatabaseReference) {
 
-    private val reference =
-        database.database.getReference("$REGISTER_INFORMATION_USER/${auth.currentUser?.uid}/$USER")
+    fun databaseReference() = database.database.getReference("$REGISTER_INFORMATION_USER/${auth.currentUser?.uid}/$USER")//reference
 
-    fun databaseReference() = reference
-
-    fun getRegisterInformation(): Query = reference.orderByKey()
+    fun getRegisterInformation(): Query = database.database.getReference("$REGISTER_INFORMATION_USER/${auth.currentUser?.uid}/$USER").orderByKey()//reference.orderByKey()
 
     fun getCurrentUser() = auth.currentUser
 

@@ -21,9 +21,7 @@ internal class UfRepositoryTest{
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
-
     private lateinit var repository: UfRepository
-
 
     @Before
     fun onBefore() {

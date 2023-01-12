@@ -3,11 +3,12 @@ package br.com.zup.ezuppers.datasource
 import br.com.zup.ezuppers.data.datasource.UserDataSource
 import br.com.zup.ezuppers.data.datasource.local.dao.UserDAO
 import br.com.zup.ezuppers.domain.model.User
+import br.com.zup.ezuppers.utilities.REGISTER_INFORMATION_USER
+import br.com.zup.ezuppers.utilities.USER
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
-import com.google.firebase.database.core.Path
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.Dispatchers
@@ -47,33 +48,29 @@ internal class UserDataSourceTest {
 
     @Test
     fun `when databaseReference()`() {
-        val mockk = mockk<DatabaseReference>()
-        val expectedPath = mockk<Path>()
-        every { database.database.getReference("a") } returns mockk
+        val expectedDatabaseReference = mockk<DatabaseReference>()
+        every { database.database.getReference("$REGISTER_INFORMATION_USER/${auth.currentUser?.uid}/$USER") } returns expectedDatabaseReference
+
         val result = dataSource.databaseReference()
 
-//        assert(mockk == result)
-        verify { database.database.getReference("a") }
+        assert(expectedDatabaseReference == result)
+        verify { database.database.getReference("$REGISTER_INFORMATION_USER/${auth.currentUser?.uid}/$USER") }
     }
 
     @Test
     fun `getRegisterInformation() `() {
-        val mockk = mockk<DatabaseReference>()
         val mockkQuery = mockk<Query>()
-        val expectedPath = mockk<Path>()
-        every { database.database.reference.orderByKey() } returns mockkQuery
+        every { database.database.getReference("$REGISTER_INFORMATION_USER/${auth.currentUser?.uid}/$USER").orderByKey() } returns mockkQuery
+
         val result = dataSource.getRegisterInformation()
 
-//        assert(mockkQuery == result)
-        verify {
-            database.database.reference.orderByKey()
-        }
+        assert(mockkQuery == result)
+        verify { database.database.getReference("$REGISTER_INFORMATION_USER/${auth.currentUser?.uid}/$USER").orderByKey() }
     }
 
     @Test
     fun `when getCurrentUser() should to return success`() {
         val user = mockk<FirebaseUser>()
-
         every { auth.currentUser } returns user
 
         val result = dataSource.getCurrentUser()
@@ -84,7 +81,6 @@ internal class UserDataSourceTest {
     @Test
     fun `when getRegisterLoginInformation() should to return success`() {
         val user = mockk<User>()
-
         every { userDao.getRegisterLoginInformation() } returns user
 
         val result = dataSource.getRegisterLoginInformation()
@@ -96,7 +92,6 @@ internal class UserDataSourceTest {
     @Test
     fun `when insertAllRegisterLogin() should to return success`() {
         val user = mockk<User>()
-
         every { userDao.insertAllRegisterInformation(user) } just runs
 
         val result = dataSource.insertAllRegisterLogin(user)
@@ -109,7 +104,6 @@ internal class UserDataSourceTest {
     fun `when getAllRegisterInformationOffline() should to return success`() {
         val userId = "12345"
         val listUser = mockk<List<User>>()
-
         every { userDao.getAllRegisterInformationOfflineLocal(userId) } returns listUser
 
         val result = dataSource.getAllRegisterInformationOffline(userId)
@@ -121,7 +115,6 @@ internal class UserDataSourceTest {
     @Test
     fun `when updateInformationUser() should to return success`() {
         val user = mockk<User>()
-
         every { userDao.updateInformationUser(user) } just runs
 
         val result = dataSource.updateInformationUser(user)
@@ -134,7 +127,6 @@ internal class UserDataSourceTest {
     fun `when getCurrentUserId() should to return success`() {
         val user = mockk<FirebaseUser>()
         val uid = "uid"
-
         every { auth.currentUser } returns user
         every { user.uid  } returns uid
 
@@ -142,5 +134,4 @@ internal class UserDataSourceTest {
 
         assert(result == uid)
     }
-
 }

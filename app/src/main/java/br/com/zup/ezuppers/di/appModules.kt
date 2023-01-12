@@ -21,7 +21,6 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-
 val viewModelModules = module {
     viewModel { LoginViewModel(get(), get(), get()) }
     viewModel { UserProfileViewModel(get(), get()) }
@@ -61,6 +60,7 @@ val dataSourceModules = module{
     single { AuthenticationDataSource(get()) }
     single { UserDataSource(get(), get(), Firebase.database.reference) }
 }
- val firebaseModules = module {
+
+val firebaseModules = module {
      single { Firebase.auth }
  }
